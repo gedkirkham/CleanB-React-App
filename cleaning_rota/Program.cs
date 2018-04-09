@@ -14,7 +14,7 @@ namespace cleaning_rota
             build_location _build_location = new build_location();
 
             Console.WriteLine("How many rooms are there to clean?");
-            _build_location.room_count(Console.ReadLine());
+            _build_location.set_room_count(Console.ReadLine());
 
             for (int i = 0; i < _build_location.get_room_count(); i++)
             {

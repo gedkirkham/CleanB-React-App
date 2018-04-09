@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 
 namespace cleaning_rota
 {
-    class build_location
+    public class build_location
     {
-        public int room_count(String _input)
+        private int room_count_value;
+
+        public int set_room_count(String _input)
         {
             int room_count_value = 0;
             int converted_to_int;
 
             if (Int32.TryParse(_input, out converted_to_int))
             {
-                result = converted_to_int;
+                this.room_count_value = converted_to_int;
             }
             else
             {
-                Exception //throw proper exceltion
+                throw new System.ArgumentException("Value needs to be a whole number.");
             }
 
-            private set {converted_to_int = room_count_value;}
             return room_count_value;
         }
 

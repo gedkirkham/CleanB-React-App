@@ -13,21 +13,21 @@ namespace cleaning_rota.test.unit
         [Exception(Type(Exception))]//unsure how to properly do this
         public void room_count_negative_test()
         {
-            _build_location.room_count("*");
+            _build_location.set_room_count("*");
             Assert.Equals(Exception);
         }
 
         [TestMethod]
         public void number_in_number_out()
         {
-            int result = _build_location.room_count("4");
+            int result = _build_location.set_room_count("4");
             Assert.Equals(4,result);
         }
 
         [TestMethod]
         public void string_in_number_out()
         {
-            int result = _build_location.room_count("Four");
+            int result = _build_location.set_room_count("Four");
             Assert.Equals(4, result);
         }
 
