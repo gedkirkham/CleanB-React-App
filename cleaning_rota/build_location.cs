@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace cleaning_rota
 {
-    public class build_location
+    public class Build_location
     {
+        LinkedList<String> room_list = new LinkedList<String>();
         private int room_count_value;
+        private String room_name;
 
-        public int set_room_count(String _input)
+        public void Set_room_count(String _input)
         {
-            int room_count_value = 0;
-            int converted_to_int;
-
-            if (Int32.TryParse(_input, out converted_to_int))
+            if (Int32.TryParse(_input, out int converted_to_int))
             {
                 this.room_count_value = converted_to_int;
             }
@@ -23,13 +22,24 @@ namespace cleaning_rota
             {
                 throw new System.ArgumentException("Value needs to be a whole number.");
             }
-
-            return room_count_value;
         }
 
-        public int get_room_count()
+        public int Get_room_count()
         {
             return this.room_count_value;
+        }
+
+        public void Set_room_name(String _input)//add some error checking i.e. character count
+        {
+            room_list.AddLast(_input);
+        }
+
+        public void Get_room_list()//improve. Writing directly to console is not good.
+        {
+            foreach (var value in room_list)
+            {
+                Console.WriteLine(value);
+            }
         }
     }
 }

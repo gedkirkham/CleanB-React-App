@@ -11,15 +11,16 @@ namespace cleaning_rota
         static void Main(string[] args)
         {
             //add rooms
-            build_location _build_location = new build_location();
+            Build_location _build_location = new Build_location();
 
             Console.WriteLine("How many rooms are there to clean?");
-            _build_location.set_room_count(Console.ReadLine());
+            _build_location.Set_room_count(Console.ReadLine());
 
-            for (int i = 0; i < _build_location.get_room_count(); i++)
+            for (int i = 0; i < _build_location.Get_room_count(); i++)
             {
-                String room_name = _build_location.add_room(Console.ReadLine());
-                Console.WriteLine("How frequent should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
+                String room_name = Console.ReadLine();
+                _build_location.Set_room_name(room_name);
+                Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
 
                 bool validate_room_frequency = false;
                 while (!validate_room_frequency)
