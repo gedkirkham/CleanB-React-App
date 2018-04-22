@@ -22,14 +22,10 @@ namespace cleaning_rota
                 _build_location.Set_room_name(room_name);
                 Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
 
-                bool validate_room_frequency = false;
-                while (!validate_room_frequency)
-                {
-                    Console.WriteLine("Every (weeks): ");
-                    validate_room_frequency = _build_location.validate_room_frequency(Console.ReadLine());
-                }
-
+                Console.WriteLine("Every (weeks): ");
+                _build_location.Set_room_frequency(Console.ReadLine());
             }
+            
 
             //add users
             add_cleaners _add_cleaners = new add_cleaners();
