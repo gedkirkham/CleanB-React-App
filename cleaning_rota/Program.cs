@@ -13,7 +13,7 @@ namespace cleaning_rota
             //add rooms
             Build_location _build_location = new Build_location();
 
-            Console.WriteLine("How many rooms are there to clean?");
+            Console.WriteLine("How many rooms are there to clean?"); //add a dowhile loop instead e.g. "Want to add another room?
             _build_location.Set_room_count(Console.ReadLine());
 
             for (int i = 0; i < _build_location.Get_room_count(); i++)
@@ -29,7 +29,7 @@ namespace cleaning_rota
 
             //add users
             add_cleaners _add_cleaners = new add_cleaners();
-            Console.WriteLine("How many cleaners are there?");
+            Console.WriteLine("How many cleaners are there?"); //add a dowhile loop instead
             _add_cleaners.cleaner_count(Console.ReadLine());
 
             for (int i = 0; i < _add_cleaners.get_cleaner_count(); i++)
