@@ -10,8 +10,70 @@ namespace cleaning_rota
     {
         static void Main(string[] args)
         {
-            //add rooms
-            Build_location _build_location = new Build_location();
+            bool account_option_flag = false;
+            do
+            {
+                Console.Write("Do you have an account? (Y/N): ");
+                var account_option = Console.ReadLine() ?? string.Empty;
+
+                account_option_flag = false;
+                switch (account_option.ToUpper())
+                {
+                    case "Y":
+                        login();
+                        break;
+                    case "N":
+                        create_account();
+                        break;
+                    default:
+                        Console.WriteLine("Option was not recognised.");
+                        account_option_flag = true;
+                        break;
+                }
+
+            } while (account_option_flag);
+
+
+            //add this to its own class
+                            //add rooms
+                            Build_location _build_location = new Build_location();
+
+                            bool more_rooms_flag = false;
+                            do
+                            {
+                                Console.WriteLine("What is the name of the room?");
+                                Console.Write("Name: ");
+                                String room_name = Console.ReadLine();
+
+                                _build_location.Set_room_name(room_name);
+                                Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
+
+                                Console.Write("Every (weeks): ");
+                                _build_location.Set_room_frequency(Console.ReadLine());
+
+                                var room_option = String.Empty;
+                                bool more_option = false;
+                                do
+                                {
+                                    Console.Write("Add another room? (Y/N): ");
+                                    room_option = Console.ReadLine() ?? String.Empty;
+
+                                    switch (room_option.ToUpper())
+                                    {
+                                        case "Y":
+                                            more_rooms_flag = true;
+                                            break;
+                                        case "N":
+                                            more_rooms_flag = false;
+                                            break;
+                                        default:
+                                            Console.WriteLine("Option was not recognised.");
+                                            more_option = true;
+                                            break;
+                                    }
+                                } while (more_option);
+                
+                            } while (more_rooms_flag);
 
             Console.WriteLine("How many rooms are there to clean?"); //add a dowhile loop instead e.g. "Want to add another room?
             _build_location.Set_room_count(Console.ReadLine());
@@ -91,6 +153,23 @@ namespace cleaning_rota
 
             //allow person to remove themselves
             //allow person to amend their name
+        }
+
+        private static void login()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void create_account()
+        {
+            Console.Write("First name: ");
+            string first_name = Console.ReadLine();
+
+            Console.Write("Last name: ");
+            string last_name = Console.ReadLine();
+
+            Console.Write("Email: ");
+            string email = Console.ReadLine();
         }
     }
 }
