@@ -13,7 +13,7 @@ namespace cleaning_rota
             bool account_option_flag = false;
             do
             {
-                Console.Write("Do you have an account? (Y/N): ");
+                Console.Write("Do you have an account?" + "(" + constants.YN + "): ");//add constant
                 var account_option = Console.ReadLine() ?? string.Empty;
 
                 account_option_flag = false;
@@ -26,78 +26,95 @@ namespace cleaning_rota
                         create_account();
                         break;
                     default:
-                        Console.WriteLine("Option was not recognised.");
+                        Console.WriteLine(constants.option_was_not_recognised);
                         account_option_flag = true;
                         break;
                 }
 
             } while (account_option_flag);
 
+            //add rooms
+            Build_location _build_location = new Build_location();
 
-            //add this to its own class
-                            //add rooms
-                            Build_location _build_location = new Build_location();
-
-                            bool more_rooms_flag = false;
-                            do
-                            {
-                                Console.WriteLine("What is the name of the room?");
-                                Console.Write("Name: ");
-                                String room_name = Console.ReadLine();
-
-                                _build_location.Set_room_name(room_name);
-                                Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
-
-                                Console.Write("Every (weeks): ");
-                                _build_location.Set_room_frequency(Console.ReadLine());
-
-                                var room_option = String.Empty;
-                                bool more_option = false;
-                                do
-                                {
-                                    Console.Write("Add another room? (Y/N): ");
-                                    room_option = Console.ReadLine() ?? String.Empty;
-
-                                    switch (room_option.ToUpper())
-                                    {
-                                        case "Y":
-                                            more_rooms_flag = true;
-                                            break;
-                                        case "N":
-                                            more_rooms_flag = false;
-                                            break;
-                                        default:
-                                            Console.WriteLine("Option was not recognised.");
-                                            more_option = true;
-                                            break;
-                                    }
-                                } while (more_option);
-                
-                            } while (more_rooms_flag);
-
-            Console.WriteLine("How many rooms are there to clean?"); //add a dowhile loop instead e.g. "Want to add another room?
-            _build_location.Set_room_count(Console.ReadLine());
-
-            for (int i = 0; i < _build_location.Get_room_count(); i++)
+            bool more_rooms_flag = false;
+            do
             {
+                Console.WriteLine("What is the name of the room?");
+                Console.Write("Name: ");
                 String room_name = Console.ReadLine();
+
                 _build_location.Set_room_name(room_name);
                 Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
 
-                Console.WriteLine("Every (weeks): ");
+                Console.Write("Every (weeks): ");
                 _build_location.Set_room_frequency(Console.ReadLine());
-            }
-            
+
+                var room_option = String.Empty;
+                bool more_option = false;
+                do
+                {
+                    Console.Write("Add another room?" + "(" + constants.YN + "): ");
+                    room_option = Console.ReadLine() ?? String.Empty;
+
+                    switch (room_option.ToUpper())
+                    {
+                        case "Y":
+                            more_rooms_flag = true;
+                            break;
+                        case "N":
+                            more_rooms_flag = false;
+                            break;
+                        default:
+                            Console.WriteLine(constants.option_was_not_recognised);
+                            more_option = true;
+                            break;
+                    }
+                } while (more_option);
+                
+            } while (more_rooms_flag);
 
             //add users
             add_cleaners _add_cleaners = new add_cleaners();
-            Console.WriteLine("How many cleaners are there?"); //add a dowhile loop instead
-            _add_cleaners.cleaner_count(Console.ReadLine());
 
-            for (int i = 0; i < _add_cleaners.get_cleaner_count(); i++)
+            bool add_cleaner_flag = false;
+            do
             {
-                _add_cleaners.cleaners_name(Console.ReadLine());
-            }
+                Console.Write("Add the cleaners name: ");
+                
+                bool add_cleaner_flag_valid = false;
+                do
+                {
+                    Console.Write("Add another? (" + constants.YN + ")");
+                    var add_cleaner_flag_user = Console.ReadLine() ?? String.Empty;
+
+                    switch (add_cleaner_flag_user.ToUpper())
+                    {
+                        case "Y":
+                            add_cleaner_flag_valid = true;
+                            break;
+                        case "N":
+                            add_cleaner_flag_valid = false;
+                            break;
+                        default:
+                            Console.WriteLine(constants.option_was_not_recognised);
+                            add_cleaner_flag_valid = false;
+                            break;
+                    }
+                } while (!add_cleaner_flag_valid);
+            } while (add_cleaner_flag);
+
+            do //carry on from here - 11/05/2018
+            {
+                Console.Write("Finished? (" + constants.YN + "): ");
+            } while ();
+            
+
+
+
+
+
+
+            
 
             //decide if users are exempt from certain rooms
             cleaners_exemption _cleaners_exemption = new cleaners_exemption();
