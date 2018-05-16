@@ -74,14 +74,14 @@ namespace cleaning_rota
             } while (more_rooms_flag);
 
             //add users
-            Add_cleaners _add_cleaners = new Add_cleaners();            
+           // Add_cleaners _add_cleaners = new Add_cleaners();            
 
             bool add_cleaner_flag = false;
             do
             {
                 Console.Write("Add the cleaners name: ");
                 String cleaner_name = Console.ReadLine() ?? String.Empty;
-                _add_cleaners.Add_cleaner_to_list(cleaner_name);
+                Add_cleaners.Add_cleaner_to_list(cleaner_name);
 
                 bool add_cleaner_flag_valid = false;
                 do
@@ -140,12 +140,12 @@ namespace cleaning_rota
             while (users_exempt)
             {
                 Console.WriteLine("Which user is exempt?");
-                Console.WriteLine(_add_cleaners.print_list());
+                Console.WriteLine(Add_cleaners.print_list());
 
                 bool cleaner_validation = false;
                 while (!cleaner_validation)
                 {
-                    cleaner_validation = _add_cleaners.validate_cleaner(Console.ReadLine()); //add exception message
+                    cleaner_validation = Add_cleaners.validate_cleaner(Console.ReadLine()); //add exception message
                 }
 
                 bool more_exempt = true;
@@ -224,26 +224,18 @@ namespace cleaning_rota
             } while (display_main_menu_flag);
         }
 
-        public static void Display_user_list_menu()
+        public void Display_user_list_menu()
         {
             bool display_user_list_menu_flag = true;
             var menu_user_input = String.Empty;
 
-            _add_cleaners.Get_cleaner_from_list(); //carry on from here 13/05/2018
+            Add_cleaners.Get_cleaner_from_list(); 
 
             do
             {
-                foreach (var item in user_list)
-                {
-                    Console.Write(item);
-                }
-                Console.WriteLine(
-                "1. Users.\n" +
-                "2. Calendar.\n" +
-                "3. Logout.\n"
-                );
+                Add_cleaners.Get_cleaner_from_list();
 
-                menu_user_input = Console.ReadLine() ?? String.Empty;
+                menu_user_input = Console.ReadLine() ?? String.Empty; //carry on from here 16/05/2018
                 switch (menu_user_input)
                 {
                     case "1":
