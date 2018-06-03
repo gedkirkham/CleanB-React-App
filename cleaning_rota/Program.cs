@@ -8,6 +8,9 @@ namespace cleaning_rota
 {
     class Program
     {
+        private static rota_assignment _rota_assignment;
+        private static rota_assignment rota_assignment;
+
         static void Main(string[] args)
         {
             bool account_option_flag = false;
@@ -34,7 +37,7 @@ namespace cleaning_rota
             } while (account_option_flag);
 
             //add rooms
-            Build_location _build_location = new Build_location();
+            //Build_location _build_location = new Build_location();
 
             bool more_rooms_flag = false;
             do
@@ -43,11 +46,10 @@ namespace cleaning_rota
                 Console.Write("Name: ");
                 String room_name = Console.ReadLine();
 
-                _build_location.Set_room_name(room_name);
                 Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
 
                 Console.Write("Every (weeks): ");
-                _build_location.Set_room_frequency(Console.ReadLine());
+                Build_location.Set_room(room_name, Console.ReadLine());
 
                 var room_option = String.Empty;
                 bool more_option = false;
@@ -60,9 +62,11 @@ namespace cleaning_rota
                     {
                         case "Y":
                             more_rooms_flag = true;
+                            more_option = false;
                             break;
                         case "N":
                             more_rooms_flag = false;
+                            more_option = false;
                             break;
                         default:
                             Console.WriteLine(constants.option_was_not_recognised);
@@ -74,8 +78,6 @@ namespace cleaning_rota
             } while (more_rooms_flag);
 
             //add users
-           // Add_cleaners _add_cleaners = new Add_cleaners();            
-
             bool add_cleaner_flag = false;
             do
             {
@@ -86,16 +88,18 @@ namespace cleaning_rota
                 bool add_cleaner_flag_valid = false;
                 do
                 {
-                    Console.Write("Add another? (" + constants.YN + ")");
+                    Console.Write("Add another? (" + constants.YN + "): ");
                     var add_cleaner_flag_user = Console.ReadLine() ?? String.Empty;
 
                     switch (add_cleaner_flag_user.ToUpper())
                     {
                         case "Y":
                             add_cleaner_flag_valid = true;
+                            add_cleaner_flag = true;
                             break;
                         case "N":
-                            add_cleaner_flag_valid = false;
+                            add_cleaner_flag_valid = true;
+                            add_cleaner_flag = false;
                             break;
                         default:
                             Console.WriteLine(constants.option_was_not_recognised);
@@ -152,12 +156,12 @@ namespace cleaning_rota
                 while (more_exempt)
                 {
                     Console.WriteLine("What room are they exempt from?");
-                    Console.WriteLine(_build_location.print_list());
+                    Console.WriteLine(Build_location.print_list());
 
                     bool room_validation = false;
                     while (!room_validation)
                     {
-                        room_validation = _build_location.validate_room(Console.ReadLine()); //add exception message
+                        room_validation = Build_location.validate_room(Console.ReadLine()); //add exception message
                     }
 
                     Console.WriteLine("Any more rooms?");
@@ -195,11 +199,12 @@ namespace cleaning_rota
             do
             {
                 Console.WriteLine(
-                "1. Users.\n" +
-                "2. Calendar.\n" +
-                "3. Logout.\n"
+                "1. Users\n" +
+                "2. Calendar\n" +
+                "3. Logout"
                 );
 
+                Console.Write("Select: ");
                 menu_user_input = Console.ReadLine() ?? String.Empty;
                 switch (menu_user_input)
                 {
@@ -224,22 +229,24 @@ namespace cleaning_rota
             } while (display_main_menu_flag);
         }
 
-        public void Display_user_list_menu()
+        static public void Display_user_list_menu()
         {
             bool display_user_list_menu_flag = true;
             var menu_user_input = String.Empty;
-
-            Add_cleaners.Get_cleaner_from_list(); 
 
             do
             {
                 Add_cleaners.Get_cleaner_from_list();
 
-                menu_user_input = Console.ReadLine() ?? String.Empty; //carry on from here 16/05/2018
-                switch (menu_user_input)
+                Console.Write("Select: ");
+                menu_user_input = Console.ReadLine() ?? String.Empty; 
+                int menu_user_input_converted = Convert.ToInt16(menu_user_input);
+
+                switch (menu_user_input_converted)//add error handling
                 {
-                    case "1":
+                    case var n when menu_user_input_converted > 0 && menu_user_input_converted < Add_cleaners.Get_user_list_length():
                         display_user_list_menu_flag = false;
+                        display_user_menu(n);
                         break;
                     default:
                         Console.WriteLine(constants.option_was_not_recognised);
@@ -258,21 +265,21 @@ namespace cleaning_rota
         {
         }
 
-        private static void display_user_menu()
+        private static void display_user_menu(int user_number)
         {
             bool display_user_menu_flag = true;
-            var menu_user_input = String.Empty;
             do
             {
-                Console.WriteLine(
-                "1. Exempt from room.\n"
+                Console.Write(
+                    "1. Exempt from room\n" +
+                    "Select: "
                 );
 
-                menu_user_input = Console.ReadLine() ?? String.Empty;
+                var menu_user_input = Console.ReadLine() ?? String.Empty;
                 switch (menu_user_input)
                 {
                     case "1":
-                        display_room_list_menu();
+                        Display_room_list_menu();
                         display_user_menu_flag = false;
                         break;
                     default:
@@ -281,7 +288,16 @@ namespace cleaning_rota
                         break;
                 }
 
+                Console.Write("Select: ");
+                var user_room_select = Console.ReadLine();
+                Console.WriteLine(Add_cleaners.Get_cleaner(menu_user_input) + " is exempt from " + Build_location.Get_room(user_room_select));//carry on  from here 03/06/2018
+
             } while (display_user_menu_flag);
+        }
+
+        private static void Display_room_list_menu()
+        {
+            Build_location.Get_room_list();
         }
 
         private static void create_calendar()
