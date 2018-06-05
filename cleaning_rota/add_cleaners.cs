@@ -27,7 +27,7 @@ namespace cleaning_rota
         static public String Get_cleaner(String _input)
         {
             int _input_converted = Convert.ToInt16(_input);
-            string output = user_list[_input_converted + 1];
+            string output = user_list[_input_converted - 1];
 
             return output;
         }

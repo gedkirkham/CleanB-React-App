@@ -189,6 +189,7 @@ namespace cleaning_rota
 
             //allow person to remove themselves
             //allow person to amend their name
+            Console.ReadKey();
         }
 
         private static void Display_main_menu()
@@ -290,7 +291,7 @@ namespace cleaning_rota
 
                 Console.Write("Select: ");
                 var user_room_select = Console.ReadLine();
-                Console.WriteLine(Add_cleaners.Get_cleaner(menu_user_input) + " is exempt from " + Build_location.Get_room(user_room_select));//carry on  from here 03/06/2018
+                Console.WriteLine(Add_cleaners.Get_cleaner(Convert.ToString(user_number)) + " is exempt from " + Build_location.Get_room(user_room_select));//carry on  from here 03/06/2018
 
             } while (display_user_menu_flag);
         }

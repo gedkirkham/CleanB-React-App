@@ -62,9 +62,20 @@ namespace cleaning_rota
 
         static public String Get_room(String _input)
         {
-            Console.WriteLine(room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple));
-            String output = "test";
+            //Console.WriteLine(room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple));
             //Console.WriteLine("{0} - {1} - {2}", tuple.Item1, tuple.Item2, tuple.Item3.ToString());
+
+            //String output = room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple);
+            //room_dictionary[1];
+
+            string output = "";
+            foreach (KeyValuePair<string, Tuple<string,string>> kvp in room_dictionary)
+            {
+                //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+                output = string.Format("Key = {0}, Value = {1}", kvp.Key, kvp.Value);//why is it always picking the second key-value pair?
+            }
+
+            
 
             return output;
         }
