@@ -8,37 +8,30 @@ namespace cleaning_rota
 {
     class Program
     {
-        private static rota_assignment _rota_assignment;
-        private static rota_assignment rota_assignment;
+        private static rota_assignment _rota_assignment;//move these?
+        private static rota_assignment rota_assignment;//move these?
 
         static void Main(string[] args)
         {
+            //login/create account
             bool account_option_flag = false;
+            var account_option = string.Empty;
             do
             {
-                Console.Write("Do you have an account?" + "(" + constants.YN + "): ");//add constant
-                var account_option = Console.ReadLine() ?? string.Empty;
-
-                account_option_flag = false;
-                switch (account_option.ToUpper())
-                {
-                    case "Y":
-                        login();
-                        break;
-                    case "N":
-                        create_account();
-                        break;
-                    default:
-                        Console.WriteLine(constants.option_was_not_recognised);
-                        account_option_flag = true;
-                        break;
-                }
-
+                Console.Write("Do you have an account? " + constants.YN_brackets);
+                account_option = Console.ReadLine();
+                account_option_flag = User_input_verification.YN(account_option);          
             } while (account_option_flag);
 
-            //add rooms
-            //Build_location _build_location = new Build_location();
+            if(account_option.Equals("Y",StringComparison.OrdinalIgnoreCase))
+            {
+                Login.User_login();
+            } else if(account_option.Equals("Y", StringComparison.OrdinalIgnoreCase))
+            {
+                Create_account.User_create_account();
+            }
 
+            //add rooms
             bool more_rooms_flag = false;
             do
             {
@@ -247,7 +240,7 @@ namespace cleaning_rota
                 {
                     case var n when menu_user_input_converted > 0 && menu_user_input_converted < Add_cleaners.Get_user_list_length():
                         display_user_list_menu_flag = false;
-                        display_user_menu(n);
+                        Display_user_menu(n);
                         break;
                     default:
                         Console.WriteLine(constants.option_was_not_recognised);
@@ -266,13 +259,16 @@ namespace cleaning_rota
         {
         }
 
-        private static void display_user_menu(int user_number)
+        private static void Display_user_menu(int user_number)
         {
             bool display_user_menu_flag = true;
             do
             {
                 Console.Write(
                     "1. Exempt from room\n" +
+                    "2. Amend name\n" +
+                    "3. Delete user\n" +
+                    "4. Main menu\n" +
                     "Select: "
                 );
 
@@ -280,18 +276,51 @@ namespace cleaning_rota
                 switch (menu_user_input)
                 {
                     case "1":
-                        Display_room_list_menu();
-                        display_user_menu_flag = false;
+                        bool exempt_user_flag = false;
+                        do
+                        {
+                            Display_room_list_menu();
+                            Console.Write("Select: ");
+                            var user_room_select = Console.ReadLine();
+                            (string room_name, string room_frequency) = Build_location.Get_room(user_room_select);
+                            Console.WriteLine(Add_cleaners.Get_cleaner(Convert.ToString(user_number)) + " is exempt from " + room_name);
+
+                            var exempt_user_input = String.Empty;
+                            bool exempt_user_input_flag = false;
+
+                            do {
+                                Console.Write("Any more?" + "(" + constants.YN + "): ");
+                                exempt_user_input = Console.ReadLine();
+
+                                switch(exempt_user_input.ToUpper())
+                                {
+                                    case "Y":
+                                        exempt_user_input_flag = false;
+                                        exempt_user_flag = true;
+                                        break;
+                                    case "N":
+                                        exempt_user_input_flag = false;
+                                        exempt_user_flag = false;
+                                        break;
+                                    default:
+                                        exempt_user_input_flag = true;
+                                        Console.WriteLine(constants.option_was_not_recognised);
+                                        break;
+                                }
+                            } while (exempt_user_input_flag);
+                        } while (exempt_user_flag);
+
+                        display_user_menu_flag = true;
+                        break;
+
+                    case "4":
+                        Display_main_menu();
                         break;
                     default:
                         Console.WriteLine(constants.option_was_not_recognised);
                         display_user_menu_flag = true;
                         break;
                 }
-
-                Console.Write("Select: ");
-                var user_room_select = Console.ReadLine();
-                Console.WriteLine(Add_cleaners.Get_cleaner(Convert.ToString(user_number)) + " is exempt from " + Build_location.Get_room(user_room_select));//carry on  from here 03/06/2018
 
             } while (display_user_menu_flag);
         }
@@ -304,23 +333,6 @@ namespace cleaning_rota
         private static void create_calendar()
         {
             
-        }
-
-        private static void login()
-        {
-           
-        }
-
-        private static void create_account()
-        {
-            Console.Write("First name: ");
-            string first_name = Console.ReadLine();
-
-            Console.Write("Last name: ");
-            string last_name = Console.ReadLine();
-
-            Console.Write("Email: ");
-            string email = Console.ReadLine();
         }
     }
 }

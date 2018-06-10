@@ -52,26 +52,35 @@ namespace cleaning_rota
             //}
         }
 
-        static public void Get_room_list()//improve. Writing directly to console is not good.
+        static public void Get_room_list()
         {
-            foreach(var item in room_dictionary)
+            string room_name = "default";
+            string room_frequency = "default";
+
+            int i = 0;
+            foreach (var item in room_dictionary)
             {
-                Console.WriteLine(item);
+                i++;
+                (room_name, room_frequency) = item.Value;
+                Console.WriteLine(i + ". " + room_name);
+                //Console.Write("{1}" + ". " + "{2}", i, room_name);
+
+                //return (room_name, room_frequency);
             }
+
+            //return (room_name, room_frequency);
         }
 
-        static public string Get_room(String _input)
+        public static (string, string) Get_room(String _input)
         {
             //Console.WriteLine(room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple));
             //Console.WriteLine("{0} - {1} - {2}", tuple.Item1, tuple.Item2, tuple.Item3.ToString());
             //String output = room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple);
 
-            var tuple = room_dictionary[_input];
-            Console.Write(room_dictionary[_input]);
+            (string room_name, string room_frequency) = room_dictionary[_input];
 
-            return tuple;
+            return (room_name, room_frequency);
         }
-
 
         //foreach (KeyValuePair<string, Int16> author in AuthorList)
         //{
