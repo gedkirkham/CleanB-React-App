@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cleaning_rota
 {
-    class constants
+    class Constants
     {
         public const string YN = "Y/N";
         public const string YN_brackets = "(Y/N):";

@@ -14,7 +14,7 @@ namespace cleaning_rota
                 case "N":
                     break;
                 default:
-                    Console.WriteLine(constants.option_was_not_recognised);
+                    Console.WriteLine(Constants.option_was_not_recognised);
                     flag = true;
                     break;
             }
