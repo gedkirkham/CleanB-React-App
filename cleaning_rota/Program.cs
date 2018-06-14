@@ -72,37 +72,7 @@ namespace cleaning_rota
                 
             } while (more_rooms_flag);
 
-            //add users
-            bool add_cleaner_flag = false;
-            do
-            {
-                Console.Write("Add the cleaners name: ");
-                String cleaner_name = Console.ReadLine() ?? String.Empty;
-                Add_cleaners.Add_cleaner_to_list(cleaner_name);
-
-                bool add_cleaner_flag_valid = false;
-                do
-                {
-                    Console.Write("Add another? (" + Constants.YN + "): ");
-                    var add_cleaner_flag_user = Console.ReadLine() ?? String.Empty;
-
-                    switch (add_cleaner_flag_user.ToUpper())
-                    {
-                        case "Y":
-                            add_cleaner_flag_valid = true;
-                            add_cleaner_flag = true;
-                            break;
-                        case "N":
-                            add_cleaner_flag_valid = true;
-                            add_cleaner_flag = false;
-                            break;
-                        default:
-                            Console.WriteLine(Constants.option_was_not_recognised);
-                            add_cleaner_flag_valid = false;
-                            break;
-                    }
-                } while (!add_cleaner_flag_valid);
-            } while (add_cleaner_flag);
+            
 
             //finished?
             bool finished_flag = false;
@@ -139,12 +109,12 @@ namespace cleaning_rota
             while (users_exempt)
             {
                 Console.WriteLine("Which user is exempt?");
-                Console.WriteLine(Add_cleaners.print_list());
+                Console.WriteLine(Cleaner.print_list());
 
                 bool cleaner_validation = false;
                 while (!cleaner_validation)
                 {
-                    cleaner_validation = Add_cleaners.validate_cleaner(Console.ReadLine()); //add exception message
+                    cleaner_validation = Cleaner.validate_cleaner(Console.ReadLine()); //add exception message
                 }
 
                 bool more_exempt = true;

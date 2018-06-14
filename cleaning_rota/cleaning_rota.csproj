@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="add_cleaners.cs" />
+    <Compile Include="Cleaner.cs" />
     <Compile Include="build_location.cs" />
     <Compile Include="Calendar.cs" />
     <Compile Include="cleaners_exemption.cs" />

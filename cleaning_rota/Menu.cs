@@ -30,11 +30,11 @@ namespace cleaning_rota
                 {
                     case "1":
                     case "cleaners":
-                        Menu.Cleaner_menu();
+                        Cleaner_menu();
                         break;
                     case "2":
                     case "rooms":
-                        Menu.Room_menu();
+                        Room_menu();
                         break;
                     case "3":
                     case "calendar":
@@ -62,10 +62,16 @@ namespace cleaning_rota
             {
                 display_user_list_menu_flag = true;
 
-                if (!Add_cleaners.Get_cleaner_list())
+                Cleaner.Get_cleaner_list();
+                int cleaner_list_count = Cleaner.Get_cleaner_list_count();
+                cleaner_list_count++;
+
+                if (Cleaner.Get_cleaner_list_count() > 0)
                 {
-                    Console.WriteLine("");//carry on from here - trigger ability to add cleaner.
+                    Cleaner.Get_cleaner_list();
                 }
+
+                Console.WriteLine(cleaner_list_count + ". Main Menu");
 
                 Console.Write("Select: ");
                 menu_user_input = Console.ReadLine() ?? String.Empty;
@@ -73,7 +79,7 @@ namespace cleaning_rota
 
                 switch (menu_user_input_converted)//add error handling
                 {
-                    case var n when menu_user_input_converted > 0 && menu_user_input_converted < Add_cleaners.Get_user_list_length():
+                    case var n when menu_user_input_converted > 0 && menu_user_input_converted < Cleaner.Get_user_list_length():
                         display_user_list_menu_flag = false;
                         Display_user_menu(n);
                         break;
@@ -110,7 +116,7 @@ namespace cleaning_rota
                             Console.Write("Select: ");
                             var user_room_select = Console.ReadLine();
                             (string room_name, string room_frequency) = Build_location.Get_room(user_room_select);
-                            Console.WriteLine(Add_cleaners.Get_cleaner(Convert.ToString(user_number)) + " is exempt from " + room_name);
+                            Console.WriteLine(Cleaner.Get_cleaner(Convert.ToString(user_number)) + " is exempt from " + room_name);
 
                             var exempt_user_input = String.Empty;
                             bool exempt_user_input_flag = false;
