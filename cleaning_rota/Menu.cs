@@ -55,49 +55,56 @@ namespace cleaning_rota
 
         static public void Cleaner_menu()
         {
-            bool display_user_list_menu_flag;
             var menu_user_input = String.Empty;
 
+            Cleaner.Get_cleaner_list();
+            int cleaner_list_count = Cleaner.Get_cleaner_list_count();
+
+            if (Cleaner.Get_cleaner_list_count() > 0)
+            {
+                Cleaner.Get_cleaner_list();
+            }
+
+            Console.WriteLine(++cleaner_list_count + Constants.add_cleaner);
+            Console.WriteLine(++cleaner_list_count + Constants.main_menu);
+
+            bool flag;
+            int menu_selection;
             do
             {
-                display_user_list_menu_flag = true;
-
-                Cleaner.Get_cleaner_list();
-                int cleaner_list_count = Cleaner.Get_cleaner_list_count();
-                cleaner_list_count++;
-
-                if (Cleaner.Get_cleaner_list_count() > 0)
+                do
                 {
-                    Cleaner.Get_cleaner_list();
-                }
+                    Console.Write(Constants.select);
+                    menu_user_input = Console.ReadLine() ?? String.Empty;
+                    (flag, menu_selection) = User_input_verification.Number_validation(menu_user_input);
+                } while (flag);
+            } while (User_input_verification.Number_range(menu_selection, cleaner_list_count+2));
 
-                Console.WriteLine(cleaner_list_count + ". Main Menu");
-
-                Console.Write("Select: ");
-                menu_user_input = Console.ReadLine() ?? String.Empty;
-                int menu_user_input_converted = Convert.ToInt16(menu_user_input);
-
-                switch (menu_user_input_converted)//add error handling
-                {
-                    case var n when menu_user_input_converted > 0 && menu_user_input_converted < Cleaner.Get_user_list_length():
-                        display_user_list_menu_flag = false;
-                        Display_user_menu(n);
-                        break;
-                    default:
-                        Console.WriteLine(Constants.option_was_not_recognised);
-                        display_user_list_menu_flag = true;
-                        break;
-                }
-
-            } while (display_user_list_menu_flag);
+            cleaner_list_count = Cleaner.Get_cleaner_list_count();
+            switch (menu_selection)
+            {
+                case var n when menu_selection > 0 && menu_selection <= cleaner_list_count:
+                    Cleaner.Get_cleaner(menu_selection);
+                    Display_user_menu(Cleaner.Get_cleaner(menu_selection));
+                    break;
+                case var n when menu_selection == ++cleaner_list_count:
+                    Cleaner.Add_cleaner();//19/06/2018 - user needs to be able to get to main menu when finished adding cleaners
+                    break;
+                case var n when menu_selection == cleaner_list_count + 2:
+                    Main_menu();
+                    break;
+                default:
+                    break;
+            }
         }
 
-        private static void Display_user_menu(int user_number)
+        private static void Display_user_menu(string _cleaners_name)
         {
             bool display_user_menu_flag = true;
             do
             {
                 Console.Write(
+                    _cleaners_name + ":\n" +
                     "1. Exempt from room\n" +
                     "2. Amend name\n" +
                     "3. Delete user\n" +
@@ -116,7 +123,7 @@ namespace cleaning_rota
                             Console.Write("Select: ");
                             var user_room_select = Console.ReadLine();
                             (string room_name, string room_frequency) = Build_location.Get_room(user_room_select);
-                            Console.WriteLine(Cleaner.Get_cleaner(Convert.ToString(user_number)) + " is exempt from " + room_name);
+                            Console.WriteLine(_cleaners_name + " is exempt from " + room_name);
 
                             var exempt_user_input = String.Empty;
                             bool exempt_user_input_flag = false;

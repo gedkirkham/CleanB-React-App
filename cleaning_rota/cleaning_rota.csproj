@@ -49,7 +49,7 @@
     <Compile Include="build_location.cs" />
     <Compile Include="Calendar.cs" />
     <Compile Include="cleaners_exemption.cs" />
-    <Compile Include="constants.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Create_account.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Menu.cs" />

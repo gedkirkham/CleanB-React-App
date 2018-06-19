@@ -32,9 +32,9 @@ namespace cleaning_rota
                 do
                 {
                     add_cleaner_flag = false;
-                    Console.WriteLine("You do not have any cleaners. Would you like to add some? " + Constants.YN_brackets);
+                    Console.Write("You do not have any cleaners. Would you like to add some? " + Constants.YN_brackets);
                     add_cleaner_user_flag = Console.ReadLine() ?? string.Empty;
-                    add_cleaner_flag = User_input_verification.YN(add_cleaner_user_flag);//add trigger if user inputs N
+                    add_cleaner_flag = User_input_verification.YN(add_cleaner_user_flag);
                 } while (add_cleaner_flag);
 
                 if (add_cleaner_user_flag.Equals("Y",StringComparison.OrdinalIgnoreCase))
@@ -78,10 +78,9 @@ namespace cleaning_rota
             } while (add_cleaner_flag);
         }
 
-        static public String Get_cleaner(String _input)
+        static public String Get_cleaner(int _input)
         {
-            int _input_converted = Convert.ToInt16(_input);
-            string output = cleaner_list[_input_converted - 1];
+            string output = cleaner_list[_input - 1];
 
             return output;
         }
