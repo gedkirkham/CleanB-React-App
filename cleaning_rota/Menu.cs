@@ -16,6 +16,7 @@ namespace cleaning_rota
             {
                 display_main_menu_flag = false;
 
+                Console.WriteLine();
                 Console.WriteLine(
                 "1. Cleaners\n" +
                 "2. Rooms\n" +
@@ -57,13 +58,9 @@ namespace cleaning_rota
         {
             var menu_user_input = String.Empty;
 
+            Console.WriteLine();
             Cleaner.Get_cleaner_list();
             int cleaner_list_count = Cleaner.Get_cleaner_list_count();
-
-            if (Cleaner.Get_cleaner_list_count() > 0)
-            {
-                Cleaner.Get_cleaner_list();
-            }
 
             Console.WriteLine(++cleaner_list_count + Constants.add_cleaner);
             Console.WriteLine(++cleaner_list_count + Constants.main_menu);
@@ -84,13 +81,13 @@ namespace cleaning_rota
             switch (menu_selection)
             {
                 case var n when menu_selection > 0 && menu_selection <= cleaner_list_count:
-                    Cleaner.Get_cleaner(menu_selection);
+                    //Cleaner.Get_cleaner(menu_selection);
                     Display_user_menu(Cleaner.Get_cleaner(menu_selection));
                     break;
                 case var n when menu_selection == ++cleaner_list_count:
-                    Cleaner.Add_cleaner();//19/06/2018 - user needs to be able to get to main menu when finished adding cleaners
+                    Cleaner.Add_cleaner();
                     break;
-                case var n when menu_selection == cleaner_list_count + 2:
+                case var n when menu_selection == ++cleaner_list_count:
                     Main_menu();
                     break;
                 default:
@@ -103,13 +100,14 @@ namespace cleaning_rota
             bool display_user_menu_flag = true;
             do
             {
+                Console.WriteLine();
                 Console.Write(
-                    _cleaners_name + ":\n" +
-                    "1. Exempt from room\n" +
-                    "2. Amend name\n" +
-                    "3. Delete user\n" +
-                    "4. Main menu\n" +
-                    "Select: "
+                    _cleaners_name + @":
+                    1. Exempt from room
+                    2. Amend name
+                    3. Delete user
+                    4. Main menu
+                    {0}", Constants.select
                 );
 
                 var menu_user_input = Console.ReadLine() ?? String.Empty;
@@ -119,10 +117,10 @@ namespace cleaning_rota
                         bool exempt_user_flag = false;
                         do
                         {
-                            Menu.Room_menu();
-                            Console.Write("Select: ");
+                            Room_menu();
+                            Console.Write(Constants.select);
                             var user_room_select = Console.ReadLine();
-                            (string room_name, string room_frequency) = Build_location.Get_room(user_room_select);
+                            (string room_name, string room_frequency) = House.Get_room(user_room_select);
                             Console.WriteLine(_cleaners_name + " is exempt from " + room_name);
 
                             var exempt_user_input = String.Empty;
@@ -166,11 +164,54 @@ namespace cleaning_rota
             } while (display_user_menu_flag);
         }
 
-       
-
         public static void Room_menu()
         {
-            Build_location.Get_room_list();
+            Console.WriteLine();
+            House.Get_room_list();
+        }
+
+        static public string Nothing_returned_add_something(string _menu_case)
+        {
+            bool add_flag;
+            string add_user_flag;
+            do
+            {
+                add_flag = false;
+                Console.Write("You do not have any {0}. Would you like to add some? {1}", _menu_case, Constants.YN_brackets);
+                add_user_flag = Console.ReadLine() ?? string.Empty;
+                add_flag = User_input_verification.YN(add_user_flag);
+            } while (add_flag);
+
+            return add_user_flag;
+        }
+
+        static public bool Add_another(bool _add_flag)
+        {
+            bool add_flag_valid;
+            do
+            {
+                add_flag_valid = false;
+
+                Console.WriteLine();
+                Console.Write("Add another? (" + Constants.YN + "): ");
+                var add_flag_user = Console.ReadLine() ?? String.Empty;
+
+                switch (add_flag_user.ToUpper())
+                {
+                    case "Y":
+                        _add_flag = true;
+                        break;
+                    case "N":
+                        _add_flag = false;
+                        break;
+                    default:
+                        Console.WriteLine(Constants.option_was_not_recognised);
+                        add_flag_valid = true;
+                        break;
+                }
+            } while (add_flag_valid);
+
+            return _add_flag;
         }
     }
 }

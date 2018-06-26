@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cleaner.cs" />
-    <Compile Include="build_location.cs" />
+    <Compile Include="House.cs" />
     <Compile Include="Calendar.cs" />
     <Compile Include="cleaners_exemption.cs" />
     <Compile Include="Constants.cs" />

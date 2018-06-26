@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace cleaning_rota
 {
-    static public class Build_location
+    static public class House
     {
 
         //static List<string> room_list;
         //static Dictionary<string, List<string>> room_dictionary = new Dictionary<string, List<string>>();
 
-        static Dictionary<string, Tuple<string, string>> room_dictionary = new Dictionary<string, Tuple<string, string>>();
+        static Dictionary<string, Tuple<string, string>> house_dictionary = new Dictionary<string, Tuple<string, string>>();
         
 
         //static public int room_count
@@ -31,13 +31,30 @@ namespace cleaning_rota
         //    }            
         //}
 
-        static public void Set_room(String _room_name, String _room_frequency)//add some error checking i.e. character count
+        static public void Add_room()
         {
-            String room_name = _room_name;
-            String _room_frequency2 = _room_frequency;
+            bool add_flag = false;
+            do
+            {
+                Console.WriteLine();
+                Console.Write("Name: ");
+                string _room_name = Console.ReadLine() ?? String.Empty; //add some error checking i.e. character count
 
-            var tuple = new Tuple<string, string>(room_name, _room_frequency2);
-            room_dictionary.Add(_room_name, tuple);
+                Console.Write(
+                    @"How frequently should the {0} be cleaned? 
+                    1. Monthly
+                    2. Semi-monthly
+                    3. Thrice-monthly
+                    4. Weekly
+                    {1}", Constants.select, _room_name
+                );
+
+                string _room_frequency = Console.ReadLine() ?? String.Empty;
+
+                Add_room_to_list(_room_name, _room_frequency);
+
+                add_flag = Menu.Add_another(add_flag);                
+            } while (add_flag);
 
             //static public void Set_room_frequency(String _input)
             //{
@@ -52,23 +69,42 @@ namespace cleaning_rota
             //}
         }
 
+        static public void Add_room_to_list(string _room_name, string _room_frequency)
+        {
+            String room_name = _room_name;
+            String _room_frequency2 = _room_frequency;
+
+            var tuple = new Tuple<string, string>(room_name, _room_frequency2);
+            house_dictionary.Add(_room_name, tuple);
+        }
+            
+
         static public void Get_room_list()
         {
-            string room_name = "default";
-            string room_frequency = "default";
+            string room_name;
+            string room_frequency;
 
-            int i = 0;
-            foreach (var item in room_dictionary)
+            if (house_dictionary.Count > 0)
             {
-                i++;
-                (room_name, room_frequency) = item.Value;
-                Console.WriteLine(i + ". " + room_name);
-                //Console.Write("{1}" + ". " + "{2}", i, room_name);
-
-                //return (room_name, room_frequency);
+                int i = 0;
+                foreach (var room in house_dictionary)
+                {
+                    i++;
+                    (room_name, room_frequency) = room.Value;
+                    Console.WriteLine("{0}. {1}", i, room_name);
+                }
             }
+            else
+            {
+                string _user_input = Menu.Nothing_returned_add_something("rooms");               
 
-            //return (room_name, room_frequency);
+                if (_user_input.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                {
+                    Add_room();
+                }
+
+                Get_room_list();
+            }
         }
 
         public static (string, string) Get_room(String _input)
@@ -77,7 +113,7 @@ namespace cleaning_rota
             //Console.WriteLine("{0} - {1} - {2}", tuple.Item1, tuple.Item2, tuple.Item3.ToString());
             //String output = room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple);
 
-            (string room_name, string room_frequency) = room_dictionary[_input];
+            (string room_name, string room_frequency) = house_dictionary[_input];
 
             return (room_name, room_frequency);
         }

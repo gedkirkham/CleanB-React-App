@@ -44,7 +44,8 @@ namespace cleaning_rota
                 Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
 
                 Console.Write("Every (weeks): ");
-                Build_location.Set_room(room_name, Console.ReadLine());
+                string room_frequency = Console.ReadLine() ?? String.Empty;
+                House.Add_room();
 
                 var room_option = String.Empty;
                 bool more_option = false;
@@ -121,12 +122,12 @@ namespace cleaning_rota
                 while (more_exempt)
                 {
                     Console.WriteLine("What room are they exempt from?");
-                    Console.WriteLine(Build_location.print_list());
+                    Console.WriteLine(House.print_list());
 
                     bool room_validation = false;
                     while (!room_validation)
                     {
-                        room_validation = Build_location.validate_room(Console.ReadLine()); //add exception message
+                        room_validation = House.validate_room(Console.ReadLine()); //add exception message
                     }
 
                     Console.WriteLine("Any more rooms?");

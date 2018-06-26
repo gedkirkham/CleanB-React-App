@@ -7,7 +7,7 @@ namespace cleaning_rota.test.unit
     [TestClass]
     public class build_location_test
     {
-        private readonly Build_location _build_location = new Build_location();
+        private readonly House _build_location = new House();
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]

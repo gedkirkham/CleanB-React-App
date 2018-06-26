@@ -27,20 +27,14 @@ namespace cleaning_rota
                 }
             } else
             {
-                bool add_cleaner_flag;
-                string add_cleaner_user_flag;
-                do
-                {
-                    add_cleaner_flag = false;
-                    Console.Write("You do not have any cleaners. Would you like to add some? " + Constants.YN_brackets);
-                    add_cleaner_user_flag = Console.ReadLine() ?? string.Empty;
-                    add_cleaner_flag = User_input_verification.YN(add_cleaner_user_flag);
-                } while (add_cleaner_flag);
+                string _user_input = Menu.Nothing_returned_add_something("cleaners");                
 
-                if (add_cleaner_user_flag.Equals("Y",StringComparison.OrdinalIgnoreCase))
+                if (_user_input.Equals("Y",StringComparison.OrdinalIgnoreCase))
                 {
                     Add_cleaner();
                 }
+
+                Get_cleaner_list();
             }
         }
 
@@ -49,32 +43,12 @@ namespace cleaning_rota
             bool add_cleaner_flag = false;
             do
             {
+                Console.WriteLine();
                 Console.Write("Name: ");
-                String cleaner_name = Console.ReadLine() ?? String.Empty;
+                string cleaner_name = Console.ReadLine() ?? String.Empty;
                 Add_cleaner_to_list(cleaner_name);
 
-                bool add_cleaner_flag_valid;
-                do
-                {
-                    add_cleaner_flag_valid = false;
-
-                    Console.Write("Add another? (" + Constants.YN + "): ");
-                    var add_cleaner_flag_user = Console.ReadLine() ?? String.Empty;
-
-                    switch (add_cleaner_flag_user.ToUpper())
-                    {
-                        case "Y":
-                            add_cleaner_flag = true;
-                            break;
-                        case "N":
-                            add_cleaner_flag = false;
-                            break;
-                        default:
-                            Console.WriteLine(Constants.option_was_not_recognised);
-                            add_cleaner_flag_valid = true;
-                            break;
-                    }
-                } while (add_cleaner_flag_valid);
+                add_cleaner_flag = Menu.Add_another(add_cleaner_flag);               
             } while (add_cleaner_flag);
         }
 
