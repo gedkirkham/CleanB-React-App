@@ -81,7 +81,6 @@ namespace cleaning_rota
             switch (menu_selection)
             {
                 case var n when menu_selection > 0 && menu_selection <= cleaner_list_count:
-                    //Cleaner.Get_cleaner(menu_selection);
                     Display_user_menu(Cleaner.Get_cleaner(menu_selection));
                     break;
                 case var n when menu_selection == ++cleaner_list_count:

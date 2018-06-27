@@ -40,21 +40,30 @@ namespace cleaning_rota
                 Console.Write("Name: ");
                 string _room_name = Console.ReadLine() ?? String.Empty; //add some error checking i.e. character count
 
-                Console.Write(
-                    @"How frequently should the {0} be cleaned? 
-                    1. Monthly
-                    2. Semi-monthly
-                    3. Thrice-monthly
-                    4. Weekly
-                    {1}", Constants.select, _room_name
-                );
+                string _room_frequency;
+                bool number_validation_flag;
+                int _room_frequency_converted;
+                do
+                {
+                    do
+                    {
+                        Console.WriteLine();
+Console.Write(
+@"How frequently should {0} be cleaned?
+1. Monthly
+2. Semi-monthly
+3. Thrice-monthly
+4. Weekly
+{1}", _room_name, Constants.select);
 
-                string _room_frequency = Console.ReadLine() ?? String.Empty;
+                        _room_frequency = Console.ReadLine() ?? String.Empty;
+                        (number_validation_flag, _room_frequency_converted) = User_input_verification.Number_validation(_room_frequency);
+                    } while (number_validation_flag);
+                } while (User_input_verification.Number_range(_room_frequency_converted, 4));
 
                 Add_room_to_list(_room_name, _room_frequency);
 
-                add_flag = Menu.Add_another(add_flag);                
-            } while (add_flag);
+            } while (Menu.Add_another(add_flag));
 
             //static public void Set_room_frequency(String _input)
             //{
@@ -102,8 +111,6 @@ namespace cleaning_rota
                 {
                     Add_room();
                 }
-
-                Get_room_list();
             }
         }
 

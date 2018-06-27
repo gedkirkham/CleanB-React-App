@@ -33,48 +33,6 @@ namespace cleaning_rota
 
             Menu.Main_menu();
 
-            //add rooms
-            bool more_rooms_flag = false;
-            do
-            {
-                Console.WriteLine("What is the name of the room?");
-                Console.Write("Name: ");
-                String room_name = Console.ReadLine();
-
-                Console.WriteLine("How frequently should " + room_name + " be cleaned? Once a week/once every two weeks/once every three weeks etc.");
-
-                Console.Write("Every (weeks): ");
-                string room_frequency = Console.ReadLine() ?? String.Empty;
-                House.Add_room();
-
-                var room_option = String.Empty;
-                bool more_option = false;
-                do
-                {
-                    Console.Write("Add another room?" + "(" + Constants.YN + "): ");
-                    room_option = Console.ReadLine() ?? String.Empty;
-
-                    switch (room_option.ToUpper())
-                    {
-                        case "Y":
-                            more_rooms_flag = true;
-                            more_option = false;
-                            break;
-                        case "N":
-                            more_rooms_flag = false;
-                            more_option = false;
-                            break;
-                        default:
-                            Console.WriteLine(Constants.option_was_not_recognised);
-                            more_option = true;
-                            break;
-                    }
-                } while (more_option);
-                
-            } while (more_rooms_flag);
-
-            
-
             //finished?
             bool finished_flag = false;
             do
