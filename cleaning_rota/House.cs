@@ -48,13 +48,7 @@ namespace cleaning_rota
                     do
                     {
                         Console.WriteLine();
-Console.Write(
-@"How frequently should {0} be cleaned?
-1. Monthly
-2. Semi-monthly
-3. Thrice-monthly
-4. Weekly
-{1}", _room_name, Constants.select);
+                        Console.Write(Constants.cleaning_frequency_menu_text, _room_name, Constants.select);
 
                         _room_frequency = Console.ReadLine() ?? String.Empty;
                         (number_validation_flag, _room_frequency_converted) = User_input_verification.Number_validation(_room_frequency);
@@ -111,7 +105,27 @@ Console.Write(
                 {
                     Add_room();
                 }
+                else
+                {
+                    Menu.Main_menu();
+                }
             }
+        }
+
+        static public int Get_room_list_count()
+        {
+            return house_dictionary.Count;
+        }
+
+        static public string House_nothing_returned()
+        {
+            string _user_input = Menu.Nothing_returned_add_something("rooms");
+            if (_user_input.Equals("Y", StringComparison.OrdinalIgnoreCase))
+            {
+                House.Add_room();
+            }
+
+            return _user_input;
         }
 
         public static (string, string) Get_room(String _input)

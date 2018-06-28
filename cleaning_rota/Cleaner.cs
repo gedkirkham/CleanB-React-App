@@ -19,7 +19,7 @@ namespace cleaning_rota
 
         static public void Get_cleaner_list()
         {
-            if(cleaner_list.Count > 0)
+            if (cleaner_list.Count > 0)
             {
                 for (int i = 0; i < cleaner_list.Count; i++)
                 {
@@ -27,15 +27,30 @@ namespace cleaning_rota
                 }
             } else
             {
-                string _user_input = Menu.Nothing_returned_add_something("cleaners");                
+                string _user_input = Menu.Nothing_returned_add_something("cleaners");
 
-                if (_user_input.Equals("Y",StringComparison.OrdinalIgnoreCase))
+                if (_user_input.Equals("Y", StringComparison.OrdinalIgnoreCase))
                 {
                     Add_cleaner();
+                }
+                else
+                {
+                    Menu.Main_menu();
                 }
 
                 Get_cleaner_list();
             }
+        }
+
+        static public string Cleaner_nothing_returned()
+        {
+            string _user_input = Menu.Nothing_returned_add_something("cleaners");
+            if (_user_input.Equals("Y", StringComparison.OrdinalIgnoreCase))
+            {
+                Cleaner.Add_cleaner();
+            }
+
+            return _user_input;
         }
 
         static public void Add_cleaner()

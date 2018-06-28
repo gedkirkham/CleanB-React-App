@@ -17,14 +17,9 @@ namespace cleaning_rota
                 display_main_menu_flag = false;
 
                 Console.WriteLine();
-                Console.WriteLine(
-                "1. Cleaners\n" +
-                "2. Rooms\n" +
-                "3. Calendar\n" +                
-                "4. Logout"
-                );
+                Console.WriteLine(Constants.main_menu_text);
 
-                Console.Write("Select: ");
+                Console.Write(Constants.select);
                 string menu_user_input = Console.ReadLine() ?? String.Empty;
 
                 switch (menu_user_input.ToLower())
@@ -39,7 +34,7 @@ namespace cleaning_rota
                         break;
                     case "3":
                     case "calendar":
-                        Calendar.View_calendar();
+                        Calendar.Calendar_check();
                         break;
                     case "4":
                     case "logout":
@@ -176,7 +171,8 @@ namespace cleaning_rota
             do
             {
                 add_flag = false;
-                Console.Write("You do not have any {0}. Would you like to add some? {1}", _menu_case, Constants.YN_brackets);
+                Console.WriteLine();
+                Console.Write(Constants.nothing_returned, _menu_case, Constants.YN_brackets);
                 add_user_flag = Console.ReadLine() ?? string.Empty;
                 add_flag = User_input_verification.YN(add_user_flag);
             } while (add_flag);
