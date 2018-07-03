@@ -8,63 +8,57 @@ namespace cleaning_rota
 {
     static public class Calendar
     {
-        static public void Cleaner_and_rooms_list_count()
+        static public void Cleaner_andor_rooms_list_count_limit_check()
         {
             Console.WriteLine();
-            Console.WriteLine(Constants.cleaners_and_rooms_required);
-            Cleaner.Cleaner_nothing_returned();
-            House.House_nothing_returned();
-        }
 
-        static public string Cleaner_list_count()
-        {
-            Console.WriteLine();
-            Console.WriteLine(Constants.cleaners_required);
-            string _user_input = Cleaner.Cleaner_nothing_returned();
-
-            return _user_input;
-        }
-
-        static public string Room_list_count()
-        {
-            Console.WriteLine();
-            Console.WriteLine(Constants.rooms_required);
-            string _user_input = House.House_nothing_returned();
-
-            return _user_input;
-        }
-
-        static public void Calendar_check()
-        {
-            if (Cleaner.Get_cleaner_list_count() == 0 && House.Get_room_list_count() == 0)
+            if(Cleaner.Get_cleaner_list_count() == 0 && House.Get_room_list_count() == 0)
             {
-                Cleaner_and_rooms_list_count();
+                Console.WriteLine(Constants.cleaners_and_rooms_required);
+                Cleaner.Cleaner_nothing_returned();
+                House.House_nothing_returned();
 
                 if (Cleaner.Get_cleaner_list_count() == 0 || House.Get_room_list_count() == 0)
                 {
                     Console.WriteLine();
                     Console.WriteLine(Constants.cleaners_and_rooms_required);
-                    Console.ReadLine();
-                    Menu.Main_menu();
                 }
             }
             else if (Cleaner.Get_cleaner_list_count() == 0 && House.Get_room_list_count() > 0)
             {
-                string _user_input = Cleaner_list_count();
+                Console.WriteLine(Constants.cleaners_required);
+                Cleaner.Cleaner_nothing_returned();
 
-                if (_user_input.Equals("N", StringComparison.OrdinalIgnoreCase)) {
-                    Menu.Main_menu();
+                if (Cleaner.Get_cleaner_list_count() == 0 && House.Get_room_list_count() > 0)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(Constants.cleaners_required);
                 }
             }
             else if (Cleaner.Get_cleaner_list_count() > 0 && House.Get_room_list_count() == 0)
             {
-                string _user_input = Room_list_count();
+                Console.WriteLine(Constants.rooms_required);
+                House.House_nothing_returned();
 
-                if (_user_input.Equals("N", StringComparison.OrdinalIgnoreCase))
+                if (Cleaner.Get_cleaner_list_count() > 0 && House.Get_room_list_count() == 0)
                 {
-                    Menu.Main_menu();
+                    Console.WriteLine();
+                    Console.WriteLine(Constants.rooms_required);
                 }
             }
+            Console.ReadLine();
+        }
+
+        static public void Room_list_count()
+        {
+            Console.WriteLine();
+            Console.WriteLine(Constants.rooms_required);
+            string _user_input = House.House_nothing_returned();
+        }
+
+        static public void Calendar_check()
+        {
+            Cleaner_andor_rooms_list_count_limit_check();
 
             if (Cleaner.Get_cleaner_list_count() > 0 && House.Get_room_list_count() > 0)
             {
@@ -74,12 +68,12 @@ namespace cleaning_rota
             {
                 Menu.Main_menu();
             }
-                
         }
 
         static public void Display_calendar()
         {
-            Console.WriteLine("Display calendar...");
+            Console.WriteLine();
+            Console.WriteLine("Displaying calendar...");
         }
     }
 }

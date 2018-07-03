@@ -52,6 +52,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Create_account.cs" />
     <Compile Include="Login.cs" />
+    <Compile Include="Logout.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

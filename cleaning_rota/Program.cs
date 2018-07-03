@@ -31,71 +31,11 @@ namespace cleaning_rota
                 Create_account.User_create_account();
             }
 
-            Menu.Main_menu();
-
-            //finished?
-            bool finished_flag = false;
             do
             {
-                Console.Write("Finished? (" + Constants.YN + "): ");
-                var finished_flag_user = Console.ReadLine() ?? String.Empty;
-
-                switch(finished_flag_user.ToUpper())
-                {
-                    case "Y":
-                        finished_flag = true;
-                        create_calendar();
-                        break;
-                    case "N":
-                        finished_flag = true;
-                        Menu.Main_menu();                        
-                        var display_main_menu_user = Console.ReadLine() ?? String.Empty;
-
-                        break;
-                    default:
-                        Console.WriteLine(Constants.option_was_not_recognised);
-                        finished_flag = false;
-                        break;                        
-                }
-            } while (!finished_flag);
-
-            //decide if users are exempt from certain rooms
-            cleaners_exemption _cleaners_exemption = new cleaners_exemption();
-
-            Console.WriteLine("Are cleaners exempt from any particular rooms?");
-            bool users_exempt = _cleaners_exemption.true_false_response_validation(Console.ReadLine());
-
-            while (users_exempt)
-            {
-                Console.WriteLine("Which user is exempt?");
-                Console.WriteLine(Cleaner.print_list());
-
-                bool cleaner_validation = false;
-                while (!cleaner_validation)
-                {
-                    cleaner_validation = Cleaner.validate_cleaner(Console.ReadLine()); //add exception message
-                }
-
-                bool more_exempt = true;
-                while (more_exempt)
-                {
-                    Console.WriteLine("What room are they exempt from?");
-                    Console.WriteLine(House.print_list());
-
-                    bool room_validation = false;
-                    while (!room_validation)
-                    {
-                        room_validation = House.validate_room(Console.ReadLine()); //add exception message
-                    }
-
-                    Console.WriteLine("Any more rooms?");
-                    more_exempt = _cleaners_exemption.true_false_response_validation(Console.ReadLine());
-                }
-
-                Console.WriteLine("Any more cleaners exempt?");
-                users_exempt = _cleaners_exemption.true_false_response_validation(Console.ReadLine());
-            }
-
+                Menu.Main_menu();
+            } while (true);
+            
             //ask what weekend to start 
             rota_calendar _rota_calendar = new rota_calendar();
 
@@ -115,24 +55,5 @@ namespace cleaning_rota
             //allow person to amend their name
             Console.ReadKey();
         }        
-
-        
-
-        static public void Logout()
-        {
-        }
-
-        static public void Display_calendar()
-        {
-        }
-
-        
-
-        
-
-        private static void create_calendar()
-        {
-            
-        }
     }
 }

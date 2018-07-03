@@ -33,5 +33,12 @@ namespace cleaning_rota
 3. Thrice-monthly
 4. Weekly
 {1}";
+
+        public const string user_menu = @":
+1. Exempt from room
+2. Amend name
+3. Delete user
+4. Main menu
+{0}";
     }
 }

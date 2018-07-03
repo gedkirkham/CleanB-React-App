@@ -38,7 +38,7 @@ namespace cleaning_rota
                         break;
                     case "4":
                     case "logout":
-                        Program.Logout();
+                        Logout.User_logout();
                         break;
                     default:
                         Console.WriteLine(Constants.option_was_not_recognised);
@@ -95,14 +95,7 @@ namespace cleaning_rota
             do
             {
                 Console.WriteLine();
-                Console.Write(
-                    _cleaners_name + @":
-                    1. Exempt from room
-                    2. Amend name
-                    3. Delete user
-                    4. Main menu
-                    {0}", Constants.select
-                );
+                Console.Write(_cleaners_name + Constants.user_menu, Constants.select);
 
                 var menu_user_input = Console.ReadLine() ?? String.Empty;
                 switch (menu_user_input)
