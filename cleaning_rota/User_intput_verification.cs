@@ -14,6 +14,7 @@ namespace cleaning_rota
                 case "N":
                     break;
                 default:
+                    Console.WriteLine();
                     Console.WriteLine(Constants.option_was_not_recognised);
                     flag = true;
                     break;
@@ -30,6 +31,7 @@ namespace cleaning_rota
             }
             else
             {
+                Console.WriteLine();
                 Console.WriteLine(Constants.option_was_not_a_number);
                 return (true,number);
             }
@@ -43,6 +45,7 @@ namespace cleaning_rota
                 case var n when _user_input > 0 && _user_input <= _menu_count:
                     break;
                 default:
+                    Console.WriteLine();
                     Console.WriteLine(Constants.option_was_out_of_range);
                     flag = true;
                     break;

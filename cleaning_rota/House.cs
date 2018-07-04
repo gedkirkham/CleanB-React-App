@@ -11,26 +11,6 @@ namespace cleaning_rota
 
         static Dictionary<string, Tuple<string, string>> house_dictionary = new Dictionary<string, Tuple<string, string>>();
         
-
-        //static public int room_count
-        //{
-        //    get
-        //    {
-        //        return room_count;
-        //    }
-        //    set
-        //    {                     
-        //        if (Int32.TryParse(value, out int converted_to_int))
-        //        {
-        //            room_count = converted_to_int;
-        //        }
-        //        else
-        //        {
-        //            throw new System.ArgumentException("Value needs to be a whole number.");
-        //        }
-        //    }            
-        //}
-
         static public void Add_room()
         {
             bool add_flag = false;
@@ -58,18 +38,6 @@ namespace cleaning_rota
                 Add_room_to_list(_room_name, _room_frequency);
 
             } while (Menu.Add_another(add_flag));
-
-            //static public void Set_room_frequency(String _input)
-            //{
-            //    if (int.TryParse(_input, out int output))
-            //    {
-            //        room_list.Add(_input);
-            //    }
-            //    else
-            //    {
-            //        throw new System.ArgumentException("Value needs to be a number.");
-            //    }
-            //}
         }
 
         static public void Add_room_to_list(string _room_name, string _room_frequency)
@@ -81,6 +49,25 @@ namespace cleaning_rota
             house_dictionary.Add(_room_name, tuple);
         }
             
+        static public string[] Get_room_list_array()
+        {
+            int array_length = Get_room_list_count();
+
+            string[] room_list_array = new string[Get_room_list_count()];
+            int i = 0;
+            foreach (var room in house_dictionary)
+            {
+                room_list_array[i] = room.Key;
+                i++;
+            }
+
+            return room_list_array;
+        }
+
+        static public string Print_room_list_array()
+        {
+            return string.Join(",", Get_room_list_array());
+        }
 
         static public void Get_room_list()
         {

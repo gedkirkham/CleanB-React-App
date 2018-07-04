@@ -80,6 +80,7 @@ namespace cleaning_rota
                     break;
                 case var n when menu_selection == ++cleaner_list_count:
                     Cleaner.Add_cleaner();
+                    Cleaner_menu();
                     break;
                 case var n when menu_selection == ++cleaner_list_count:
                     Main_menu();

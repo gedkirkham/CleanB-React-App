@@ -73,7 +73,8 @@ namespace cleaning_rota
         static public void Display_calendar()
         {
             Console.WriteLine();
-            Console.WriteLine("Displaying calendar...");
+            Console.WriteLine("Calendar:");
+            Console.WriteLine(House.Print_room_list_array());
         }
     }
 }
