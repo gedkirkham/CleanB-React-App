@@ -7,6 +7,7 @@ namespace cleaning_rota
     {
         static List<String> cleaner_list = new List<String>();
 
+
         static public void Add_cleaner_to_list(string _name)
         {
             cleaner_list.Add(_name);
@@ -15,6 +16,11 @@ namespace cleaning_rota
         static public int Get_cleaner_list_count()
         {
             return cleaner_list.Count;
+        }
+
+        static public List<String> Return_cleaner_list()
+        {
+            return cleaner_list;
         }
 
         static public void Get_cleaner_list()
@@ -77,6 +83,46 @@ namespace cleaning_rota
         static public int Get_user_list_length()
         {
             return cleaner_list.Count;
+        }
+
+        static public string Print_cleaner_list_array(int shift_number)
+        {
+            return string.Join(",", Get_valid_cleaner_list_array(shift_number));
+        }
+
+        static public List<string> Get_valid_cleaner_list_array(int shift_number)
+        {
+            //Create temp cleaner list so that it can be increased in size if required
+            List<String> cleaner_list_temp = new List<String>();
+
+            //When temp cleaner count is <= room count bulk up the list with current names
+            if (Get_cleaner_list_count() <= House.Get_room_list_count())
+            {
+                int y = 0;
+                int z = 0;
+                for(int room_list_count = House.Get_room_list_count(); room_list_count > cleaner_list_temp.Count;)
+                {
+                    if(y < cleaner_list.Count)
+                    {
+                        if (y + shift_number >= cleaner_list.Count)
+                        {
+                            cleaner_list_temp.Add(cleaner_list[0 + z]);
+                            y++;
+                            z++;
+                        } else if (y + shift_number < cleaner_list.Count)
+                        {
+                            cleaner_list_temp.Add(cleaner_list[y + shift_number]);
+                            y++;
+                        }
+                    } else
+                    {
+                        y = 0;
+                    }
+                }
+            }
+
+            //if cleaner count > room count, cut up the list but save place for next week so that flow carries on
+            return cleaner_list_temp;
         }
 
         internal static bool validate_cleaner(string v)

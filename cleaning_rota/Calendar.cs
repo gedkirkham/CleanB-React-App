@@ -8,6 +8,8 @@ namespace cleaning_rota
 {
     static public class Calendar
     {
+        static List<String> calendar_array = new List<String>();
+
         static public void Cleaner_andor_rooms_list_count_limit_check()
         {
             Console.WriteLine();
@@ -72,9 +74,41 @@ namespace cleaning_rota
 
         static public void Display_calendar()
         {
+            DateTime start_date = DateTime.Now;
+            DateTime end_date = DateTime.Now.AddMonths(2);
+
+            TimeSpan diff = end_date - start_date;
+            int days = diff.Days;
+
+            for (int i = 0; i <= days; i++)
+            {
+                var weekend_date = start_date.AddDays(i);
+                switch (weekend_date.DayOfWeek)
+                {
+                    case DayOfWeek.Saturday:
+                        calendar_array.Add(weekend_date.ToShortDateString());
+                        break;
+                }
+            }
+
             Console.WriteLine();
             Console.WriteLine("Calendar:");
-            Console.WriteLine(House.Print_room_list_array());
+            Console.WriteLine("Date," + House.Print_room_list_array());
+
+            int shift_number = 0;
+            foreach (var date in calendar_array)
+            {
+                if(shift_number < Cleaner.Get_cleaner_list_count())
+                {
+                    Console.WriteLine(date + "," + Cleaner.Print_cleaner_list_array(shift_number));
+                    shift_number++;
+                } else
+                {
+                    shift_number = 0;
+                    Console.WriteLine(date + "," + Cleaner.Print_cleaner_list_array(shift_number));
+                }
+                
+            }
         }
     }
 }
