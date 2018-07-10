@@ -121,7 +121,34 @@ namespace cleaning_rota
                 }
             }
 
-            //if cleaner count > room count, cut up the list but save place for next week so that flow carries on
+            //If cleaner count > room count, cut up the list but save place for next week so that flow carries on
+            if (Get_cleaner_list_count() > House.Get_room_list_count())
+            {
+                int y = 0;
+                int z = 0;
+
+                for(int i = 0; i < House.Get_room_list_count(); i++)
+                {
+                    if (y < cleaner_list.Count)
+                    {
+                        if (y + shift_number < cleaner_list.Count)
+                        {
+                            cleaner_list_temp.Add(cleaner_list[y + shift_number]);
+                            y++;
+                        } else if (y + shift_number >= cleaner_list.Count)
+                        {
+                            cleaner_list_temp.Add(cleaner_list[0 + z]);
+                            y++;
+                            z++;
+                        }
+                    }
+                    else
+                    {
+                        y = 0;
+                    }
+                }
+            }
+
             return cleaner_list_temp;
         }
 

@@ -106,6 +106,7 @@ namespace cleaning_rota
                 {
                     shift_number = 0;
                     Console.WriteLine(date + "," + Cleaner.Print_cleaner_list_array(shift_number));
+                    shift_number++;
                 }
                 
             }
