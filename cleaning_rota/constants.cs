@@ -28,10 +28,10 @@ namespace cleaning_rota
 4. Logout";
 
         public const string cleaning_frequency_menu_text = @"How frequently should {0} be cleaned?
-1. Monthly
-2. Semi-monthly
-3. Thrice-monthly
-4. Weekly
+1. Weekly
+2. Thrice-monthly
+3. Semi-monthly
+4. Monthly
 {1}";
 
         public const string user_menu = @":

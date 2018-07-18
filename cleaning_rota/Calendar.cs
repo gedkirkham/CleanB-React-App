@@ -95,55 +95,84 @@ namespace cleaning_rota
             Console.WriteLine("Date," + House.Print_room_list_array());
 
             byte shift_number = 0;
+            byte week_counter = 1;
+            byte room = 0;
             foreach (var date in calendar_array)
             {
                 if(shift_number < Cleaner.Get_cleaner_list_count())
                 {
-                    Console.WriteLine(date + "," + Print_cleaner_list_array(shift_number));
-                    shift_number++;
+                    Console.WriteLine(date + "," + Print_cleaner_list_array(shift_number, week_counter, room));
                 } else
                 {
                     shift_number = 0;
-                    Console.WriteLine(date + "," + Print_cleaner_list_array(shift_number));
-                    shift_number++;
+                    Console.WriteLine(date + "," + Print_cleaner_list_array(shift_number, week_counter, room));
+                }
+                shift_number++;
+                room = 0;
+
+                if (week_counter > 3){
+                    week_counter = 1;
+                } else{
+                    week_counter++;
                 }
             }
         }
 
-        static public string Print_cleaner_list_array(byte shift_number)
+        static public string Print_cleaner_list_array(byte shift_number, byte week_counter, byte room)
         {
-            return string.Join(",", Create_calendar_row(shift_number));
+            return string.Join(",", Create_calendar_row(shift_number, week_counter, room));
         }
 
-        static public List<string> Create_calendar_row(byte shift_number)
+        static public List<string> Create_calendar_row(byte shift_number, byte week_counter, byte _room)//duplication of code when cleaning room depending on frequency? Push out to a method?
         {
             //Create temp cleaner list so that it can be increased in size if required
             List<String> cleaner_list_temp = new List<String>();
+
+            string[] room_frequency_array = House.Get_room_frequency();
 
             //When temp cleaner count is <= room count bulk up the list with current names
             if (Cleaner.Get_cleaner_list_count() <= House.Get_room_list_count())
             {
                 byte y = 0;
                 byte z = 0;
-                for (int room_list_count = House.Get_room_list_count(); room_list_count > cleaner_list_temp.Count;)
+                byte room = _room;
+
+                for (int room_list_count = House.Get_room_list_count(); room_list_count > cleaner_list_temp.Count; room++)
                 {
+                    string room_frequency = room_frequency_array[room];
+
                     if (y < Cleaner.Get_cleaner_list_count())
                     {
-                        if (y + shift_number >= Cleaner.Get_cleaner_list_count())
+                        if (y + shift_number < Cleaner.Get_cleaner_list_count())
                         {
-                            cleaner_list_temp.Add(Cleaner.Get_cleaner(z + 1));
+                            //Add cleaner dependent on room freuency
+                            if (room_frequency.Equals("1") || room_frequency.Equals("2") && week_counter != 4 || room_frequency.Equals("3") && week_counter != 2 && week_counter != 4 || room_frequency.Equals("4") && week_counter == 1)
+                            {
+                                cleaner_list_temp.Add(Cleaner.Get_cleaner(y + 1 + shift_number));
+                            } else
+                            {
+                                cleaner_list_temp.Add(null);
+                            }
+                            y++;
+                        }
+                        else if (y + shift_number >= Cleaner.Get_cleaner_list_count())
+                        { 
+                            if (room_frequency.Equals("1") || room_frequency.Equals("2") && week_counter != 4 || room_frequency.Equals("3") && week_counter != 2 && week_counter != 4 || room_frequency.Equals("4") && week_counter == 1)
+                            {
+                                cleaner_list_temp.Add(Cleaner.Get_cleaner(z + 1));
+                            }
+                            else
+                            {
+                                cleaner_list_temp.Add(null);
+                            }
                             y++;
                             z++;
-                        }
-                        else if (y + shift_number < Cleaner.Get_cleaner_list_count())
-                        {
-                            cleaner_list_temp.Add(Cleaner.Get_cleaner(y + 1 + shift_number));
-                            y++;
                         }
                     }
                     else
                     {
                         y = 0;
+                        room--;
                     }
                 }
             }
@@ -156,16 +185,32 @@ namespace cleaning_rota
 
                 for (byte i = 0; i < House.Get_room_list_count(); i++)
                 {
+                    string room_frequency = room_frequency_array[room];
                     if (y < Cleaner.Get_cleaner_list_count())
                     {
                         if (y + shift_number < Cleaner.Get_cleaner_list_count())
                         {
-                            cleaner_list_temp.Add(Cleaner.Get_cleaner(y + 1 + shift_number));
+                            //Add cleaner dependent on room freuency
+                            if (room_frequency.Equals("1") || room_frequency.Equals("2") && week_counter != 4 || room_frequency.Equals("3") && week_counter != 2 && week_counter != 4 || room_frequency.Equals("4") && week_counter == 1)
+                            {
+                                cleaner_list_temp.Add(Cleaner.Get_cleaner(y + 1 + shift_number));
+                            }
+                            else
+                            {
+                                cleaner_list_temp.Add(null);
+                            }
                             y++;
                         }
                         else if (y + shift_number >= Cleaner.Get_cleaner_list_count())
                         {
-                            cleaner_list_temp.Add(Cleaner.Get_cleaner(z + 1));
+                            if (room_frequency.Equals("1") || room_frequency.Equals("2") && week_counter != 4 || room_frequency.Equals("3") && week_counter != 2 && week_counter != 4 || room_frequency.Equals("4") && week_counter == 1)
+                            {
+                                cleaner_list_temp.Add(Cleaner.Get_cleaner(z + 1));
+                            }
+                            else
+                            {
+                                cleaner_list_temp.Add(null);
+                            }
                             y++;
                             z++;
                         }
@@ -173,6 +218,7 @@ namespace cleaning_rota
                     else
                     {
                         y = 0;
+                        room--;
                     }
                 }
             }

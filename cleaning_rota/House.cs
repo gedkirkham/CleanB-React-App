@@ -42,17 +42,12 @@ namespace cleaning_rota
 
         static public void Add_room_to_list(string _room_name, string _room_frequency)
         {
-            String room_name = _room_name;
-            String _room_frequency2 = _room_frequency;
-
-            var tuple = new Tuple<string, string>(room_name, _room_frequency2);
+            var tuple = new Tuple<string, string>(_room_name, _room_frequency);
             house_dictionary.Add(_room_name, tuple);
         }
             
         static public string[] Get_room_list_array()
         {
-            int array_length = Get_room_list_count();
-
             string[] room_list_array = new string[Get_room_list_count()];
             int i = 0;
             foreach (var room in house_dictionary)
@@ -117,37 +112,29 @@ namespace cleaning_rota
 
         public static (string, string) Get_room(String _input)
         {
-            //Console.WriteLine(room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple));
-            //Console.WriteLine("{0} - {1} - {2}", tuple.Item1, tuple.Item2, tuple.Item3.ToString());
-            //String output = room_dictionary.TryGetValue(_input, out Tuple<string, string> tuple);
-
             (string room_name, string room_frequency) = house_dictionary[_input];
 
             return (room_name, room_frequency);
         }
 
-        //foreach (KeyValuePair<string, Int16> author in AuthorList)
-        //{
+        public static string[] Get_room_frequency()
+        {
+            string room_name;
+            string room_frequency;
+            int i = 0;
+            string[] room_frequency_array = new string[house_dictionary.Count];
 
-        //    Console.WriteLine("Key: {0}, Value: {1}",
-        //        author.Key, author.Value);
-        //}
+            foreach (var room in house_dictionary)
+            {
+                (room_name, room_frequency) = room.Value;
+                room_frequency_array[i] = room_frequency;
+                i++;
+            }
 
+            return room_frequency_array;
+        }
 
-
-    //static public void Set_room_frequency(String _input)
-    //{
-    //    if (int.TryParse(_input, out int output))
-    //    {
-    //        room_list.Add(_input);
-    //    }
-    //    else
-    //    {
-    //        throw new System.ArgumentException("Value needs to be a number.");
-    //    }                
-    //}
-
-    internal static bool print_list()
+        internal static bool print_list()
         {
             throw new NotImplementedException();
         }
