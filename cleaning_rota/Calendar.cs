@@ -130,13 +130,13 @@ namespace cleaning_rota
 
             string[] room_frequency_array = House.Get_room_frequency();
 
+            byte y = 0;
+            byte z = 0;
+            byte room = _room;
+
             //When temp cleaner count is <= room count bulk up the list with current names
             if (Cleaner.Get_cleaner_list_count() <= House.Get_room_list_count())
             {
-                byte y = 0;
-                byte z = 0;
-                byte room = _room;
-
                 for (int room_list_count = House.Get_room_list_count(); room_list_count > cleaner_list_temp.Count; room++)
                 {
                     string room_frequency = room_frequency_array[room];
@@ -180,9 +180,6 @@ namespace cleaning_rota
             //If cleaner count > room count, ensure each room has an assigned cleaner, and shift assigned rooms per cleaner for the next week
             if (Cleaner.Get_cleaner_list_count() > House.Get_room_list_count())
             {
-                byte y = 0;
-                byte z = 0;
-
                 for (byte i = 0; i < House.Get_room_list_count(); i++)
                 {
                     string room_frequency = room_frequency_array[room];
