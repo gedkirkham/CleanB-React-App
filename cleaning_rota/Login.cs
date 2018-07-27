@@ -12,12 +12,12 @@ namespace cleaning_rota
         static public void User_login()
         {
             Console.Write("Email: ");
-            string email = Console.ReadLine() ?? string.Empty;
+            Email = Console.ReadLine() ?? string.Empty;
 
             Console.Write("Password: ");
-            string password = Console.ReadLine() ?? string.Empty;
+            Password = Console.ReadLine() ?? string.Empty;
 
-            string login_hash = email + password;
+            string login_hash = Email + Password;
             int _hash = login_hash.GetHashCode();
             string hash = _hash.ToString();
 
@@ -25,12 +25,25 @@ namespace cleaning_rota
 
             if (Verify_hash(hash))
             {
-                Set_user_data(email);
+                Set_user_data(Email);
             }
         }
 
+        static public string Password
+        {
+            get;
+            private set;
+        }
+
+        static public string Email
+        {
+            get;
+            private set;
+        }
+
         static public void Set_user_data(string _email) {
-            if (_email.Equals("user01")) {
+            if (_email.Equals("user01"))
+            {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
 
@@ -38,7 +51,8 @@ namespace cleaning_rota
                 House.Add_room_to_list("Bedroom", "2");
                 House.Add_room_to_list("Lounge", "3");
                 House.Add_room_to_list("Garage", "4");
-            } else if (_email.Equals("user02"))
+            }
+            else if (_email.Equals("user02"))
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
@@ -48,7 +62,30 @@ namespace cleaning_rota
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom", "4");
             }
-        }
+            else if (_email.Equals("user03"))
+            {
+                Cleaner.Add_cleaner_to_list("Ged");
+                Cleaner.Add_cleaner_to_list("Razvan");
+                Cleaner.Add_cleaner_to_list("Tom");
+
+                House.Add_room_to_list("Kitchen", "1");
+                House.Add_room_to_list("Bedroom", "2");
+                House.Add_room_to_list("Lounge", "3");
+                House.Add_room_to_list("Garage", "4");
+            }
+            else if (_email.Equals("user04"))
+            {
+                Cleaner.Add_cleaner_to_list("Ged");
+                Cleaner.Add_cleaner_to_list("Razvan");
+                Cleaner.Add_cleaner_to_list("Tom");
+
+                House.Add_room_to_list("Kitchen", "1");
+                House.Add_room_to_list("Bedroom", "2");
+                House.Add_room_to_list("Lounge", "3");
+                House.Add_room_to_list("Garage", "4");
+                House.Add_room_to_list("Master Bedroom", "1");
+            }
+            }
 
 
         static public bool Verify_hash(string _hash)

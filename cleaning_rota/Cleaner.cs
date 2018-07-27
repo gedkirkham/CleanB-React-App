@@ -75,7 +75,7 @@ namespace cleaning_rota
 
         static public String Get_cleaner(int _input)
         {
-            string output = cleaner_list[--_input];
+            string output = cleaner_list[_input];
 
             return output;
         }

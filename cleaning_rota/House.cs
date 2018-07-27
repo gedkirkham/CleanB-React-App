@@ -5,10 +5,6 @@ namespace cleaning_rota
 {
     static public class House
     {
-
-        //static List<string> room_list;
-        //static Dictionary<string, List<string>> room_dictionary = new Dictionary<string, List<string>>();
-
         static Dictionary<string, Tuple<string, string>> house_dictionary = new Dictionary<string, Tuple<string, string>>();
         
         static public void Add_room()
