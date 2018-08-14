@@ -14,7 +14,7 @@ namespace cleaning_rota
             {
                 Console.WriteLine();
                 Console.Write("Name: ");
-                string _room_name = Console.ReadLine() ?? String.Empty; //add some error checking i.e. character count
+                string _room_name = Console.ReadLine() ?? String.Empty; // TODO: add some error checking i.e. character count
 
                 string _room_frequency;
                 bool number_validation_flag;
@@ -29,7 +29,7 @@ namespace cleaning_rota
                         _room_frequency = Console.ReadLine() ?? String.Empty;
                         (number_validation_flag, _room_frequency_converted) = User_input_verification.Number_validation(_room_frequency);
                     } while (number_validation_flag);
-                } while (User_input_verification.Number_range(_room_frequency_converted, 4));
+                } while (User_input_verification.Number_range(_room_frequency_converted, Constants.cleaning_frequency_menu_text_count));
 
                 Add_room_to_list(_room_name, _room_frequency);
 

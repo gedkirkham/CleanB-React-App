@@ -50,7 +50,7 @@ namespace cleaning_rota
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom", "2");
                 House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "4");
+                House.Add_room_to_list("Garage", "3");
             }
             else if (_email.Equals("user02"))
             {
@@ -60,7 +60,7 @@ namespace cleaning_rota
                 Cleaner.Add_cleaner_to_list("Peter");
 
                 House.Add_room_to_list("Kitchen", "1");
-                House.Add_room_to_list("Bedroom", "4");
+                House.Add_room_to_list("Bedroom", "3");
             }
             else if (_email.Equals("user03"))
             {
@@ -71,7 +71,7 @@ namespace cleaning_rota
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom", "2");
                 House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "4");
+                House.Add_room_to_list("Garage", "3");
             }
             else if (_email.Equals("user04"))
             {
@@ -82,10 +82,10 @@ namespace cleaning_rota
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom", "2");
                 House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "4");
+                House.Add_room_to_list("Garage", "3");
                 House.Add_room_to_list("Master Bedroom", "1");
             }
-            }
+        }
 
 
         static public bool Verify_hash(string _hash)

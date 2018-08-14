@@ -29,10 +29,11 @@ namespace cleaning_rota
 
         public const string cleaning_frequency_menu_text = @"How frequently should {0} be cleaned?
 1. Weekly
-2. Thrice-monthly
-3. Semi-monthly
-4. Monthly
+2. Semi-monthly
+3. Monthly
 {1}";
+
+        public const int cleaning_frequency_menu_text_count = 3;
 
         public const string user_menu = @":
 1. Exempt from room
