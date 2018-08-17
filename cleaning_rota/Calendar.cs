@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace cleaning_rota
 {
-    static public class Calendar
+    public class Calendar
     {
         static List<String> calendar_date_array = new List<String>();
         static List<String> cleaner_list_temp = new List<String>();
-        
 
         static public void Cleaner_andor_rooms_list_count_limit_check()
         {
@@ -94,6 +93,12 @@ namespace cleaning_rota
             }
         }
 
+        static public string[,] Calendar_2d_array
+        {
+            get;
+            private set;
+        }
+
         static public void Display_calendar()
         {
             Console.WriteLine();
@@ -101,21 +106,21 @@ namespace cleaning_rota
 
             Calendar_count(4);
 
-            string[,] calendar = new string[calendar_date_array.Count + 1, House.Get_room_list_count() + 1];
+            Calendar_2d_array = new string[calendar_date_array.Count + 1, House.Get_room_list_count() + 1];
 
-            calendar[0, 0] = "Date";
+            Calendar_2d_array[0, 0] = "Date";
 
             byte calendar_index = 1;
             foreach (var date in calendar_date_array)
             {
-                calendar[calendar_index, 0] = date;
+                Calendar_2d_array[calendar_index, 0] = date;
                 calendar_index++;
             }
 
             calendar_index = 1;
             foreach (var room in House.Get_room_list_array())
             {
-                calendar[0, calendar_index] = room;
+                Calendar_2d_array[0, calendar_index] = room;
                 calendar_index++;
             }
 
@@ -142,7 +147,7 @@ namespace cleaning_rota
                         {
                             cleaner_index = 0;
 
-                            if (Cleaner.Get_cleaner(cleaner_index) == calendar[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count <= 1)
+                            if (Cleaner.Get_cleaner(cleaner_index) == Calendar_2d_array[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count <= 1)
                             {
                                 cleaner_index++;
                             }
@@ -181,7 +186,7 @@ namespace cleaning_rota
                         {
                             cleaner_index = 0;
 
-                            if (Cleaner.Get_cleaner(cleaner_index) == calendar[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count == 0)
+                            if (Cleaner.Get_cleaner(cleaner_index) == Calendar_2d_array[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count == 0)
                             {
                                 cleaner_index++;
                             }
@@ -222,7 +227,7 @@ namespace cleaning_rota
                         {
                             cleaner_index = 0;
 
-                            if (Cleaner.Get_cleaner(cleaner_index) == calendar[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count <= 1)
+                            if (Cleaner.Get_cleaner(cleaner_index) == Calendar_2d_array[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count <= 1)
                             {
                                 cleaner_index++;
                             }
@@ -276,9 +281,9 @@ namespace cleaning_rota
                     string cleaner = cleaner_list_temp[cleaner_list_counter];
                     if (room_incrementor > 0 && cleaner_list_counter == 0)
                     {
-                        for (int room_cleaner_counter = 0; room_cleaner_counter < calendar.GetLength(1); room_cleaner_counter++)
+                        for (int room_cleaner_counter = 0; room_cleaner_counter < Calendar_2d_array.GetLength(1); room_cleaner_counter++)
                         {
-                            if (cleaner == calendar[cleaner_list_counter + 1, room_cleaner_counter])
+                            if (cleaner == Calendar_2d_array[cleaner_list_counter + 1, room_cleaner_counter])
                             {
                                 duplicate_counter++;
                             }
@@ -293,18 +298,18 @@ namespace cleaning_rota
                     if (duplicate == true && cleaner_list_counter == 0)
                     {
                         duplicate_prevention_counter++;
-                        calendar[cleaner_list_counter + duplicate_prevention_counter + 1, room_incrementor + 1] = cleaner;
+                        Calendar_2d_array[cleaner_list_counter + duplicate_prevention_counter + 1, room_incrementor + 1] = cleaner;
                     }
                     else
                     {
-                        calendar[cleaner_list_counter + duplicate_prevention_counter + 1, room_incrementor + 1] = cleaner;
+                        Calendar_2d_array[cleaner_list_counter + duplicate_prevention_counter + 1, room_incrementor + 1] = cleaner;
                     }
                 }
 
                 room_incrementor++;
             }
 
-            Print_calendar_to_file(calendar);
+            Print_calendar_to_file(Calendar_2d_array);
         }
 
         static public void Print_calendar_to_file(string[,] calendar)

@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace cleaning_rota
 {
-    static public class Login
+    public class Login
     {
         static public void User_login()
         {
             Console.Write("Email: ");
-            Email = Console.ReadLine() ?? string.Empty;
+            string user_email = Console.ReadLine() ?? string.Empty;
+            Set_user_email(user_email);
 
             Console.Write("Password: ");
             Password = Console.ReadLine() ?? string.Empty;
@@ -21,12 +22,15 @@ namespace cleaning_rota
             int _hash = login_hash.GetHashCode();
             string hash = _hash.ToString();
 
-            Console.Write(hash);
-
             if (Verify_hash(hash))
             {
                 Set_user_data(Email);
             }
+        }
+
+        static public void Set_user_email(string _email)
+        {
+            Email = _email;
         }
 
         static public string Password
@@ -107,12 +111,12 @@ namespace cleaning_rota
 
             if (login_hash_array.Contains(_hash))
             {
-                Console.Write("Success");
+                Console.Write("Welcome back " + Email + ".");
                 return true;
             }
             else
             {
-                Console.Write("Failed");
+                Console.Write("Incorrect log-in.");
                 return false;
             }
         }
