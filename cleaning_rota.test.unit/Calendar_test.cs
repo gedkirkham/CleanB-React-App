@@ -6,21 +6,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
+using cleaning_rota;
 
 namespace cleaning_rota.test.unit
 {
     [TestClass]
     public class Calendar_test
     {
-        private readonly Login _Login = new Login();
-        private readonly Calendar _Calendar = new Calendar();
-        private int row_length = 18;
-        private int column_length = 5;
+        private int row_length;
+        private int column_length;
 
-        [TestMethod]
-        public void Calendar_output_user01()
+        [TestInitialize]
+        public void TestInitialise()
         {
-            string user = "user01";
+            row_length = 0;
+            column_length = 0;
+            House.house_dictionary.Clear();
+        }
+
+        public void Calendar_output(string user, bool positive)
+        {
             Login.Set_user_email(user);
             Login.Set_user_data(user);
             Calendar.Display_calendar();
@@ -28,16 +33,27 @@ namespace cleaning_rota.test.unit
             string[,] actual_calendar = Calendar.Calendar_2d_array;
             string[,] expected_calendar = new string[row_length, column_length];
 
-            using (var reader = new StreamReader(@"../../expected_output/user01_calendar.csv"))
+            using (var readers = new StreamReader(@"../../expected_output/" + user + "_calendar.csv"))
             {
+                while (readers.ReadLine() != null)
+                {
+                    row_length++;
+                }
+                row_length--;
+            }
+
+            using (var reader = new StreamReader(@"../../expected_output/" + user + "_calendar.csv"))
+            {
+                
                 for (int current_row = 0; current_row < row_length; current_row++)
                 {
                     var line = reader.ReadLine();
                     var values = line.Split(',');
+                    column_length -= values.Count();
 
                     for (int current_column = 0; current_column < column_length; current_column++)
                     {
-                        if(values[current_column] == String.Empty)
+                        if (values[current_column] == String.Empty)
                         {
                             values[current_column] = null;
                         }
@@ -47,37 +63,50 @@ namespace cleaning_rota.test.unit
                 }
             }
 
-
-            string null_string = null;
-            //string[,] expected_calendar = {
-            //  {"Date","Kitchen","Bedroom","Lounge","Garage"},
-            //  {"00/00/0000","Ged","Razvan",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,"Ged","Razvan"},
-            //  {"00/00/0000","Ged","Ged",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,null_string,null_string},
-            //  {"00/00/0000","Ged","Razvan",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,"Razvan","Ged"},
-            //  {"00/00/0000","Ged","Ged",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,null_string,null_string},
-            //  {"00/00/0000","Ged","Razvan",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,"Ged","Razvan"},
-            //  {"00/00/0000","Ged","Ged",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,null_string,null_string},
-            //  {"00/00/0000","Ged","Razvan",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,"Razvan","Ged"},
-            //  {"00/00/0000","Ged","Ged",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,null_string,null_string},
-            //  {"00/00/0000","Ged","Razvan",null_string,null_string},
-            //  {"00/00/0000","Razvan",null_string,"Ged","Razvan"}
-            //};
-
             for (int column = 1; column < expected_calendar.GetLength(1); column++)
             {
                 for (int row = 0; row < expected_calendar.GetLength(0); row++)
                 {
-                    Assert.AreEqual(expected_calendar[row, column], actual_calendar[row, column]);
+                    if(positive = true)
+                    {
+                        Assert.AreEqual(expected_calendar[row, column], actual_calendar[row, column]);
+                    }
+                    else if(positive = false)
+                    {
+                        Assert.AreNotEqual(expected_calendar[row, column], actual_calendar[row, column]);
+                    }
                 }
             }
+        }
+
+        [TestMethod]
+        public void Calendar_output_user01()
+        {
+            Calendar_output("user01",true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user02()
+        {
+            Calendar_output("user02",true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user03()
+        {
+            Calendar_output("user03",true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user04()
+        {
+            Calendar_output("user04",true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user05()
+        {
+            Calendar_output("negative_test",false);
         }
     }
 }
