@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace cleaning_rota
 {
-    static public class House
+    public class House
     {
-        static Dictionary<string, Tuple<string, string>> house_dictionary = new Dictionary<string, Tuple<string, string>>();
-        
+        public static Dictionary<string, Tuple<string, string>> house_dictionary = new Dictionary<string, Tuple<string, string>>();
+
         static public void Add_room()
         {
             bool add_flag = false;

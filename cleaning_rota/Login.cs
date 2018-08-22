@@ -22,6 +22,7 @@ namespace cleaning_rota
             int _hash = login_hash.GetHashCode();
             string hash = _hash.ToString();
 
+            Console.Write(hash);
             if (Verify_hash(hash))
             {
                 Set_user_data(Email);
@@ -88,6 +89,17 @@ namespace cleaning_rota
                 House.Add_room_to_list("Lounge", "3");
                 House.Add_room_to_list("Garage", "3");
                 House.Add_room_to_list("Master Bedroom", "1");
+            }
+            else if (_email.Equals("negative_test"))
+            {
+                Cleaner.Add_cleaner_to_list("Ged");
+                Cleaner.Add_cleaner_to_list("Razvan");
+                Cleaner.Add_cleaner_to_list("Tom");
+
+                House.Add_room_to_list("Kitchen", "1");
+                House.Add_room_to_list("Bedroom", "2");
+                House.Add_room_to_list("Lounge", "3");
+                House.Add_room_to_list("Garage", "3");
             }
         }
 
