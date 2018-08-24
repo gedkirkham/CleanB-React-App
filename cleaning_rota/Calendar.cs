@@ -104,7 +104,7 @@ namespace cleaning_rota
             Console.WriteLine();
             Console.WriteLine("Calendar:");
 
-            Calendar_count(4);
+            Calendar_count(1);
 
             Calendar_2d_array = new string[calendar_date_array.Count + 1, House.Get_room_list_count() + 1];
 
@@ -127,6 +127,9 @@ namespace cleaning_rota
             byte room_incrementor = 0;
             var null_check = String.Empty;
             bool duplicate = false;
+            int duplicate_prevention_counter = 0;
+            int counter_temp = 0;
+            int dup_temp = 0;
 
             //assign cleaners to room and apply shift to reduce chance of a cleaner cleaning the same room
             foreach (var room in House.Get_room_list_array())
@@ -141,6 +144,11 @@ namespace cleaning_rota
 
                 foreach (var date in calendar_date_array)
                 {
+                    if (room_incrementor == 3)
+                    {
+                        Console.Write("");
+                    }
+
                     if (room_frequency.Equals("1"))
                     {
                         if (cleaner_index >= Cleaner.Get_cleaner_list_count())
@@ -272,32 +280,55 @@ namespace cleaning_rota
                         week_counter++;
                     }
                 }
-                
+
                 //shift cleaner to new row if duplication would occur.
-                int duplicate_prevention_counter = 0;
+                
+                int cleaner_list_counter_method = Cleaner.Get_cleaner_list_count();
+                if (room_incrementor == 3)
+                {
+                    Console.Write("");
+                }
+
+                if (counter_temp <= Cleaner.Get_cleaner_list_count() && dup_temp % 2 == 0)
+                {
+                    duplicate = true;
+                    duplicate_prevention_counter = 1;
+                    counter_temp++;
+                } else
+                {
+                    duplicate = false;
+                    duplicate_prevention_counter = 0;
+                    counter_temp++;
+                }
+
+                if(counter_temp >= Cleaner.Get_cleaner_list_count())
+                {
+                    counter_temp = 0;
+                    dup_temp++;
+                }
+
                 int duplicate_counter = 0;
                 for (int cleaner_list_counter = 0; cleaner_list_counter + duplicate_prevention_counter < cleaner_list_temp.Count; cleaner_list_counter++)
                 {
                     string cleaner = cleaner_list_temp[cleaner_list_counter];
-                    if (room_incrementor > 0 && cleaner_list_counter == 0)
-                    {
-                        for (int room_cleaner_counter = 0; room_cleaner_counter < Calendar_2d_array.GetLength(1); room_cleaner_counter++)
-                        {
-                            if (cleaner == Calendar_2d_array[cleaner_list_counter + 1, room_cleaner_counter])
-                            {
-                                duplicate_counter++;
-                            }
+                //    if (room_incrementor > 0 && cleaner_list_counter == 0)
+                //    {
+                //        for (int room_cleaner_counter = 0; room_cleaner_counter < Calendar_2d_array.GetLength(1); room_cleaner_counter++)
+                //        {
+                //            if (cleaner == Calendar_2d_array[cleaner_list_counter + 1, room_cleaner_counter])
+                //            {
+                //                duplicate_counter++;
+                //            }
 
-                            if (duplicate_counter >= Cleaner.Get_cleaner_list_count() / 2)
-                            {
-                                duplicate = true;
-                            }
-                        }
-                    }
+                //            if (duplicate_counter >= Cleaner.Get_cleaner_list_count() / 2)
+                //            {
+                //                duplicate = true;
+                //            }
+                //        }
+                //    }
 
                     if (duplicate == true && cleaner_list_counter == 0)
                     {
-                        duplicate_prevention_counter++;
                         Calendar_2d_array[cleaner_list_counter + duplicate_prevention_counter + 1, room_incrementor + 1] = cleaner;
                     }
                     else

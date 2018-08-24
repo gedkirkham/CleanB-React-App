@@ -67,11 +67,11 @@ namespace cleaning_rota.test.unit
             {
                 for (int row = 0; row < expected_calendar.GetLength(0); row++)
                 {
-                    if(positive = true)
+                    if(positive == true)
                     {
                         Assert.AreEqual(expected_calendar[row, column], actual_calendar[row, column]);
                     }
-                    else if(positive = false)
+                    else if(positive == false)
                     {
                         Assert.AreNotEqual(expected_calendar[row, column], actual_calendar[row, column]);
                     }
@@ -105,6 +105,12 @@ namespace cleaning_rota.test.unit
 
         [TestMethod]
         public void Calendar_output_user05()
+        {
+            Calendar_output("user05", true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_negative_test()
         {
             Calendar_output("negative_test",false);
         }
