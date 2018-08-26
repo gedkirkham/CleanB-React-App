@@ -5,7 +5,7 @@ namespace cleaning_rota
 {
     public class House
     {
-        public static Dictionary<string, Tuple<string, string>> house_dictionary = new Dictionary<string, Tuple<string, string>>();
+        public static Dictionary<string, Tuple<string, string, List<string>>> house_dictionary = new Dictionary<string, Tuple<string, string, List<string>>>();
 
         static public void Add_room()
         {
@@ -17,6 +17,7 @@ namespace cleaning_rota
                 string _room_name = Console.ReadLine() ?? String.Empty; // TODO: add some error checking i.e. character count
 
                 string _room_frequency;
+                List<string> exclusion_list = new List<string>();
                 bool number_validation_flag;
                 int _room_frequency_converted;
                 do
@@ -31,14 +32,14 @@ namespace cleaning_rota
                     } while (number_validation_flag);
                 } while (User_input_verification.Number_range(_room_frequency_converted, Constants.cleaning_frequency_menu_text_count));
 
-                Add_room_to_list(_room_name, _room_frequency);
+                Add_room_to_list(_room_name, _room_frequency, exclusion_list);
 
             } while (Menu.Add_another(add_flag));
         }
 
-        static public void Add_room_to_list(string _room_name, string _room_frequency)
+        static public void Add_room_to_list(string _room_name, string _room_frequency, List<string> _exclusion_list)
         {
-            var tuple = new Tuple<string, string>(_room_name, _room_frequency);
+            var tuple = new Tuple<string, string, List<string>>(_room_name, _room_frequency, _exclusion_list);
             house_dictionary.Add(_room_name, tuple);
         }
             
@@ -64,6 +65,7 @@ namespace cleaning_rota
         {
             string room_name;
             string room_frequency;
+            List<string> exclusion_list;
 
             if (house_dictionary.Count > 0)
             {
@@ -71,7 +73,7 @@ namespace cleaning_rota
                 foreach (var room in house_dictionary)
                 {
                     i++;
-                    (room_name, room_frequency) = room.Value;
+                    (room_name, room_frequency, exclusion_list) = room.Value;
                     Console.WriteLine("{0}. {1}", i, room_name);
                 }
             }
@@ -106,23 +108,24 @@ namespace cleaning_rota
             return _user_input;
         }
 
-        public static (string, string) Get_room(String _input)
+        public static (string, string, List<string>) Get_room(string _input)
         {
-            (string room_name, string room_frequency) = house_dictionary[_input];
+            (string room_name, string room_frequency, List<string> exclusion_list) = house_dictionary[_input];
 
-            return (room_name, room_frequency);
+            return (room_name, room_frequency, exclusion_list);
         }
 
         public static string[] Get_room_frequency()
         {
             string room_name;
             string room_frequency;
+            List<string> exclusion_list;
             int i = 0;
             string[] room_frequency_array = new string[house_dictionary.Count];
 
             foreach (var room in house_dictionary)
             {
-                (room_name, room_frequency) = room.Value;
+                (room_name, room_frequency, exclusion_list) = room.Value;
                 room_frequency_array[i] = room_frequency;
                 i++;
             }
@@ -130,14 +133,22 @@ namespace cleaning_rota
             return room_frequency_array;
         }
 
-        internal static bool print_list()
+        public static void Add_cleaner_to_exemption_list(string _cleaner, string _room_name)
         {
-            throw new NotImplementedException();
+            (string room_name, string room_frequency, List<string> exclusion_list) = Get_room(_room_name);
+            exclusion_list.Add(_cleaner);
+            var tuple = new Tuple<string, string, List<string>>(_room_name, room_frequency, exclusion_list);
+
+            house_dictionary[_room_name] = tuple;
         }
 
-        internal static bool validate_room(string v)
+        public static void Remove_cleaner_from_exemption_list(string _cleaner_name, string _room_name)
         {
-            throw new NotImplementedException();
+            (string room_name, string room_frequency, List<string> exclusion_list) = Get_room(_room_name);
+            exclusion_list.Remove(_cleaner_name);
+            var tuple = new Tuple<string, string, List<string>>(_room_name, room_frequency, exclusion_list);
+
+            house_dictionary[_room_name] = tuple;
         }
     }
 }

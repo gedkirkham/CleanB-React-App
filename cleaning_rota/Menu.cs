@@ -108,7 +108,7 @@ namespace cleaning_rota
                             Room_menu();
                             Console.Write(Constants.select);
                             var user_room_select = Console.ReadLine();
-                            (string room_name, string room_frequency) = House.Get_room(user_room_select);
+                            (string room_name, string room_frequency, List<string> exclusion_list) = House.Get_room(user_room_select);
                             Console.WriteLine(_cleaners_name + " is exempt from " + room_name);
 
                             var exempt_user_input = String.Empty;

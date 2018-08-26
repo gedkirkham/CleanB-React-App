@@ -47,15 +47,17 @@ namespace cleaning_rota
         }
 
         static public void Set_user_data(string _email) {
+            List<string> exclusion_list = new List<string>();
+
             if (_email.Equals("user01"))
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
 
-                House.Add_room_to_list("Kitchen", "1");
-                House.Add_room_to_list("Bedroom", "2");
-                House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "3");
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom", "2", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
             }
             else if (_email.Equals("user02"))
             {
@@ -64,8 +66,8 @@ namespace cleaning_rota
                 Cleaner.Add_cleaner_to_list("Ali");
                 Cleaner.Add_cleaner_to_list("Peter");
 
-                House.Add_room_to_list("Kitchen", "1");
-                House.Add_room_to_list("Bedroom", "3");
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom", "3", exclusion_list);
             }
             else if (_email.Equals("user03"))
             {
@@ -73,10 +75,10 @@ namespace cleaning_rota
                 Cleaner.Add_cleaner_to_list("Razvan");
                 Cleaner.Add_cleaner_to_list("Ali");
 
-                House.Add_room_to_list("Kitchen", "1");
-                House.Add_room_to_list("Bedroom", "2");
-                House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "3");
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom", "2", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
             }
             else if (_email.Equals("user04"))
             {
@@ -84,27 +86,27 @@ namespace cleaning_rota
                 Cleaner.Add_cleaner_to_list("Razvan");
                 Cleaner.Add_cleaner_to_list("Ali");
 
-                House.Add_room_to_list("Kitchen", "1");
-                House.Add_room_to_list("Bedroom", "2");
-                House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "3");
-                House.Add_room_to_list("Master Bedroom", "1");
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom", "2", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
+                House.Add_room_to_list("Master Bedroom", "1", exclusion_list);
             }
             else if (_email.Equals("user05"))
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
                 Cleaner.Add_cleaner_to_list("Ali");
-
-                House.Add_room_to_list("Kitchen", "1");
-                House.Add_room_to_list("Bedroom_1", "2");
-                House.Add_room_to_list("Bedroom_2", "3");
-                House.Add_room_to_list("Bedroom_3", "1");
-                House.Add_room_to_list("Bedroom_4", "2");
-                House.Add_room_to_list("Bedroom_5", "3");
-                House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "3");
-                House.Add_room_to_list("Master Bedroom", "1");
+                
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_1", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_2", "3", exclusion_list);
+                House.Add_room_to_list("Bedroom_3", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_4", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_5", "3", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
+                House.Add_room_to_list("Master Bedroom", "1", exclusion_list);
             }
             else if (_email.Equals("negative_test"))
             {
@@ -112,10 +114,10 @@ namespace cleaning_rota
                 Cleaner.Add_cleaner_to_list("Razvan");
                 Cleaner.Add_cleaner_to_list("Ali");
 
-                House.Add_room_to_list("Kitchen", "1");
-                House.Add_room_to_list("Bedroom", "2");
-                House.Add_room_to_list("Lounge", "3");
-                House.Add_room_to_list("Garage", "3");
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom", "2", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
             }
         }
 

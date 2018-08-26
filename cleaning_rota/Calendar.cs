@@ -192,7 +192,7 @@ namespace cleaning_rota
             foreach (var room in House.Get_room_list_array())
             {
                 var house_list_array = House.Get_room_list_array();
-                (string room_name, string room_frequency) = House.Get_room(house_list_array[room_incrementor]);
+                (string room_name, string room_frequency, List<string> exclusion_list) = House.Get_room(house_list_array[room_incrementor]);
                 cleaner_list_temp.Clear();
                 int cleaner_index = 0;
                 int week_counter = 1;
