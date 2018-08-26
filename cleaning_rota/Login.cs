@@ -61,7 +61,7 @@ namespace cleaning_rota
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
-                Cleaner.Add_cleaner_to_list("Tom");
+                Cleaner.Add_cleaner_to_list("Ali");
                 Cleaner.Add_cleaner_to_list("Peter");
 
                 House.Add_room_to_list("Kitchen", "1");
@@ -71,7 +71,7 @@ namespace cleaning_rota
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
-                Cleaner.Add_cleaner_to_list("Tom");
+                Cleaner.Add_cleaner_to_list("Ali");
 
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom", "2");
@@ -82,7 +82,7 @@ namespace cleaning_rota
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
-                Cleaner.Add_cleaner_to_list("Tom");
+                Cleaner.Add_cleaner_to_list("Ali");
 
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom", "2");
@@ -94,7 +94,7 @@ namespace cleaning_rota
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
-                Cleaner.Add_cleaner_to_list("Tom");
+                Cleaner.Add_cleaner_to_list("Ali");
 
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom_1", "2");
@@ -110,7 +110,7 @@ namespace cleaning_rota
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
-                Cleaner.Add_cleaner_to_list("Tom");
+                Cleaner.Add_cleaner_to_list("Ali");
 
                 House.Add_room_to_list("Kitchen", "1");
                 House.Add_room_to_list("Bedroom", "2");

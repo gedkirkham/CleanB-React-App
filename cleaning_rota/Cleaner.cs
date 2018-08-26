@@ -5,8 +5,14 @@ namespace cleaning_rota
 {
     static public class Cleaner
     {
-        static List<String> cleaner_list = new List<String>();
+        public static List<String> cleaner_list = new List<String>();
 
+        static public int Return_cleaner_index(string _name)
+        {
+            int index = cleaner_list.IndexOf(_name);
+
+            return index;
+        }
 
         static public void Add_cleaner_to_list(string _name)
         {

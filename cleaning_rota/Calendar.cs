@@ -9,7 +9,7 @@ namespace cleaning_rota
 {
     public class Calendar
     {
-        static List<String> calendar_date_array = new List<String>();
+        public static List<String> calendar_date_array = new List<String>();
         static List<String> cleaner_list_temp = new List<String>();
 
         static public void Cleaner_andor_rooms_list_count_limit_check()
@@ -73,10 +73,10 @@ namespace cleaning_rota
             }
         }
 
-        static public void Calendar_count(int _months)
+        static public void Calendar_count(byte _months)
         {
             DateTime start_date = DateTime.Now;
-            DateTime end_date = DateTime.Now.AddMonths(4);
+            DateTime end_date = DateTime.Now.AddMonths(_months);
 
             TimeSpan diff = end_date - start_date;
             int days = diff.Days;
@@ -99,18 +99,77 @@ namespace cleaning_rota
             private set;
         }
 
+        static public int Assign_cleaners_dependent_on_room_frequency(int cleaner_index, int room_incrementor, string room_frequency)
+        {
+            string null_check;
+
+            if (cleaner_list_temp.Count == 0)
+            {
+                int null_shifter = 0;
+                string previous_cleaner = Calendar_2d_array[null_shifter + 1, room_incrementor];
+
+                if (previous_cleaner == null)
+                {
+                    null_shifter++;
+                    previous_cleaner = Calendar_2d_array[null_shifter + 1, room_incrementor];
+                }
+
+                cleaner_index = Cleaner.Return_cleaner_index(previous_cleaner);
+                cleaner_index++;
+            }
+
+            if (cleaner_index >= Cleaner.Get_cleaner_list_count())
+            {
+                cleaner_index = 0;
+
+                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
+            }
+            else
+            {
+                null_check = String.Empty;
+                if (cleaner_list_temp.Count > 0)
+                {
+                    null_check = cleaner_list_temp[cleaner_list_temp.Count - 1];
+                }
+
+                if (null_check == null)
+                {
+
+                    if (cleaner_index >= Cleaner.Get_cleaner_list_count())
+                    {
+                        cleaner_index = 0;
+                    }
+
+                    if (room_frequency.Equals("1"))
+                    {
+                        cleaner_list_temp.Add(Cleaner.Get_cleaner(++cleaner_index));
+                    }
+                    else
+                    {
+                        cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
+                    }
+                }
+                else
+                {
+                    cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
+                }
+            }
+
+            return cleaner_index;
+        }
+
         static public void Display_calendar()
         {
             Console.WriteLine();
             Console.WriteLine("Calendar:");
 
-            Calendar_count(1);
+            Calendar_count(4);
 
             Calendar_2d_array = new string[calendar_date_array.Count + 1, House.Get_room_list_count() + 1];
 
             Calendar_2d_array[0, 0] = "Date";
 
-            byte calendar_index = 1;
+            int calendar_index = 1;
             foreach (var date in calendar_date_array)
             {
                 Calendar_2d_array[calendar_index, 0] = date;
@@ -124,147 +183,33 @@ namespace cleaning_rota
                 calendar_index++;
             }
 
-            byte room_incrementor = 0;
-            var null_check = String.Empty;
-            bool duplicate = false;
+            int room_incrementor = 0;
+            int duplicate_prevention_shifter = 0;
+            int duplicate_prevention_cleaner_counter = 0;
             int duplicate_prevention_counter = 0;
-            int counter_temp = 0;
-            int dup_temp = 0;
 
-            //assign cleaners to room and apply shift to reduce chance of a cleaner cleaning the same room
+            //assign cleaners to room dependent on room frequency
             foreach (var room in House.Get_room_list_array())
             {
                 var house_list_array = House.Get_room_list_array();
                 (string room_name, string room_frequency) = House.Get_room(house_list_array[room_incrementor]);
                 cleaner_list_temp.Clear();
-                byte cleaner_index = 0;
-                byte week_counter = 1;
-
-                cleaner_index += room_incrementor;
+                int cleaner_index = 0;
+                int week_counter = 1;
 
                 foreach (var date in calendar_date_array)
                 {
-                    if (room_incrementor == 3)
-                    {
-                        Console.Write("");
-                    }
-
                     if (room_frequency.Equals("1"))
                     {
-                        if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-                        {
-                            cleaner_index = 0;
-
-                            if (Cleaner.Get_cleaner(cleaner_index) == Calendar_2d_array[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count <= 1)
-                            {
-                                cleaner_index++;
-                            }
-
-                            cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
-                        }
-                        else
-                        {
-                            null_check = String.Empty;
-                            if (cleaner_list_temp.Count > 0)
-                            {
-                                null_check = cleaner_list_temp[cleaner_list_temp.Count - 1];
-                            }
-
-                            if (null_check == null)
-                            {
-                                cleaner_index++;
-
-                                if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-                                {
-                                    cleaner_index = 0;
-                                }
-
-                                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
-                            }
-                            else
-                            {
-                                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
-                            }
-                        }
+                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency);
                     }
                     else if (room_frequency.Equals("2") && week_counter != 2 && week_counter != 4)
                     {
-                        int count = Cleaner.Get_cleaner_list_count();
-                        if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-                        {
-                            cleaner_index = 0;
-
-                            if (Cleaner.Get_cleaner(cleaner_index) == Calendar_2d_array[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count == 0)
-                            {
-                                cleaner_index++;
-                            }
-
-                            cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
-                        }
-                        else
-                        {
-                            null_check = String.Empty;
-                            if (cleaner_list_temp.Count > 0)
-                            {
-                                null_check = cleaner_list_temp[cleaner_list_temp.Count - 1];
-                            }
-
-                            if (null_check == null)
-                            {
-                                if(cleaner_list_temp.Count > 2)
-                                {
-                                    cleaner_index++;
-                                }
-
-                                if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-                                {
-                                    cleaner_index = 0;
-                                }
-
-                                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
-                            }
-                            else
-                            {
-                                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
-                            }
-                        }
+                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency);
                     }
                     else if (room_frequency.Equals("3") && week_counter == 1)
                     {
-                        if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-                        {
-                            cleaner_index = 0;
-
-                            if (Cleaner.Get_cleaner(cleaner_index) == Calendar_2d_array[cleaner_index + 1, room_incrementor] && cleaner_list_temp.Count == 0 || duplicate == true && cleaner_list_temp.Count <= 1)
-                            {
-                                cleaner_index++;
-                            }
-
-                            cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
-                        }
-                        else
-                        {
-                            null_check = String.Empty;
-                            if (cleaner_list_temp.Count > 0)
-                            {
-                                null_check = cleaner_list_temp[cleaner_list_temp.Count - 1];
-                                if (null_check == null)
-                                {
-                                    cleaner_index++;
-
-                                    if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-                                    {
-                                        cleaner_index = 0;
-                                    }
-
-                                    cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
-                                }
-                            }
-                            else
-                            {
-                                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
-                            }
-                        }
+                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency);
                     }
                     else
                     {
@@ -281,63 +226,43 @@ namespace cleaning_rota
                     }
                 }
 
-                //shift cleaner to new row if duplication would occur.
-                
-                int cleaner_list_counter_method = Cleaner.Get_cleaner_list_count();
-                if (room_incrementor == 3)
+                //create a shift pattern so that work is distributed each time the cleaner cycle goes full circle
+                if (duplicate_prevention_counter % 2 == 0)
                 {
-                    Console.Write("");
-                }
-
-                if (counter_temp <= Cleaner.Get_cleaner_list_count() && dup_temp % 2 == 0)
-                {
-                    duplicate = true;
-                    duplicate_prevention_counter = 1;
-                    counter_temp++;
+                    duplicate_prevention_shifter = 1;
+                    duplicate_prevention_cleaner_counter++;
                 } else
                 {
-                    duplicate = false;
-                    duplicate_prevention_counter = 0;
-                    counter_temp++;
+                    duplicate_prevention_shifter = 0;
+                    duplicate_prevention_cleaner_counter++;
                 }
 
-                if(counter_temp >= Cleaner.Get_cleaner_list_count())
+                if(duplicate_prevention_cleaner_counter >= Cleaner.Get_cleaner_list_count())
                 {
-                    counter_temp = 0;
-                    dup_temp++;
+                    duplicate_prevention_cleaner_counter = 0;
+                    duplicate_prevention_counter++;
                 }
 
-                int duplicate_counter = 0;
-                for (int cleaner_list_counter = 0; cleaner_list_counter + duplicate_prevention_counter < cleaner_list_temp.Count; cleaner_list_counter++)
+                //generate calendar array
+                for (int cleaner_list_counter = 0; cleaner_list_counter + duplicate_prevention_shifter < cleaner_list_temp.Count; cleaner_list_counter++)
                 {
                     string cleaner = cleaner_list_temp[cleaner_list_counter];
-                //    if (room_incrementor > 0 && cleaner_list_counter == 0)
-                //    {
-                //        for (int room_cleaner_counter = 0; room_cleaner_counter < Calendar_2d_array.GetLength(1); room_cleaner_counter++)
-                //        {
-                //            if (cleaner == Calendar_2d_array[cleaner_list_counter + 1, room_cleaner_counter])
-                //            {
-                //                duplicate_counter++;
-                //            }
-
-                //            if (duplicate_counter >= Cleaner.Get_cleaner_list_count() / 2)
-                //            {
-                //                duplicate = true;
-                //            }
-                //        }
-                //    }
-
-                    if (duplicate == true && cleaner_list_counter == 0)
-                    {
-                        Calendar_2d_array[cleaner_list_counter + duplicate_prevention_counter + 1, room_incrementor + 1] = cleaner;
-                    }
-                    else
-                    {
-                        Calendar_2d_array[cleaner_list_counter + duplicate_prevention_counter + 1, room_incrementor + 1] = cleaner;
-                    }
+                    Calendar_2d_array[cleaner_list_counter + duplicate_prevention_shifter + 1, room_incrementor + 1] = cleaner;
                 }
 
                 room_incrementor++;
+            }
+
+            //print calendar to screen
+            int rowLength = Calendar_2d_array.GetLength(0);
+            int colLength = Calendar_2d_array.GetLength(1);
+            for (int i = 0; i < rowLength; i++)
+            {
+                for (int j = 0; j < colLength; j++)
+                {
+                    Console.Write(string.Format("{0},", Calendar_2d_array[i, j]));
+                }
+                Console.Write(Environment.NewLine);
             }
 
             Print_calendar_to_file(Calendar_2d_array);
@@ -355,10 +280,8 @@ namespace cleaning_rota
                 {
                     for (int j = 0; j < colLength; j++)
                     {
-                        Console.Write(string.Format("{0},", calendar[i, j]));
                         sw.Write(string.Format("{0},", calendar[i, j]));
                     }
-                    Console.Write(Environment.NewLine);
                     sw.Write("\n");
                 }
             }
