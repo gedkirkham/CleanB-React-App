@@ -99,13 +99,14 @@ namespace cleaning_rota.test.unit
             House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
 
             (string room_name, string room_frequency, List<string> exemption_list) = House.Get_room(_room_name);
-            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
+            Assert.AreEqual(true,exemption_list.Contains(_cleaner_name));
 
             _cleaner_name = "Tom";
             House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
-            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
+            (room_name, room_frequency, exemption_list) = House.Get_room(_room_name);
+            Assert.AreEqual(true,exemption_list.Contains(_cleaner_name));
 
-            Assert.AreNotEqual(exemption_list.Contains("xyz"), true);
+            Assert.AreNotEqual(true,exemption_list.Contains("xyz"));
         }
 
         [TestMethod]

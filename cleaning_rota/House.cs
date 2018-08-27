@@ -135,7 +135,16 @@ namespace cleaning_rota
 
         public static void Add_cleaner_to_exemption_list(string _cleaner, string _room_name)
         {
-            (string room_name, string room_frequency, List<string> _exclusion_list) = Get_room(_room_name);
+            List<string> _exclusion_list = new List<string>();
+            _exclusion_list.Clear();
+
+            (string room_name, string room_frequency, List<string> exclusion_list) = Get_room(_room_name);
+
+            foreach (var item in exclusion_list)
+            {
+                _exclusion_list.Add(item);
+            }
+
             _exclusion_list.Add(_cleaner);
             var tuple = new Tuple<string, string, List<string>>(_room_name, room_frequency, _exclusion_list);
 
