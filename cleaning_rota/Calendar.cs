@@ -123,19 +123,41 @@ namespace cleaning_rota
                 cleaner_index++;
             }
 
-            if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-            {
-                cleaner_index = 0;
-            }
-            
+            cleaner_index = Cleaner_index_out_of_bounds_check(cleaner_index);
+
             //check exclusion list and skip cleaner if required
-            if (exclusion_list.Contains(Cleaner.Get_cleaner(cleaner_index)))
+            int counter = 0;
+            bool cleaner_null_flag = false;
+            while (exclusion_list.Contains(Cleaner.Get_cleaner(cleaner_index)) && counter < Cleaner.Get_cleaner_list_count())
             {
-                cleaner_list_temp.Add(Cleaner.Get_cleaner(++cleaner_index));
+                cleaner_index++;
+                cleaner_index = Cleaner_index_out_of_bounds_check(cleaner_index);
+                counter++;
+
+                if(counter == 3)
+                {
+                    cleaner_null_flag = true;
+                }
+            }
+
+            if(cleaner_null_flag == false)
+            {
+                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
             }
             else
             {
-                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
+                cleaner_list_temp.Add(null);
+            }
+            
+
+            return cleaner_index;
+        }
+
+        static public int Cleaner_index_out_of_bounds_check(int cleaner_index)
+        {
+            if (cleaner_index >= Cleaner.Get_cleaner_list_count())
+            {
+                cleaner_index = 0;
             }
 
             return cleaner_index;

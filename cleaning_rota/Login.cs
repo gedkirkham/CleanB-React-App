@@ -108,7 +108,7 @@ namespace cleaning_rota
                 House.Add_room_to_list("Garage", "3", exclusion_list);
                 House.Add_room_to_list("Master Bedroom", "1", exclusion_list);
             }
-            else if (_email.Equals("single_exclusion"))
+            else if (_email.Equals("single_exclusion_01"))
             {
                 Cleaner.Add_cleaner_to_list("Ged");
                 Cleaner.Add_cleaner_to_list("Razvan");
@@ -123,10 +123,54 @@ namespace cleaning_rota
                 House.Add_room_to_list("Lounge", "3", exclusion_list);
                 House.Add_room_to_list("Garage", "3", exclusion_list);
                 House.Add_room_to_list("Master Bedroom", "1", exclusion_list);
+            }
+            else if (_email.Equals("single_exclusion_02"))
+            {
+                Cleaner.Add_cleaner_to_list("Ged");
+                Cleaner.Add_cleaner_to_list("Razvan");
+                Cleaner.Add_cleaner_to_list("Ali");
 
-                string _room_name = "Kitchen";
-                string _cleaner_name = "Ged";
-                House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_1", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_2", "3", exclusion_list);
+                House.Add_room_to_list("Bedroom_3", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_4", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_5", "3", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
+                House.Add_room_to_list("Master Bedroom", "1", exclusion_list);
+            }
+            else if (_email.Equals("multiple_exclusion_01"))
+            {
+                Cleaner.Add_cleaner_to_list("Ged");
+                Cleaner.Add_cleaner_to_list("Razvan");
+                Cleaner.Add_cleaner_to_list("Ali");
+
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_1", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_2", "3", exclusion_list);
+                House.Add_room_to_list("Bedroom_3", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_4", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_5", "3", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
+                House.Add_room_to_list("Master Bedroom", "1", exclusion_list);
+            }
+            else if (_email.Equals("multiple_exclusion_02"))
+            {
+                Cleaner.Add_cleaner_to_list("Ged");
+                Cleaner.Add_cleaner_to_list("Razvan");
+                Cleaner.Add_cleaner_to_list("Ali");
+
+                House.Add_room_to_list("Kitchen", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_1", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_2", "3", exclusion_list);
+                House.Add_room_to_list("Bedroom_3", "1", exclusion_list);
+                House.Add_room_to_list("Bedroom_4", "2", exclusion_list);
+                House.Add_room_to_list("Bedroom_5", "3", exclusion_list);
+                House.Add_room_to_list("Lounge", "3", exclusion_list);
+                House.Add_room_to_list("Garage", "3", exclusion_list);
+                House.Add_room_to_list("Master Bedroom", "1", exclusion_list);
             }
             else if (_email.Equals("negative_test"))
             {

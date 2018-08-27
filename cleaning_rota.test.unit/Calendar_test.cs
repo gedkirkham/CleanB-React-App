@@ -131,20 +131,50 @@ namespace cleaning_rota.test.unit
         [TestMethod]
         public void Check_that_a_single_cleaner_can_be_exempt_from_a_room()
         {
-            string user = "single_exclusion";
+            string user = "single_exclusion_01";
             Initialise_user(user);
 
-            string _room_name = "Kitchen";
-            string _cleaner_name = "Ged";
-            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
-            
+            House.Add_cleaner_to_exemption_list("Ged", "Kitchen");
+
+            Calendar_output(user, true);
+        }
+
+        [TestMethod]
+        public void Check_that_a_single_cleaner_can_be_exempt_from_multiple_rooms()
+        {
+            string user = "multiple_exclusion_01";
+            Initialise_user(user);
+
+            House.Add_cleaner_to_exemption_list("Ged", "Kitchen");
+            House.Add_cleaner_to_exemption_list("Ged", "Bedroom_1");
+
             Calendar_output(user, true);
         }
 
         [TestMethod]
         public void Check_that_a_multiple_cleaners_can_be_exempt_from_a_room()
         {
+            string user = "single_exclusion_02";
+            Initialise_user(user);
 
+            House.Add_cleaner_to_exemption_list("Ged", "Kitchen");
+            House.Add_cleaner_to_exemption_list("Ali", "Kitchen");
+
+            Calendar_output(user, true);
+        }
+
+        [TestMethod]
+        public void Check_that_a_multiple_cleaners_can_be_exempt_from_multiple_rooms()
+        {
+            string user = "multiple_exclusion_02";
+            Initialise_user(user);
+
+            House.Add_cleaner_to_exemption_list("Ged", "Kitchen");
+            House.Add_cleaner_to_exemption_list("Ged", "Bedroom_1");
+            House.Add_cleaner_to_exemption_list("Ali", "Bedroom_1");
+            House.Add_cleaner_to_exemption_list("Razvan", "Bedroom_1");
+
+            Calendar_output(user, true);
         }
 
         public void Calendar_output(string user, bool positive)
