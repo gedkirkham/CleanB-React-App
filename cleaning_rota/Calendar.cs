@@ -99,11 +99,12 @@ namespace cleaning_rota
             private set;
         }
 
-        static public int Assign_cleaners_dependent_on_room_frequency(int cleaner_index, int room_incrementor, string room_frequency)
+        static public int Assign_cleaners_dependent_on_room_frequency(int cleaner_index, int room_incrementor, string room_frequency, List<string> exclusion_list)
         {
-            string null_check;
+            string null_check = String.Empty;
 
-            if (cleaner_list_temp.Count == 0)
+            //increments cleaner so that it is +1 when compared with the previous room
+            if (cleaner_list_temp.Count == 0 && room_incrementor != 0)
             {
                 int null_shifter = 0;
                 string previous_cleaner = Calendar_2d_array[null_shifter + 1, room_incrementor];
@@ -117,42 +118,24 @@ namespace cleaning_rota
                 cleaner_index = Cleaner.Return_cleaner_index(previous_cleaner);
                 cleaner_index++;
             }
+            else if (cleaner_list_temp.Count != 0)
+            {
+                cleaner_index++;
+            }
 
             if (cleaner_index >= Cleaner.Get_cleaner_list_count())
             {
                 cleaner_index = 0;
-
-                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
+            }
+            
+            //check exclusion list and skip cleaner if required
+            if (exclusion_list.Contains(Cleaner.Get_cleaner(cleaner_index)))
+            {
+                cleaner_list_temp.Add(Cleaner.Get_cleaner(++cleaner_index));
             }
             else
             {
-                null_check = String.Empty;
-                if (cleaner_list_temp.Count > 0)
-                {
-                    null_check = cleaner_list_temp[cleaner_list_temp.Count - 1];
-                }
-
-                if (null_check == null)
-                {
-
-                    if (cleaner_index >= Cleaner.Get_cleaner_list_count())
-                    {
-                        cleaner_index = 0;
-                    }
-
-                    if (room_frequency.Equals("1"))
-                    {
-                        cleaner_list_temp.Add(Cleaner.Get_cleaner(++cleaner_index));
-                    }
-                    else
-                    {
-                        cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
-                    }
-                }
-                else
-                {
-                    cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index++));
-                }
+                cleaner_list_temp.Add(Cleaner.Get_cleaner(cleaner_index));
             }
 
             return cleaner_index;
@@ -191,6 +174,11 @@ namespace cleaning_rota
             //assign cleaners to room dependent on room frequency
             foreach (var room in House.Get_room_list_array())
             {
+                if(room_incrementor == 1)
+                {
+                    Console.Write("");
+                }
+
                 var house_list_array = House.Get_room_list_array();
                 (string room_name, string room_frequency, List<string> exclusion_list) = House.Get_room(house_list_array[room_incrementor]);
                 cleaner_list_temp.Clear();
@@ -201,15 +189,15 @@ namespace cleaning_rota
                 {
                     if (room_frequency.Equals("1"))
                     {
-                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency);
+                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency, exclusion_list);
                     }
                     else if (room_frequency.Equals("2") && week_counter != 2 && week_counter != 4)
                     {
-                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency);
+                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency, exclusion_list);
                     }
                     else if (room_frequency.Equals("3") && week_counter == 1)
                     {
-                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency);
+                        cleaner_index = Assign_cleaners_dependent_on_room_frequency(cleaner_index, room_incrementor, room_frequency, exclusion_list);
                     }
                     else
                     {

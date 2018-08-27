@@ -4,3 +4,4 @@ user03 = 3 cleaners; 4 rooms - cleaned every week; every three weeks; every two 
 user04 = 3 cleaners; 5 rooms - cleaned every week; every three weeks; every two weeks; once a month; and cleaned every week,1904105504
 user05 = 3 cleaners and 9 rooms; checking to make sure that week shifting works correctly,-52275168
 negative_test = checking to see that the calendar output unit test intentionally fails,-152925574
+single_excusion = checking that a user is excluded from certain rooms,1047336270

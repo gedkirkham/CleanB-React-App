@@ -26,10 +26,128 @@ namespace cleaning_rota.test.unit
             Calendar.calendar_date_array.Clear();
         }
 
+        [TestMethod]
+        public void Calendar_output_user01()
+        {
+            string user = "user01";
+            Initialise_user(user);
+            Calendar_output(user,true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user02()
+        {
+            string user = "user02";
+            Initialise_user(user);
+            Calendar_output(user,true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user03()
+        {
+            string user = "user03";
+            Initialise_user(user);
+            Calendar_output(user,true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user04()
+        {
+            string user = "user04";
+            Initialise_user(user);
+            Calendar_output(user,true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_user05()
+        {
+            string user = "user05";
+            Initialise_user(user);
+            Calendar_output(user, true);
+        }
+
+        [TestMethod]
+        public void Calendar_output_negative_test()
+        {
+            string user = "negative_test";
+            Initialise_user(user);
+            Calendar_output(user,false);
+        }
+
+        [TestMethod]
+        public void Check_single_cleaner_is_added_to_exemption_list()
+        {
+            string user = "user05";
+            Initialise_user(user);
+
+            string _room_name = "Kitchen";
+            string _cleaner_name = "Ged";
+            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
+            (string room_name, string room_frequency, List<string> exemption_list) = House.Get_room(_room_name);
+            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
+            Assert.AreNotEqual(exemption_list.Contains("xyz"), true);
+        }
+
+        [TestMethod]
+        public void Check_multiple_cleaners_are_added_to_exemption_list()
+        {
+            string user = "user05";
+            Initialise_user(user);
+
+            string _room_name = "Kitchen";
+            string _cleaner_name = "Ged";
+            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
+
+            (string room_name, string room_frequency, List<string> exemption_list) = House.Get_room(_room_name);
+            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
+
+            _cleaner_name = "Tom";
+            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
+            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
+
+            Assert.AreNotEqual(exemption_list.Contains("xyz"), true);
+        }
+
+        [TestMethod]
+        public void Check_that_a_single_cleaner_can_be_removed_from_exemption_list()
+        {
+            string user = "user05";
+            Initialise_user(user);
+
+            string _room_name = "Kitchen";
+            string _cleaner_name = "Ged";
+            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
+            House.Add_cleaner_to_exemption_list("Tom", _room_name);
+
+            House.Remove_cleaner_from_exemption_list(_cleaner_name, _room_name);
+
+            (string room_name, string room_frequency, List<string> exemption_list) = House.Get_room(_room_name);
+            Assert.AreNotEqual(exemption_list.Contains(_cleaner_name), true);
+            
+            Assert.AreEqual(exemption_list.Contains("Tom"), true);
+        }
+
+        [TestMethod]
+        public void Check_that_a_single_cleaner_can_be_exempt_from_a_room()
+        {
+            string user = "single_exclusion";
+            Initialise_user(user);
+
+            string _room_name = "Kitchen";
+            string _cleaner_name = "Ged";
+            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
+            
+            Calendar_output(user, true);
+        }
+
+        [TestMethod]
+        public void Check_that_a_multiple_cleaners_can_be_exempt_from_a_room()
+        {
+
+        }
+
         public void Calendar_output(string user, bool positive)
         {
-            Login.Set_user_email(user);
-            Login.Set_user_data(user);
             Calendar.Display_calendar();
 
             string[,] actual_calendar = Calendar.Calendar_2d_array;
@@ -80,11 +198,11 @@ namespace cleaning_rota.test.unit
             {
                 for (int row = 0; row < expected_calendar.GetLength(0); row++)
                 {
-                    if(positive == true)
+                    if (positive == true)
                     {
                         Assert.AreEqual(expected_calendar[row, column], actual_calendar[row, column]);
                     }
-                    else if(positive == false)
+                    else if (positive == false)
                     {
                         Assert.AreNotEqual(expected_calendar[row, column], actual_calendar[row, column]);
                     }
@@ -92,105 +210,10 @@ namespace cleaning_rota.test.unit
             }
         }
 
-        [TestMethod]
-        public void Calendar_output_user01()
+        public void Initialise_user(string user)
         {
-            Calendar_output("user01",true);
-        }
-
-        [TestMethod]
-        public void Calendar_output_user02()
-        {
-            Calendar_output("user02",true);
-        }
-
-        [TestMethod]
-        public void Calendar_output_user03()
-        {
-            Calendar_output("user03",true);
-        }
-
-        [TestMethod]
-        public void Calendar_output_user04()
-        {
-            Calendar_output("user04",true);
-        }
-
-        [TestMethod]
-        public void Calendar_output_user05()
-        {
-            Calendar_output("user05", true);
-        }
-
-        [TestMethod]
-        public void Calendar_output_negative_test()
-        {
-            Calendar_output("negative_test",false);
-        }
-
-        [TestMethod]
-        public void Check_cleaner_is_added_to_exemption_list()
-        {
-            string user = "user05";
+            Login.Set_user_email(user);
             Login.Set_user_data(user);
-
-            string _room_name = "Kitchen";
-            string _cleaner_name = "Ged";
-            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
-            (string room_name, string room_frequency, List<string> exemption_list) = House.Get_room(_room_name);
-            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
-            Assert.AreNotEqual(exemption_list.Contains("xyz"), true);
-        }
-
-        [TestMethod]
-        public void Check_multiple_cleaners_are_added_to_exemption_list()
-        {
-            string user = "user05";
-            Login.Set_user_data(user);
-
-            string _room_name = "Kitchen";
-            string _cleaner_name = "Ged";
-            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
-
-            (string room_name, string room_frequency, List<string> exemption_list) = House.Get_room(_room_name);
-            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
-
-            _cleaner_name = "Tom";
-            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
-            Assert.AreEqual(exemption_list.Contains(_cleaner_name), true);
-
-            Assert.AreNotEqual(exemption_list.Contains("xyz"), true);
-        }
-
-        [TestMethod]
-        public void Check_cleaners_can_be_removed_from_exemption_list()
-        {
-            string user = "user05";
-            Login.Set_user_data(user);
-
-            string _room_name = "Kitchen";
-            string _cleaner_name = "Ged";
-            House.Add_cleaner_to_exemption_list(_cleaner_name, _room_name);
-            House.Add_cleaner_to_exemption_list("Tom", _room_name);
-
-            House.Remove_cleaner_from_exemption_list(_cleaner_name, _room_name);
-
-            (string room_name, string room_frequency, List<string> exemption_list) = House.Get_room(_room_name);
-            Assert.AreNotEqual(exemption_list.Contains(_cleaner_name), true);
-            
-            Assert.AreEqual(exemption_list.Contains("Tom"), true);
-        }
-
-        [TestMethod]
-        public void Single_cleaner_exempt_from_room()
-        {
-            
-        }
-
-        [TestMethod]
-        public void Multiple_cleaners_exempt_from_room()
-        {
-
         }
     }
 }
