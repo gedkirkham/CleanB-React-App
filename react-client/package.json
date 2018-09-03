@@ -1,0 +1,11 @@
+{
+  "name": "Clean-B",
+  "version": "1.0.0",
+  "description": "Currently following this tutorial: https://medium.com/@Preda/getting-started-on-building-a-personal-website-with-react-b44ee93b1710",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "GK",
+  "license": "ISC"
+}
