@@ -11,7 +11,7 @@ class AddCleaner extends Component {
     }
     handle_submit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        this.props.addCleaner(this.state);
     }
     render() {
         return (

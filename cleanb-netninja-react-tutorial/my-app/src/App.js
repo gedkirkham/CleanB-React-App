@@ -1,15 +1,39 @@
 import React, { Component } from 'react';
-import Ninjas from './Ninjas';
+import Cleaners from './Cleaners';
 import LoginOrCreateAccount from './LoginOrCreateAccount';
 import AddCleaner from './AddCleaner';
 
 class App extends Component {
   state = {
-    ninjas : [
-        { name: 'Ryu', age: 26, id: 1 },
-        { name: 'Ged', age: 26, id: 2 },
-        { name: 'Razvan', age: 21, id: 3 }
+    cleaners : [
     ]
+    }
+    addCleaner = (cleaner) => {
+      console.log(cleaner);
+      //add check to ensure cleaners with the same name are not added.
+      // var y = this.state.cleaners.includes("Ged");
+      // console.log(y);
+      cleaner.id = Math.random();
+      let cleaners = [this.state.cleaners, cleaner]
+      this.setState({
+        cleaners: cleaners
+      })
+    }
+    deleteCleaner = (id) => {
+      console.log(id);
+      let cleaners = this.state.cleaners.filter(cleaner => {
+        return cleaner.id !== id
+      });
+      this.setState({
+        cleaners: cleaners
+      })
+    }
+    componentDidMount(){
+      console.log("component mounted");
+    }
+    componentDidUpdate(prevProps,prevState){
+      console.log("component updated");
+      console.log(prevProps,prevState);
     }
   render() {
     return (
@@ -17,10 +41,8 @@ class App extends Component {
         <LoginOrCreateAccount/>
         <h1>CleanB</h1>
         <p>Welcome</p>
-        <Ninjas ninjas={this.state.ninjas}/>
-        <AddCleaner/>
-
-        
+        <Cleaners deleteCleaner={this.deleteCleaner} cleaners={this.state.cleaners}/>
+        <AddCleaner addCleaner={this.addCleaner}/>
 
         <form>
             <br />
