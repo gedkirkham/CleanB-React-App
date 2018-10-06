@@ -5,19 +5,32 @@ import AddCleaner from './AddCleaner';
 
 class App extends Component {
   state = {
-    cleaners : [
-    ]
+      cleaners : [
+      ]
     }
     addCleaner = (cleaner) => {
-      console.log(cleaner);
-      //add check to ensure cleaners with the same name are not added.
-      // var y = this.state.cleaners.includes("Ged");
-      // console.log(y);
-      cleaner.id = Math.random();
-      let cleaners = [this.state.cleaners, cleaner]
-      this.setState({
-        cleaners: cleaners
-      })
+      //check to see if cleaner currently exists
+      var found = false;
+      for(var i = 0; i < this.state.cleaners.length; i++) {
+          if (this.state.cleaners[i].name === cleaner["name"].toLowerCase()) {
+              found = true;
+              break;
+          }
+      }
+
+      //determine if cleaner should be added
+      if (!this.state.cleaners.includes(cleaner) && !found)
+      {
+        cleaner.id = Math.random();
+        let cleaners = [...this.state.cleaners, cleaner]
+        this.setState({
+          cleaners: cleaners
+        })
+        console.log(cleaner);
+      }
+      else {
+        console.log("Cleaner already exists.");
+      }
     }
     deleteCleaner = (id) => {
       console.log(id);
