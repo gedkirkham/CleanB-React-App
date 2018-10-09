@@ -8,13 +8,21 @@ class App extends Component {
     cleaners : [
     ]
     }
+
+    warningMessage(){
+      alert("Hello Ged!");
+    }
     addCleaner = (cleaner) => {
       console.log(cleaner);
       //add check to ensure cleaners with the same name are not added.
       // var y = this.state.cleaners.includes("Ged");
       // console.log(y);
+      if(cleaner.name === "Ged"){
+        setTimeout(this.warningMessage,0)
+      }
+
       cleaner.id = Math.random();
-      let cleaners = [this.state.cleaners, cleaner]
+      let cleaners = [...this.state.cleaners, cleaner]
       this.setState({
         cleaners: cleaners
       })
