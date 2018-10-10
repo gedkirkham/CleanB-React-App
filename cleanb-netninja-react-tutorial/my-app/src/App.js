@@ -8,6 +8,10 @@ class App extends Component {
       cleaners : [
       ]
     }
+
+    warningMessage(){
+      alert("Hello Ged!");
+    }
     addCleaner = (cleaner) => {
       //check to see if cleaner currently exists
       var found = false;
@@ -30,6 +34,7 @@ class App extends Component {
       }
       else {
         console.log("Cleaner already exists.");
+        setTimeout(this.warningMessage,0)
       }
     }
     deleteCleaner = (id) => {
