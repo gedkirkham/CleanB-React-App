@@ -13,12 +13,13 @@ class AddCleaner extends Component {
     handle_submit = (e) => {
         e.preventDefault();
         this.props.addCleaner(this.state);
+        document.getElementById("add-cleaner-form").reset();
     }
     render() {
         return (
             <div>
                 <h3>Enter a cleaners name:</h3>
-                <form onSubmit={this.handle_submit}>
+                <form id="add-cleaner-form" onSubmit={this.handle_submit}>
                     <input type="text" id="name" onChange={this.handle_change}></input>
                     <button>Submit</button>
                 </form>
