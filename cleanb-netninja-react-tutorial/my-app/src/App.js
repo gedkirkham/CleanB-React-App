@@ -4,63 +4,34 @@ import LoginOrCreateAccount from './LoginOrCreateAccount';
 import AddCleaner from './AddCleaner';
 
 class App extends Component {
-  state = {
+    state = {
       cleaners : [
       ]
     }
+    
+  componentDidMount(){
+    console.log("component mounted");
+  }
+  componentDidUpdate(prevProps,prevState){
+    console.log("component updated");
+    console.log(prevProps,prevState);
+  }
 
-    warningMessage(){
-      alert("Cleaner already exists.");
-    }
-    addCleaner = (cleaner) => {
-      //check to see if cleaner currently exists
-      var found = false;
-      for(var i = 0; i < this.state.cleaners.length; i++) {
-          if (this.state.cleaners[i].name === cleaner["name"].toLowerCase()) {
-              found = true;
-              break;
-          }
-      }
+  returnedCleanerState = (dataFromChild) => {
+    //receive props from child and assign to state
+    this.setState({
+      cleaners: dataFromChild
+    })
+  }
 
-      //determine if cleaner should be added
-      if (!this.state.cleaners.includes(cleaner) && !found)
-      {
-        cleaner.id = Math.random();
-        let cleaners = [...this.state.cleaners, cleaner]
-        this.setState({
-          cleaners: cleaners
-        })
-        console.log(cleaner);
-      }
-      else {
-        setTimeout(this.warningMessage,0)
-      }
-    }
-    deleteCleaner = (id) => {
-      console.log(id);
-      let cleaners = this.state.cleaners.filter(cleaner => {
-        return cleaner.id !== id
-      });
-      this.setState({
-        cleaners: cleaners
-      })
-    }
-    componentDidMount(){
-      console.log("component mounted");
-    }
-    componentDidUpdate(prevProps,prevState){
-      console.log("component updated");
-      console.log(prevProps,prevState);
-    }
   render() {
     return (
       <div className="App">
         <LoginOrCreateAccount/>
         <h1>CleanB</h1>
-        <p>Welcome</p>
+        <AddCleaner addCleaner={this.addCleaner} returnCleanerState={this.returnedCleanerState}/>
         <Cleaners deleteCleaner={this.deleteCleaner} cleaners={this.state.cleaners}/>
-        <AddCleaner addCleaner={this.addCleaner}/>
-
+        
         <form>
             <br />
             Enter some rooms:

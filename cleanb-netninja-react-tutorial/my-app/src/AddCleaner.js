@@ -2,25 +2,73 @@ import React, { Component } from 'react'
 
 class AddCleaner extends Component {
     state = {
-        name: null,
-        id: null
+        cleaners : [
+        ]
     }
-    handle_change = (e) => {
+    
+    handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
     }
-    handle_submit = (e) => {
+    
+    handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addCleaner(this.state);
+        this.addCleaner(this.state);
         document.getElementById("add-cleaner-form").reset();
     }
+    
+    warningMessage(){
+        alert("Cleaner already exists.");
+    }
+    
+    addCleaner = (cleaner) => {
+        //check to see if cleaner currently exists
+        var found = false;
+        for(var i = 0; i < this.state.cleaners.length; i++) {
+            if (this.state.cleaners[i].name === cleaner["name"].toLowerCase()) {
+                found = true;
+                break;
+            }
+        }
+
+        //determine if cleaner already exists
+        if (!this.state.cleaners.includes(cleaner) && !found)
+        {
+            //TODO: provide a better id assignment.
+            cleaner.id = Math.random();
+            
+            //copy current state and add new cleaner
+            let cleaners = [...this.state.cleaners, cleaner]
+            this.setState({
+                cleaners: cleaners
+            })
+
+            //return state to parent
+            this.props.returnCleanerState(cleaners);
+        }
+        else {
+            //TODO: build a better warning message
+            setTimeout(this.warningMessage,0)
+        }
+    }
+    
+    deleteCleaner = (id) => {
+        console.log(id);
+        let cleaners = this.state.cleaners.filter(cleaner => {
+            return cleaner.id !== id
+        });
+        this.setState({
+            cleaners: cleaners
+        })
+    }
+
     render() {
         return (
             <div>
                 <h3>Enter a cleaners name:</h3>
-                <form id="add-cleaner-form" onSubmit={this.handle_submit}>
-                    <input type="text" id="name" onChange={this.handle_change}></input>
+                <form id="add-cleaner-form" onSubmit={this.handleSubmit}>
+                    <input type="text" id="name" onChange={this.handleChange}></input>
                     <button>Submit</button>
                 </form>
             </div>
