@@ -1,36 +1,26 @@
 import React, { Component } from 'react';
-import Cleaners from './Cleaners';
+import CleanerClass from './Cleaners/CleanerClass';
 import LoginOrCreateAccount from './LoginOrCreateAccount';
-import AddCleaner from './AddCleaner';
 
 class App extends Component {
     state = {
-      cleaners : [
-      ]
     }
-    
-  componentDidMount(){
-    console.log("component mounted");
-  }
-  componentDidUpdate(prevProps,prevState){
-    console.log("component updated");
-    console.log(prevProps,prevState);
-  }
+      
+    componentDidMount(){
+      console.log("component mounted");
+    }
 
-  returnedCleanerState = (dataFromChild) => {
-    //receive props from child and assign to state
-    this.setState({
-      cleaners: dataFromChild
-    })
-  }
+    componentDidUpdate(prevProps,prevState){
+      console.log("component updated");
+      console.log(prevProps,prevState);
+    }
 
   render() {
     return (
       <div className="App">
         <LoginOrCreateAccount/>
         <h1>CleanB</h1>
-        <AddCleaner addCleaner={this.addCleaner} returnCleanerState={this.returnedCleanerState}/>
-        <Cleaners deleteCleaner={this.deleteCleaner} cleaners={this.state.cleaners}/>
+        <CleanerClass/>
         
         <form>
             <br />
