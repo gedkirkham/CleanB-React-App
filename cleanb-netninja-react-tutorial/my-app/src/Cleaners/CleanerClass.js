@@ -15,6 +15,9 @@ class CleanerClass extends Component {
     
     handleSubmit = (e) => {
         e.preventDefault();
+        this.setState({
+            [e.target.id]: e.target.value
+        })
         this.addCleaner(this.state);
         document.getElementById("add-cleaner-form").reset();
     }
