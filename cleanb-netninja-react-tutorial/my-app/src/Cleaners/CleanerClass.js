@@ -66,8 +66,8 @@ class CleanerClass extends Component {
             <div>
                 <h3>Enter a cleaners name:</h3>
                 <form id="add-cleaner-form" onSubmit={this.handleSubmit}>
-                    <input type="text" id="name" onChange={this.handleChange}></input>
-                    <button>Submit</button>
+                    <input type="text" id="name" onChange={this.handleChange}/>
+                    <button>Add cleaner</button>
                 </form>
                 <CleanerUI deleteCleaner={this.deleteCleaner} cleaners={this.state.cleaners}/> 
             </div>
