@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Cleaners from './Cleaners';
 import LoginOrCreateAccount from './LoginOrCreateAccount';
 import AddCleaner from './AddCleaner';
+import Rooms from './rooms/Rooms.js';
 
 class App extends Component {
     state = {
@@ -31,17 +32,7 @@ class App extends Component {
         <h1>CleanB</h1>
         <AddCleaner addCleaner={this.addCleaner} returnCleanerState={this.returnedCleanerState}/>
         <Cleaners deleteCleaner={this.deleteCleaner} cleaners={this.state.cleaners}/>
-        
-        <form>
-            <br />
-            Enter some rooms:
-            <input name="Room" type="text"/>
-            <input type="submit"/>
-    
-            Frequency of room:
-            <input name="Frequency" type="text"/>
-            <input type="submit"/>
-        </form>
+        <Rooms/>
 
         <form>
         Exclude cleaner from a room:
