@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import CleanerUI from './CleanerUI';
 
-class AddCleaner extends Component {
+class CleanerClass extends Component {
     state = {
         cleaners : [
         ]
@@ -14,6 +15,9 @@ class AddCleaner extends Component {
     
     handleSubmit = (e) => {
         e.preventDefault();
+        this.setState({
+            [e.target.id]: e.target.value
+        })
         this.addCleaner(this.state);
         document.getElementById("add-cleaner-form").reset();
     }
@@ -43,9 +47,6 @@ class AddCleaner extends Component {
             this.setState({
                 cleaners: cleaners
             })
-
-            //return state to parent
-            this.props.returnCleanerState(cleaners);
         }
         else {
             //TODO: build a better warning message
@@ -68,12 +69,13 @@ class AddCleaner extends Component {
             <div>
                 <h3>Enter a cleaners name:</h3>
                 <form id="add-cleaner-form" onSubmit={this.handleSubmit}>
-                    <input type="text" id="name" onChange={this.handleChange}></input>
-                    <button>Submit</button>
+                    <input type="text" id="name" onChange={this.handleChange}/>
+                    <button>Add cleaner</button>
                 </form>
+                <CleanerUI deleteCleaner={this.deleteCleaner} cleaners={this.state.cleaners}/> 
             </div>
         )
     }
 }
 
-export default AddCleaner
+export default CleanerClass
