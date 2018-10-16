@@ -33,6 +33,7 @@ class App extends Component {
         <AddCleaner addCleaner={this.addCleaner} returnCleanerState={this.returnedCleanerState}/>
         <Cleaners deleteCleaner={this.deleteCleaner} cleaners={this.state.cleaners}/>
         <Rooms/>
+        {/* //TODO: Make data flow better by re-using other classes */}
 
         <form>
         Exclude cleaner from a room:
