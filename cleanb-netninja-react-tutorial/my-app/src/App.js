@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CleanerClass from './Cleaners/CleanerClass';
 import LoginOrCreateAccount from './LoginOrCreateAccount';
-import Rooms from './rooms/Rooms.js';
+import RoomsClass from './rooms/RoomClass';
 
 class App extends Component {
     state = {
@@ -22,7 +22,7 @@ class App extends Component {
         <LoginOrCreateAccount/>
         <h1>CleanB</h1>
         <CleanerClass/>
-        <Rooms/>
+        <RoomsClass/>
         {/* //TODO: Make data flow better by re-using other classes */}
 
         <form>
