@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import RoomsUI from './RoomsUI.js';
 
-class Rooms extends Component {
+class RoomClass extends Component {
     state = {
         rooms : [
         ]
@@ -82,4 +82,4 @@ class Rooms extends Component {
     }
 }
 
-export default Rooms
+export default RoomClass
