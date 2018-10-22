@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RoomsUI = ({rooms, deleteRoom}) => {
+const Rooms = ({rooms, deleteRoom}) => {
     const roomList = rooms.map(room => {
         return (
             <div className="room" key={room.id}>
@@ -18,4 +18,4 @@ const RoomsUI = ({rooms, deleteRoom}) => {
     )
 }
 
-export default RoomsUI
+export default Rooms

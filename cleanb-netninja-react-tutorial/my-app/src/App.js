@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import AddCleaner from './Cleaners/AddCleaner';
 import Cleaners from './Cleaners/Cleaners';
+import AddRoom from './Rooms/AddRoom';
+import Rooms from './Rooms/Rooms';
 import LoginOrCreateAccount from './LoginOrCreateAccount';
-<<<<<<< HEAD
-import RoomsClass from './rooms/RoomClass';
-=======
-import RoomsClass from './Rooms/RoomsClass.js';
->>>>>>> 8a4f5cee1e2573706d7f0373f1ae9796f49170ff
 
-class App extends Component {
+    class App extends Component {
     state = {
-        cleaners : []
+        cleaners : [],
+        rooms : []
     }
       
     componentDidMount(){
@@ -67,21 +65,53 @@ class App extends Component {
         })
     }
 
+    addRoom = (room) => {
+        //check to see if room currently exists
+        var found = false;
+        for(var i = 0; i < this.state.rooms.length; i++) {
+            if (this.state.rooms[i].name === room["name"].toLowerCase()) {
+                found = true;
+                break;
+            }
+        }
+
+        //determine if room already exists
+        if (!this.state.rooms.includes(room) && !found)
+        {
+            //TODO: provide a better id assignment.
+            room.id = Math.random();
+            
+            //copy current state and add new room
+            let rooms = [...this.state.rooms, room]
+            this.setState({
+                rooms: rooms
+            })
+        }
+        else {
+            //TODO: build a better warning message
+            setTimeout(this.roomWarningMessage,0)
+        }
+    }
+    
+    deleteRoom = (id) => {
+        console.log(id);
+        let rooms = this.state.rooms.filter(room => {
+            return room.id !== id
+        });
+        this.setState({
+            rooms: rooms
+        })
+    }
+
   render() {
     return (
       <div className="cleanb-app container">
         <LoginOrCreateAccount/>
-<<<<<<< HEAD
-        <h1>CleanB</h1>
-        <CleanerClass/>
-        <RoomsClass/>
-        {/* //TODO: Make data flow better by re-using other classes */}
-=======
         <h1 className="blue-text">CleanB</h1>
         <AddCleaner addCleaner={this.addCleaner} /> 
         <Cleaners cleaners={this.state.cleaners} deleteCleaner={this.deleteCleaner} />
-        <RoomsClass/>
->>>>>>> 8a4f5cee1e2573706d7f0373f1ae9796f49170ff
+        <AddRoom addRoom={this.addRoom} />    
+        <Rooms rooms={this.state.rooms} deleteRoom={this.deleteRoom} />
 
         <form>
         Exclude cleaner from a room:
