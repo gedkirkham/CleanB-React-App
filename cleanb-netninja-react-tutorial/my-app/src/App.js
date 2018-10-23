@@ -4,6 +4,10 @@ import Cleaners from './Cleaners/Cleaners';
 import AddRoom from './Rooms/AddRoom';
 import Rooms from './Rooms/Rooms';
 import LoginOrCreateAccount from './LoginOrCreateAccount';
+import FooterNavBar from './Components/FooterNavBar';
+import About from './Components/About';
+import Contact from './Components/Contact';
+import { BrowserRouter, Route } from 'react-router-dom';
 
     class App extends Component {
     state = {
@@ -105,71 +109,76 @@ import LoginOrCreateAccount from './LoginOrCreateAccount';
 
   render() {
     return (
-      <div className="cleanb-app container">
-        <LoginOrCreateAccount/>
-        <h1 className="blue-text">CleanB</h1>
-        <AddCleaner addCleaner={this.addCleaner} /> 
-        <Cleaners cleaners={this.state.cleaners} deleteCleaner={this.deleteCleaner} />
-        <AddRoom addRoom={this.addRoom} />    
-        <Rooms rooms={this.state.rooms} deleteRoom={this.deleteRoom} />
+        <BrowserRouter>
+            <div className="cleanb-app container">
+                <LoginOrCreateAccount/>
+                <h1 className="blue-text">CleanB</h1>
+                <AddCleaner addCleaner={this.addCleaner} /> 
+                <Cleaners cleaners={this.state.cleaners} deleteCleaner={this.deleteCleaner} />
+                <AddRoom addRoom={this.addRoom} />    
+                <Rooms rooms={this.state.rooms} deleteRoom={this.deleteRoom} />
+                <FooterNavBar/>
+                <Route path='/About' component={About} />
+                <Route path='/Contact' component={Contact} />
 
-        <form>
-        Exclude cleaner from a room:
-        <select name="Exclusion room" size="4" multiple>
-            <option value="Room 1">Room 1</option>
-            <option value="Room 2">Room 2</option>
-            <option value="Room 3">Room 3</option>
-            <option value="Room 4">Room 4</option>
-            <option value="Room 5">Room 5</option>
-        </select>
+                <form>
+                Exclude cleaner from a room:
+                <select name="Exclusion room" size="4" multiple>
+                    <option value="Room 1">Room 1</option>
+                    <option value="Room 2">Room 2</option>
+                    <option value="Room 3">Room 3</option>
+                    <option value="Room 4">Room 4</option>
+                    <option value="Room 5">Room 5</option>
+                </select>
 
-        <select name="Cleaner" size="4" multiple>
-            <option value="Cleaner 1">Cleaner 1</option>
-            <option value="Cleaner 2">Cleaner 2</option>
-            <option value="Cleaner 3">Cleaner 3</option>
-            <option value="Cleaner 4">Cleaner 4</option>
-            <option value="Cleaner 5">Cleaner 5</option>
-        </select>
+                <select name="Cleaner" size="4" multiple>
+                    <option value="Cleaner 1">Cleaner 1</option>
+                    <option value="Cleaner 2">Cleaner 2</option>
+                    <option value="Cleaner 3">Cleaner 3</option>
+                    <option value="Cleaner 4">Cleaner 4</option>
+                    <option value="Cleaner 5">Cleaner 5</option>
+                </select>
 
-        <input type="submit"/>
-      </form>
+                <input type="submit"/>
+            </form>
 
-      <form>
-          Add a cleaner to a room:
-          <select name="Exclusion room" size="4" multiple>
-              <option value="Room 1">Room 1</option>
-              <option value="Room 2">Room 2</option>
-              <option value="Room 3">Room 3</option>
-              <option value="Room 4">Room 4</option>
-              <option value="Room 5">Room 5</option>
-          </select>
+            <form>
+                Add a cleaner to a room:
+                <select name="Exclusion room" size="4" multiple>
+                    <option value="Room 1">Room 1</option>
+                    <option value="Room 2">Room 2</option>
+                    <option value="Room 3">Room 3</option>
+                    <option value="Room 4">Room 4</option>
+                    <option value="Room 5">Room 5</option>
+                </select>
 
-          <select name="Cleaner" size="4" multiple>
-              <option value="Cleaner 1">Cleaner 1</option>
-              <option value="Cleaner 2">Cleaner 2</option>
-              <option value="Cleaner 3">Cleaner 3</option>
-              <option value="Cleaner 4">Cleaner 4</option>
-              <option value="Cleaner 5">Cleaner 5</option>
-          </select>
+                <select name="Cleaner" size="4" multiple>
+                    <option value="Cleaner 1">Cleaner 1</option>
+                    <option value="Cleaner 2">Cleaner 2</option>
+                    <option value="Cleaner 3">Cleaner 3</option>
+                    <option value="Cleaner 4">Cleaner 4</option>
+                    <option value="Cleaner 5">Cleaner 5</option>
+                </select>
 
-          <input type="submit"/>
-        </form>
+                <input type="submit"/>
+                </form>
 
-        <form>
-            Generate calendar:
-            <input type="submit"/>
-        </form>
+                <form>
+                    Generate calendar:
+                    <input type="submit"/>
+                </form>
 
-        <form>
-            Download calendar:
-            <input type="submit"/>
-        </form>
+                <form>
+                    Download calendar:
+                    <input type="submit"/>
+                </form>
 
-        <form>
-            Save calendar:
-            <input type="submit"/>
-        </form>
-      </div>
+                <form>
+                    Save calendar:
+                    <input type="submit"/>
+                </form>
+            </div>
+        </BrowserRouter>
     );
   }
 }
