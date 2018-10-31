@@ -11,6 +11,12 @@ const initState = {
 
 const rootReducer = (state = initState, action) => {
     switch(action.type){
+        case 'ADD_CLEANER':
+            return {
+                ...state,
+                cleaners: [...state.cleaners, action.name]
+            }
+        break;
         case 'DELETE_CLEANER':
             let newCleanerList = state.cleaners.filter(cleaners => {
                 return action.id !== cleaners.id
@@ -20,10 +26,19 @@ const rootReducer = (state = initState, action) => {
                 cleaners: newCleanerList
             }
         break;
-        case 'ADD_CLEANER':
+        case 'ADD_ROOM':
             return {
                 ...state,
-                cleaners: [...state.cleaners, action.name]
+                rooms: [...state.rooms, action.name]
+            }
+        break;
+        case 'DELETE_ROOM':
+            let newRoomList = state.rooms.filter(rooms => {
+                return action.id !== rooms.id
+            });
+            return {
+                ...state,
+                rooms: newRoomList
             }
         break;
     }
