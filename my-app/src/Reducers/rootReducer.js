@@ -1,5 +1,9 @@
 const initState = {
-    post: []
+    cleaners: [
+        {name: 'Ged'},
+        {name: 'Tom'}
+    ],
+    rooms: [ ]
 }
 
 const rootReducer = (state = initState, action) => {

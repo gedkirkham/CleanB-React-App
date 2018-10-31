@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class CleanerClass extends Component {
+class AddCleaner extends Component {
     state = {
         name: ''
     }
@@ -37,4 +37,4 @@ class CleanerClass extends Component {
     }
 }
 
-export default CleanerClass
+export default AddCleaner

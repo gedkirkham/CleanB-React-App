@@ -5,11 +5,10 @@ import AddRoom from '../Rooms/AddRoom';
 import Rooms from '../Rooms/Rooms';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class Home extends Component {
     state = {
-        cleaners : [],
-        rooms : [],
         posts : []
     }
       
@@ -39,21 +38,21 @@ class Home extends Component {
     addCleaner = (cleaner) => {
         //check to see if cleaner currently exists
         var found = false;
-        for(var i = 0; i < this.state.cleaners.length; i++) {
-            if (this.state.cleaners[i].name === cleaner["name"].toLowerCase()) {
+        for(var i = 0; i < this.props.cleaners.length; i++) {
+            if (this.props.cleaners[i].name === cleaner["name"].toLowerCase()) {
                 found = true;
                 break;
             }
         }
 
         //determine if cleaner already exists
-        if (!this.state.cleaners.includes(cleaner) && !found)
+        if (!this.props.cleaners.includes(cleaner) && !found)
         {
             //TODO: provide a better id assignment.
             cleaner.id = Math.random();
             
             //copy current state and add new cleaner
-            let cleaners = [...this.state.cleaners, cleaner]
+            let cleaners = [...this.props.cleaners, cleaner]
             this.setState({
                 cleaners
             })
@@ -65,7 +64,7 @@ class Home extends Component {
     }
     
     deleteCleaner = (id) => {
-        let cleaners = this.state.cleaners.filter(cleaner => {
+        let cleaners = this.props.cleaners.filter(cleaner => {
             return cleaner.id !== id
         });
         this.setState({
@@ -76,21 +75,21 @@ class Home extends Component {
     addRoom = (room) => {
         //check to see if room currently exists
         var found = false;
-        for(var i = 0; i < this.state.rooms.length; i++) {
-            if (this.state.rooms[i].name === room["name"].toLowerCase()) {
+        for(var i = 0; i < this.props.rooms.length; i++) {
+            if (this.props.rooms[i].name === room["name"].toLowerCase()) {
                 found = true;
                 break;
             }
         }
 
         //determine if room already exists
-        if (!this.state.rooms.includes(room) && !found)
+        if (!this.props.rooms.includes(room) && !found)
         {
             //TODO: provide a better id assignment.
             room.id = Math.random();
             
             //copy current state and add new room
-            let rooms = [...this.state.rooms, room]
+            let rooms = [...this.props.rooms, room]
             this.setState({
                 rooms: rooms
             })
@@ -103,7 +102,7 @@ class Home extends Component {
     
     deleteRoom = (id) => {
         console.log(id);
-        let rooms = this.state.rooms.filter(room => {
+        let rooms = this.props.rooms.filter(room => {
             return room.id !== id
         });
         this.setState({
@@ -132,9 +131,9 @@ class Home extends Component {
     return (
             <div className="cleanb-app container">
                 <AddCleaner addCleaner={this.addCleaner} /> 
-                <Cleaners cleaners={this.state.cleaners} deleteCleaner={this.deleteCleaner} />
+                <Cleaners cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} />
                 <AddRoom addRoom={this.addRoom} />    
-                <Rooms rooms={this.state.rooms} deleteRoom={this.deleteRoom} />
+                <Rooms rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
                 {postList}
 
                 <form>
@@ -198,4 +197,11 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        cleaners : state.cleaners,
+        rooms : state.rooms 
+    }
+}
+
+export default connect(mapStateToProps)(Home);
