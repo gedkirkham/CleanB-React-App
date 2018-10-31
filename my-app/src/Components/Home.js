@@ -50,12 +50,7 @@ class Home extends Component {
         {
             //TODO: provide a better id assignment.
             cleaner.id = Math.random();
-            
-            //copy current state and add new cleaner
-            let cleaners = [...this.props.cleaners, cleaner]
-            this.setState({
-                cleaners
-            })
+            this.props.addCleaner(cleaner);
         }
         else {
             //TODO: build a better warning message
@@ -64,12 +59,7 @@ class Home extends Component {
     }
     
     deleteCleaner = (id) => {
-        let cleaners = this.props.cleaners.filter(cleaner => {
-            return cleaner.id !== id
-        });
-        this.setState({
-            cleaners
-        })
+        this.props.deleteCleaner(id);
     }
 
     addRoom = (room) => {
@@ -204,4 +194,11 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addCleaner: (name) => { dispatch({type: 'ADD_CLEANER', name: name})},
+        deleteCleaner: (id) => { dispatch({type: 'DELETE_CLEANER', id: id})}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
