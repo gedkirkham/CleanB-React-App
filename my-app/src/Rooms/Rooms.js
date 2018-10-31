@@ -1,11 +1,12 @@
 import React from 'react';
+import DeleteIcon from '../Images/delete-icon.png'
 
 const Rooms = ({rooms, deleteRoom}) => {
     const roomList = rooms.map(room => {
         return (
             <div className="room" key={room.id}>
                 <div>Name: {room.name}</div>
-                <button onClick={() => {deleteRoom(room.id)}}>Remove</button>
+                <img src={DeleteIcon} onClick={() => {deleteRoom(room.id)}} alt="Delete Icon"></img>
             </div>
         )   
     })
