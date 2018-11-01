@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
-import AddCleaner from '../Cleaners/AddCleaner';
-import Cleaners from '../Cleaners/Cleaners';
-import AddRoom from '../Rooms/AddRoom';
-import Rooms from '../Rooms/Rooms';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import AddCleaner from '../Cleaners/AddCleaner'
+import Cleaners from '../Cleaners/Cleaners'
+import AddRoom from '../Rooms/AddRoom'
+import Rooms from '../Rooms/Rooms'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { addCleaner } from '../Actions/cleanerActions'
+import { deleteCleaner } from '../Actions/cleanerActions'
+import { addRoom } from '../Actions/roomActions'
+import { deleteRoom } from '../Actions/roomActions'
 
 class Home extends Component {
     state = {
@@ -186,12 +190,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         //cleaners
-        addCleaner: (name) => { dispatch({type: 'ADD_CLEANER', name: name})},
-        deleteCleaner: (id) => { dispatch({type: 'DELETE_CLEANER', id: id})},
+        addCleaner: (name) => { dispatch(addCleaner(name))},
+        deleteCleaner: (id) => { dispatch(deleteCleaner(id))},
 
         //rooms
-        addRoom: (name) => { dispatch({type: 'ADD_ROOM', name: name})},
-        deleteRoom: (id) => { dispatch({type: 'DELETE_ROOM', id: id})}
+        addRoom: (name) => { dispatch(addRoom(name))},
+        deleteRoom: (id) => { dispatch(deleteRoom(id))}
     }
 }
 
