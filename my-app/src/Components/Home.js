@@ -50,12 +50,7 @@ class Home extends Component {
         {
             //TODO: provide a better id assignment.
             cleaner.id = Math.random();
-            
-            //copy current state and add new cleaner
-            let cleaners = [...this.props.cleaners, cleaner]
-            this.setState({
-                cleaners
-            })
+            this.props.addCleaner(cleaner);
         }
         else {
             //TODO: build a better warning message
@@ -64,12 +59,7 @@ class Home extends Component {
     }
     
     deleteCleaner = (id) => {
-        let cleaners = this.props.cleaners.filter(cleaner => {
-            return cleaner.id !== id
-        });
-        this.setState({
-            cleaners
-        })
+        this.props.deleteCleaner(id);
     }
 
     addRoom = (room) => {
@@ -87,12 +77,7 @@ class Home extends Component {
         {
             //TODO: provide a better id assignment.
             room.id = Math.random();
-            
-            //copy current state and add new room
-            let rooms = [...this.props.rooms, room]
-            this.setState({
-                rooms: rooms
-            })
+            this.props.addRoom(room);
         }
         else {
             //TODO: build a better warning message
@@ -101,13 +86,7 @@ class Home extends Component {
     }
     
     deleteRoom = (id) => {
-        console.log(id);
-        let rooms = this.props.rooms.filter(room => {
-            return room.id !== id
-        });
-        this.setState({
-            rooms: rooms
-        })
+        this.props.deleteRoom(id);
     }
 
   render() {
@@ -204,4 +183,16 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        //cleaners
+        addCleaner: (name) => { dispatch({type: 'ADD_CLEANER', name: name})},
+        deleteCleaner: (id) => { dispatch({type: 'DELETE_CLEANER', id: id})},
+
+        //rooms
+        addRoom: (name) => { dispatch({type: 'ADD_ROOM', name: name})},
+        deleteRoom: (id) => { dispatch({type: 'DELETE_ROOM', id: id})}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
