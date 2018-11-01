@@ -3,8 +3,6 @@ import AddCleaner from '../Cleaners/AddCleaner'
 import Cleaners from '../Cleaners/Cleaners'
 import AddRoom from '../Rooms/AddRoom'
 import Rooms from '../Rooms/Rooms'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addCleaner } from '../Actions/cleanerActions'
 import { deleteCleaner } from '../Actions/cleanerActions'
@@ -12,18 +10,8 @@ import { addRoom } from '../Actions/roomActions'
 import { deleteRoom } from '../Actions/roomActions'
 
 class Home extends Component {
-    state = {
-        posts : []
-    }
-      
     componentDidMount(){
         console.log("component mounted");
-        axios.get('https://jsonplaceholder.typicode.com/posts')
-            .then(response => {
-                this.setState({
-                    posts : response.data.slice(0,5)
-                })
-            }) 
     }
 
     componentDidUpdate(prevProps,prevState){
@@ -94,30 +82,12 @@ class Home extends Component {
     }
 
   render() {
-      const { posts } = this.state;
-      const postList = posts.length ? (
-          posts.map(post => {
-            return (
-                <div className="post card" key={post.id}>
-                    <div className="card-content">
-                        <Link to={'/' + post.id}>
-                            <span className="card-title">{post.title}</span>
-                        </Link>
-                        <p>{post.body}</p>
-                    </div>
-                </div>
-            )
-          })
-      ) : (
-            <div className="center">No data to show!</div>
-        )
     return (
             <div className="cleanb-app container">
                 <AddCleaner addCleaner={this.addCleaner} /> 
                 <Cleaners cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} />
                 <AddRoom addRoom={this.addRoom} />    
                 <Rooms rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
-                {postList}
 
                 <form>
                 Exclude cleaner from a room:

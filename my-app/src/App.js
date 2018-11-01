@@ -1,10 +1,9 @@
 import React  from 'react';
-import LoginOrCreateAccount from './LoginOrCreateAccount';
+import LoginOrCreateAccount from './Components/LoginOrCreateAccount';
 import FooterNavBar from './Components/FooterNavBar';
 import Home from './Components/Home';
 import About from './Components/About';
 import Contact from './Components/Contact';
-import Post from './Components/Post';
 import { BrowserRouter, Route, NavLink, Switch } from 'react-router-dom';
 
 const App = () => {
@@ -17,8 +16,7 @@ const App = () => {
                     <Route exact path='/' component={Home} />
                     <Route path='/About' component={About} />
                     <Route path='/Contact' component={Contact} />
-                    <Route path='/:post_id' component={Post} />
-                </Switch>
+                </Switch>   
                 <FooterNavBar/>
             </div>
         </BrowserRouter>
