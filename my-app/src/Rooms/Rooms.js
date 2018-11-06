@@ -5,7 +5,7 @@ const Rooms = ({rooms, deleteRoom}) => {
     const roomList = rooms.map(room => {
         return (
             <div className="room" key={room.id}>
-                <div>Name: {room.name}</div>
+                <div>{room.name}</div>
                 <img src={DeleteIcon} onClick={() => {deleteRoom(room.id)}} alt="Delete Icon"></img>
             </div>
         )   

@@ -6,17 +6,16 @@ class AddRoom extends Component {
         frequency: 'weekly'
     }
     
-    handleChange = (e) => {
+    handleChange = (event) => {
         this.setState({
-            name : e.target.value,
-            frequency : e.target.value
+            [event.target.name] : event.target.value
         })
     }
     
-    handleSubmit = (e) => {
-        e.preventDefault();
+    handleSubmit = (event) => {
+        event.preventDefault();
         this.setState({
-            name: e.target.value
+            [event.target.name] : event.target.value
         })
         
         this.props.addRoom(this.state);
@@ -33,9 +32,9 @@ class AddRoom extends Component {
                 <form id="add-room-form" onSubmit={this.handleSubmit}>
                     {/* //TODO: Add a smart autofill feature */}
                     {/* //TODO: Add a 'edit' feature */}
-                    <input type="text" id="name" onChange={this.handleChange} value={this.state.name}/>
+                    <input type="text" id="name" name="name" onChange={this.handleChange} value={this.state.name}/>
                     <h3>Cleaning frequency:</h3>
-                    <select class="browser-default" value={this.state.frequency} onChange={this.handleChange}>
+                    <select className="browser-default" name="frequency" onChange={this.handleChange} value={this.state.frequency}>
                         <option value="weekly">Once a week</option>
                         <option value="fortnightly">Once every two weeks</option>
                         <option value="thrice-monthly">Once every three weeks</option>
