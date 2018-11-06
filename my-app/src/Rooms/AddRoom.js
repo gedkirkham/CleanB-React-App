@@ -32,7 +32,7 @@ class AddRoom extends Component {
                 <form id="add-room-form" onSubmit={this.handleSubmit}>
                     {/* //TODO: Add a smart autofill feature */}
                     {/* //TODO: Add a 'edit' feature */}
-                    <input type="text" id="name" name="name" onChange={this.handleChange} value={this.state.name}/>
+                    <input type="text" name="name" onChange={this.handleChange} value={this.state.name}/>
                     <h3>Cleaning frequency:</h3>
                     <select className="browser-default" name="frequency" onChange={this.handleChange} value={this.state.frequency}>
                         <option value="weekly">Once a week</option>
