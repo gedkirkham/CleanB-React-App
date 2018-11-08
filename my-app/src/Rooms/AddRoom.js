@@ -14,15 +14,25 @@ class AddRoom extends Component {
     
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({
-            [event.target.name] : event.target.value
-        })
-        
-        this.props.addRoom(this.state);
-        
-        this.setState({
-            name: ''
-        })
+
+        if(!this.state.name == ''){
+            this.setState({
+                [event.target.name] : event.target.value
+            })
+            
+            this.props.addRoom(this.state);
+            
+            this.setState({
+                name: ''
+            })
+        }
+        else {
+            setTimeout(this.warningMessage("Please provide a room name."),0)
+        }
+    }
+
+    warningMessage(errorText){
+        alert(errorText);
     }
     
     render() {

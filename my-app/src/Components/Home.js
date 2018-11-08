@@ -19,14 +19,10 @@ class Home extends Component {
         console.log(prevProps,prevState);
     }
 
-    roomWarningMessage(){
-        alert("Room already exists.");
+    warningMessage(errorText){
+        alert(errorText);
     }
 
-    cleanerWarningMessage(){
-        alert("Cleaner already exists.");
-    }
-    
     addCleaner = (cleaner) => {
         //check to see if cleaner currently exists
         var found = false;
@@ -46,7 +42,7 @@ class Home extends Component {
         }
         else {
             //TODO: build a better warning message
-            setTimeout(this.cleanerWarningMessage,0)
+            setTimeout(this.warningMessage("Cleaner already exists."),0)
         }
     }
     
@@ -73,7 +69,7 @@ class Home extends Component {
         }
         else {
             //TODO: build a better warning message
-            setTimeout(this.roomWarningMessage,0)
+            setTimeout(this.warningMessage("Room already exists."),0)
         }   
     }
     
