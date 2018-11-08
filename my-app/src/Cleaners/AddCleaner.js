@@ -5,18 +5,18 @@ class AddCleaner extends Component {
         name: ''
     }
 
-    handleChange = (e) => {
+    handleChange = (event) => {
         this.setState({
-            name : e.target.value
+            [event.target.name] : event.target.value
         })
     }
     
-    handleSubmit = (e) => {
-        e.preventDefault();
+    handleSubmit = (event) => {
+        event.preventDefault();
 
         if(this.state.name !== '') {
             this.setState({
-                name : e.target.value
+                [event.target.name] : event.target.value
             })
             
             this.props.addCleaner(this.state);
@@ -39,7 +39,7 @@ class AddCleaner extends Component {
             <div>
                 <h3>Enter a cleaners name:</h3>
                 <form id="add-cleaner-form" onSubmit={this.handleSubmit}>
-                    <input type="text" id="name" onChange={this.handleChange} value={this.state.name} />
+                    <input type="text" name="name" onChange={this.handleChange} value={this.state.name} />
                     <button>Add cleaner</button>
                 </form>
             </div>
