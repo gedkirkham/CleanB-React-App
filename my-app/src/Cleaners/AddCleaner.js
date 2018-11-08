@@ -13,15 +13,25 @@ class AddCleaner extends Component {
     
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({
-            name : e.target.value
-        })
-        
-        this.props.addCleaner(this.state);
-        
-        this.setState({
-            name : ''
-        })
+
+        if(this.state.name !== '') {
+            this.setState({
+                name : e.target.value
+            })
+            
+            this.props.addCleaner(this.state);
+            
+            this.setState({
+                name : ''
+            })
+        }
+        else if (this.state.name === '') {
+            setTimeout(this.warningMessage("Please provide a cleaners name."),0);       
+        }
+    }
+
+    warningMessage(errorText){
+        alert(errorText);
     }
 
     render() {
