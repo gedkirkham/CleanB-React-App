@@ -27,7 +27,7 @@ class Home extends Component {
         //check to see if cleaner currently exists
         var found = false;
         for(var i = 0; i < this.props.cleaners.length; i++) {
-            if (this.props.cleaners[i].name === cleaner["name"].toLowerCase()) {
+            if (this.props.cleaners[i].name.toLowerCase() === cleaner["name"].toLowerCase()) {
                 found = true;
                 break;
             }
@@ -54,7 +54,7 @@ class Home extends Component {
         //check to see if room currently exists
         var found = false;
         for(var i = 0; i < this.props.rooms.length; i++) {
-            if (this.props.rooms[i].name === room["name"].toLowerCase()) {
+            if (this.props.rooms[i].name.toLowerCase() === room["name"].toLowerCase()) {
                 found = true;
                 break;
             }
