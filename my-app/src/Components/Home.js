@@ -3,6 +3,7 @@ import AddCleaner from '../Cleaners/AddCleaner'
 import Cleaners from '../Cleaners/Cleaners'
 import AddRoom from '../Rooms/AddRoom'
 import Rooms from '../Rooms/Rooms'
+import Calendar from '../Calendar/Calendar'
 import { connect } from 'react-redux'
 import { addCleaner } from '../Actions/cleanerActions'
 import { deleteCleaner } from '../Actions/cleanerActions'
@@ -84,6 +85,7 @@ class Home extends Component {
                 <Cleaners cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} />
                 <AddRoom addRoom={this.addRoom} />    
                 <Rooms rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
+                <Calendar cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
 
                 <form>
                 Exclude cleaner from a room:
