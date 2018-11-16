@@ -1,28 +1,36 @@
 import React from 'react'
 import DeleteIcon from '../Images/delete-icon.png'
 
+const TableRow = ({row}) => (
+    <tr>
+      <td key={row.name}>{row.name}</td>
+      <td key={row.id}>{row.id}</td>
+    </tr>
+  )
+  
+  const Table = ({cleaners}) => (
+    <table>
+      {cleaners.map(row => {
+          console.log("row: ", row);
+        <TableRow row={row} />
+      })}
+    </table>
+ )
+
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
-    const calendar = cleaners.length ? (
-        cleaners.map(cleaner => {
-            return (
-                <div className="calendar collection-item" key={cleaner.id}>
-                    <table>
-                        <tr>
-                            <th>Dates</th>
-                            <th>{rooms.name}</th>
-                        </tr>
-                        <tr>{cleaner.name}</tr>
-                    </table>
-                </div>
-            )   
-        })
-    ) : (
-        <p>You have no calendar to display. Add some cleaners and rooms!</p>
-    )
+    const Table = ({cleaners}) => (
+        <table>
+          {cleaners.map(row => {
+              return (
+              console.log("row: ", row),
+              <TableRow row={row} />
+              )
+          })}
+        </table>)
     return (
-        <div className="calenda">
+        <div className="calendar">
             <h3>Calendar:</h3>
-            {calendar}
+            <Table cleaners={cleaners}/>
         </div>
     )
 }
