@@ -7,30 +7,41 @@ const TableRow = ({row}) => (
       <td key={row.id}>{row.id}</td>
     </tr>
   )
+
+const TableRoomColumn = ({roomColumn}) => (
+        <td key={roomColumn.name}>{roomColumn.name}</td>
+)
   
-  const Table = ({cleaners}) => (
-    <table>
-      {cleaners.map(row => {
-          console.log("row: ", row);
-        <TableRow row={row} />
-      })}
-    </table>
- )
+//   const Table = ({cleaners, rooms}) => (
+//     <table>
+//         {/* {rooms.map(row => {
+//             <TableRow row={row} />
+//         })},  
+//         {cleaners.map(row => {
+//             <TableRow row={row} />
+//         })} */}
+//     </table>
+//  ) 
 
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
-    const Table = ({cleaners}) => (
+    const Table = ({cleaners, rooms}) => (
         <table>
-          {cleaners.map(row => {
-              return (
-              console.log("row: ", row),
-              <TableRow row={row} />
-              )
-          })}
+            {rooms.map(roomColumn => {
+                return (
+                    <TableRoomColumn roomColumn={roomColumn} />
+                )
+            })} 
+            {cleaners.map(row => {
+                return (
+                console.log("row: ", row),
+                <TableRow row={row} />
+                )
+            })}
         </table>)
     return (
         <div className="calendar">
             <h3>Calendar:</h3>
-            <Table cleaners={cleaners}/>
+            <Table cleaners={cleaners} rooms={rooms}/>
         </div>
     )
 }
