@@ -9,6 +9,18 @@ const TableRoomColumn = ({roomColumn}) => (
     <th key={roomColumn.name}>{roomColumn.name}</th>
 )
 
+const CleanerRow = ({cleaners}) => {
+    return(
+        <tr>
+            {cleaners.map(cleaner => {
+                return (
+                    <TableRow cleaner={cleaner} />
+                )
+            })}
+        </tr>    
+    )
+}
+
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
     const Table = ({cleaners, rooms}) => (
         <table>
@@ -22,13 +34,7 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    {cleaners.map(cleaner => {
-                        return (
-                            <TableRow cleaner={cleaner} />
-                        )
-                    })}
-                </tr>
+                <CleanerRow cleaners={cleaners}/>
             </tbody>
         </table>)
     return (
