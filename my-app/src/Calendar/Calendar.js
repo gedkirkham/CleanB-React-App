@@ -1,42 +1,35 @@
 import React from 'react'
 import DeleteIcon from '../Images/delete-icon.png'
 
-const TableRow = ({row}) => (
-    <tr>
-      <td key={row.name}>{row.name}</td>
-      <td key={row.id}>{row.id}</td>
-    </tr>
-  )
+const TableRow = ({cleaner}) => (
+        <td key={cleaner.name}>{cleaner.name}</td>
+)
 
 const TableRoomColumn = ({roomColumn}) => (
-        <td key={roomColumn.name}>{roomColumn.name}</td>
+    <th key={roomColumn.name}>{roomColumn.name}</th>
 )
-  
-//   const Table = ({cleaners, rooms}) => (
-//     <table>
-//         {/* {rooms.map(row => {
-//             <TableRow row={row} />
-//         })},  
-//         {cleaners.map(row => {
-//             <TableRow row={row} />
-//         })} */}
-//     </table>
-//  ) 
 
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
     const Table = ({cleaners, rooms}) => (
         <table>
-            {rooms.map(roomColumn => {
-                return (
-                    <TableRoomColumn roomColumn={roomColumn} />
-                )
-            })} 
-            {cleaners.map(row => {
-                return (
-                console.log("row: ", row),
-                <TableRow row={row} />
-                )
-            })}
+            <thead>
+                <tr>
+                    {rooms.map(roomColumn => {
+                        return (
+                            <TableRoomColumn roomColumn={roomColumn} />
+                        )
+                    })} 
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {cleaners.map(cleaner => {
+                        return (
+                            <TableRow cleaner={cleaner} />
+                        )
+                    })}
+                </tr>
+            </tbody>
         </table>)
     return (
         <div className="calendar">
