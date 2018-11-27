@@ -1,27 +1,24 @@
 import React from 'react'
 import DeleteIcon from '../Images/delete-icon.png'
 
-const TableRow = ({cleaner}) => (
-        <td key={cleaner.name}>{cleaner.name}</td>
-)
-
 const TableRoomColumn = ({roomColumn}) => (
     <th key={roomColumn.name}>{roomColumn.name}</th>
 )
 
 const CleanerRow = ({cleaners}) => {
-    return(
+    return (
         <tr>
             {cleaners.map(cleaner => {
-                return (
-                    <TableRow cleaner={cleaner} />
+                return(
+                    <td key={cleaner.name}>{cleaner.name}</td>
                 )
             })}
-        </tr>    
+        </tr>
     )
 }
 
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
+    var rows = [1,2,3,4];
     const Table = ({cleaners, rooms}) => (
         <table>
             <thead>
@@ -34,7 +31,11 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
                 </tr>
             </thead>
             <tbody>
-                <CleanerRow cleaners={cleaners}/>
+                    {rows.map(row => {
+                        return (
+                            <CleanerRow cleaners={cleaners} key={row} />
+                        )
+                    })}
             </tbody>
         </table>)
     return (
