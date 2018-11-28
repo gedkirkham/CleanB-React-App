@@ -17,10 +17,30 @@ const CleanerRow = ({cleaners}) => {
     )
 }
 
+const CurrentDayOfTheWeek = () => {
+    var myDate = new Date();
+    var currentDayOfTheWeek = myDate.getDay();
+    var saturdayAsNum = 6;
+    if(currentDayOfTheWeek !== saturdayAsNum){
+        var DaysUntilSaturday = currentDayOfTheWeek - saturdayAsNum;
+        if(DaysUntilSaturday < 0) {
+            console.log("before *-1: "+currentDayOfTheWeek);
+            DaysUntilSaturday = DaysUntilSaturday * -1;
+            console.log("after *-1: "+currentDayOfTheWeek);
+        }
+        currentDayOfTheWeek = currentDayOfTheWeek + DaysUntilSaturday;
+        console.log("DaysUntilSaturday: "+DaysUntilSaturday);
+        console.log("currentDayOfTheWeek: "+currentDayOfTheWeek);
+    }
+    return (
+        DaysUntilSaturday
+    )
+}
+
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
     var rows = [1,2,3,4];
     var saturdayAsNum = 6;
-    var currentDayOfTheWeek = new Date().getDay();//TODO: this value is returning 0 all the time
+    var currentDayOfTheWeek = {CurrentDayOfTheWeek};//TODO: this value is returning 0 all the time
     const CalendarDate = () => {
         if(currentDayOfTheWeek !== saturdayAsNum){
             var DaysUntilSaturday = currentDayOfTheWeek - saturdayAsNum;
@@ -57,6 +77,7 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
             </tbody>
             <tbody>
                 {<CalendarDate/>}
+                {<CurrentDayOfTheWeek/>}
                 {new Date().getDay()}
             </tbody>
         </table>)
