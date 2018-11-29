@@ -6,8 +6,11 @@ const TableRoomColumn = ({roomColumn}) => (
 )
 
 const CleanerRow = ({cleaners}) => {
+    var cleaningDateList = CreateCalendarDates();
+    var index = 0;
     return (
         <tr>
+            <td>{cleaningDateList[index]}</td>
             {cleaners.map(cleaner => {
                 return(
                     <td key={cleaner.name}>{cleaner.name}</td>
@@ -30,7 +33,11 @@ const DaysUntilSaturday = () => {
 
 const CreateCalendarDates = () => {
     var cleaningDateList = [];
-    var cleaningDateList = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate() + DaysUntilSaturday()).toLocaleDateString();
+    var weekLengthAsNumber = 0;
+    for (var i = 0; i < 8; i++){
+        cleaningDateList[i] = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
+        var weekLengthAsNumber = weekLengthAsNumber + 7;
+    }
     return (
         cleaningDateList
     )
@@ -50,14 +57,11 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
                 </tr>
             </thead>
             <tbody>
-                    {rows.map(row => {
-                        return (
-                            <CleanerRow cleaners={cleaners} key={row} />
-                        )
-                    })}
-            </tbody>
-            <tbody>
-                {<CreateCalendarDates/>}
+                {rows.map(row => {
+                    return (
+                        <CleanerRow cleaners={cleaners} key={row} />
+                    )
+                })}
             </tbody>
         </table>)
     return (
