@@ -5,14 +5,14 @@ const TableRoomColumn = ({roomColumn}) => (
     <th key={roomColumn.name}>{roomColumn.name}</th>
 )
 
-const CleanerRow = ({cleaners, index}) => {
+const CleanerRow = ({cleaners, rooms, index}) => {
     var cleaningDateList = CreateCalendarDates();
     return (
         <tr>
             <td>
                 {cleaningDateList[index]}
             </td>
-            {cleaners.map(cleaner => {
+            {cleaners.slice(0,rooms.length).map(cleaner => {
                 return(
                     <td key={cleaner.name}>{cleaner.name}</td>
                 )
@@ -61,7 +61,7 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
             <tbody>
                 {rows.map(row => {
                     return (
-                        <CleanerRow cleaners={cleaners} index={row} key={row} />
+                        <CleanerRow cleaners={cleaners} rooms={rooms} index={row} key={row} />
                     )
                 })}
             </tbody>
