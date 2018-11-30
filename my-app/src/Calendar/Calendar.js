@@ -45,7 +45,7 @@ const CreateCalendarDates = () => {
 }
 
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
-    var rows = [1,2,3,4];
+    var rows = [0,1,2,3];
     const Table = ({cleaners, rooms}) => (
         <table>
             <thead>
