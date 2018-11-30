@@ -50,6 +50,7 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
         <table>
             <thead>
                 <tr>
+                    <th>Dates:</th>
                     {rooms.map(roomColumn => {
                         return (
                             <TableRoomColumn roomColumn={roomColumn} />
