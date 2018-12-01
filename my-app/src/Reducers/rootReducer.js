@@ -5,7 +5,8 @@ const initState = {
     ],
     rooms: [ 
         {name: 'Room 1', frequency: 'weekly', id: 1},
-        {name: 'Room 2', frequency: 'fortnightly', id: 2}
+        {name: 'Room 2', frequency: 'fortnightly', id: 2},
+        {name: 'Room 3', frequency: 'weekly', id: 3}
     ]
 }
 

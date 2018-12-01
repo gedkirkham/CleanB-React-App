@@ -7,14 +7,36 @@ const TableRoomColumn = ({roomColumn}) => (
 
 const CleanerRow = ({cleaners, rooms, index}) => {
     var cleaningDateList = CreateCalendarDates();
+    var newCleanersArray = [];
+    var flag = false;
+    if(cleaners.length < rooms.length) {
+        for(var i = 0; i <= rooms.length; i++){
+            if(i === cleaners.length){
+                i === 0;
+                flag = true;
+            }
+
+            if(flag === false){
+                cleaners.slice(i,i+1).map(cleaner => {
+                    newCleanersArray.push(cleaner);
+                })
+            }
+            else if(flag === true){
+                cleaners.slice(0,1).map(cleaner => {
+                    newCleanersArray.push(cleaner);
+                })
+                flag = false;
+            }
+        }
+    }
     return (
         <tr>
             <td>
                 {cleaningDateList[index]}
-            </td>
-            {cleaners.slice(0,rooms.length).map(cleaner => {
+            </td>   
+            {newCleanersArray.slice(0,rooms.length).map(cleaner => {
                 return(
-                    <td key={cleaner.name}>{cleaner.name}</td>
+                    <td key={Math.random()}>{cleaner.name}</td>
                 )
             })}
         </tr>
