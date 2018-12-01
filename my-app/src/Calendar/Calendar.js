@@ -24,8 +24,9 @@ const CleanerRow = ({cleaners, rooms, index}) => {
 const DaysUntilSaturday = () => {
     var currentDayOfTheWeekAsNum = new Date().getDay();
     var saturdayAsNum = 6;
+    var daysUntilSaturday = 0;
     if(currentDayOfTheWeekAsNum !== saturdayAsNum){
-        var daysUntilSaturday = saturdayAsNum - currentDayOfTheWeekAsNum;
+        daysUntilSaturday = saturdayAsNum - currentDayOfTheWeekAsNum;
     }
     return (
         daysUntilSaturday
@@ -53,7 +54,7 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
                     <th>Dates:</th>
                     {rooms.map(roomColumn => {
                         return (
-                            <TableRoomColumn roomColumn={roomColumn} />
+                            <TableRoomColumn roomColumn={roomColumn} key={roomColumn.name} />
                         )
                     })} 
                 </tr>
