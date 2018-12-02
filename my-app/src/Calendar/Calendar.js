@@ -10,14 +10,15 @@ const CleanerRow = ({cleaners, rooms, index}) => {
     var newCleanersArray = [];
     var flag = false;
     if(cleaners.length < rooms.length) {
+        var y = 0;
         for(var i = 0; i <= rooms.length; i++){
-            if(i === cleaners.length){
-                i === 0;
+            if(y === cleaners.length){
+                y = 0;
                 flag = true;
             }
 
             if(flag === false){
-                cleaners.slice(i,i+1).map(cleaner => {
+                cleaners.slice(y,y+1).map(cleaner => {
                     newCleanersArray.push(cleaner);
                 })
             }
@@ -27,6 +28,7 @@ const CleanerRow = ({cleaners, rooms, index}) => {
                 })
                 flag = false;
             }
+            y++;
         }
     }
     return (
@@ -67,8 +69,14 @@ const CreateCalendarDates = () => {
     )
 }
 
-const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
+const GetCalenderLength = () => {
     var rows = [0,1,2,3];
+    return (
+        rows
+    )
+}
+
+const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
     const Table = ({cleaners, rooms}) => (
         <table>
             <thead>
@@ -82,7 +90,7 @@ const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
                 </tr>
             </thead>
             <tbody>
-                {rows.map(row => {
+                {GetCalenderLength().map(row => {
                     return (
                         <CleanerRow cleaners={cleaners} rooms={rooms} index={row} key={row} />
                     )
