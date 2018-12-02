@@ -1,11 +1,11 @@
 import React from 'react'
 import DeleteIcon from '../Images/delete-icon.png'
 
-const TableRoomColumn = ({roomColumn}) => (
-    <th key={roomColumn.name}>{roomColumn.name}</th>
+const TableHeaders = ({room}) => (
+    <th key={room.name}>{room.name}</th>
 )
 
-const CleanerRow = ({cleaners, rooms, index}) => {
+const TableRow = ({cleaners, rooms, index}) => {
     var cleaningDateList = CreateCalendarDates();
     var newCleanersArray = [];
     var flag = false;
@@ -69,34 +69,36 @@ const CreateCalendarDates = () => {
     )
 }
 
-const GetCalenderLength = () => {
+const CalenderLength = () => {
     var rows = [0,1,2,3];
     return (
         rows
     )
 }
 
-const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
-    const Table = ({cleaners, rooms}) => (
-        <table>
-            <thead>
-                <tr>
-                    <th>Dates:</th>
-                    {rooms.map(roomColumn => {
-                        return (
-                            <TableRoomColumn roomColumn={roomColumn} key={roomColumn.name} />
-                        )
-                    })} 
-                </tr>
-            </thead>
-            <tbody>
-                {GetCalenderLength().map(row => {
+const Table = ({cleaners, rooms}) => (
+    <table>
+        <thead>
+            <tr>
+                <th>Dates:</th>
+                {rooms.map(room => {
                     return (
-                        <CleanerRow cleaners={cleaners} rooms={rooms} index={row} key={row} />
+                        <TableHeaders room={room} key={room.name} />
                     )
-                })}
-            </tbody>
-        </table>)
+                })} 
+            </tr>
+        </thead>
+        <tbody>
+            {CalenderLength().map(row => {
+                return (
+                    <TableRow cleaners={cleaners} rooms={rooms} index={row} key={row} />
+                )
+            })}
+        </tbody>
+    </table>
+)
+
+const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
     return (
         <div className="calendar">
             <h3>Calendar:</h3>
