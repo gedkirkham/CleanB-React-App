@@ -5,38 +5,38 @@ const TableHeaders = ({room}) => (
     <th key={room.name}>{room.name}</th>
 )
 
-const TableRow = ({cleaners, rooms, index}) => {
-    var cleaningDateList = CreateCalendarDates();
-    var newCleanersArray = [];
+const TableRow = ({cleaners, rooms, tableRowIndex}) => {
+    var calendarDateList = CalendarDates();
+    var paddedCleanersArray = [];
     var flag = false;
     if(cleaners.length < rooms.length) {
-        var y = 0;
-        for(var i = 0; i <= rooms.length; i++){
-            if(y === cleaners.length){
-                y = 0;
+        var cleanerIndex = 0;
+        for(var columnCount = 0; columnCount <= rooms.length; columnCount++){
+            if(cleanerIndex === cleaners.length){
+                cleanerIndex = 0;
                 flag = true;
             }
 
             if(flag === false){
-                cleaners.slice(y,y+1).map(cleaner => {
-                    newCleanersArray.push(cleaner);
+                cleaners.slice(cleanerIndex, cleanerIndex + 1).map(cleaner => {
+                    paddedCleanersArray.push(cleaner);
                 })
             }
             else if(flag === true){
                 cleaners.slice(0,1).map(cleaner => {
-                    newCleanersArray.push(cleaner);
+                    paddedCleanersArray.push(cleaner);
                 })
                 flag = false;
             }
-            y++;
+            cleanerIndex++;
         }
     }
     return (
         <tr>
             <td>
-                {cleaningDateList[index]}
+                {calendarDateList[tableRowIndex]}
             </td>   
-            {newCleanersArray.slice(0,rooms.length).map(cleaner => {
+            {paddedCleanersArray.slice(0,rooms.length).map(cleaner => {
                 return(
                     <td key={Math.random()}>{cleaner.name}</td>
                 )
@@ -57,10 +57,10 @@ const DaysUntilSaturday = () => {
     )
 }
 
-const CreateCalendarDates = () => {
+const CalendarDates = () => {
     var cleaningDateList = [];
     var weekLengthAsNumber = 0;
-    for (var i = 0; i < 8; i++){
+    for (var i = 0; i < CalenderLength().length; i++){
         cleaningDateList[i] = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
         var weekLengthAsNumber = weekLengthAsNumber + 7;
     }
@@ -70,9 +70,9 @@ const CreateCalendarDates = () => {
 }
 
 const CalenderLength = () => {
-    var rows = [0,1,2,3];
+    var tableRowArray = [0,1,2,3];
     return (
-        rows
+        tableRowArray
     )
 }
 
@@ -89,9 +89,9 @@ const Table = ({cleaners, rooms}) => (
             </tr>
         </thead>
         <tbody>
-            {CalenderLength().map(row => {
+            {CalenderLength().map(tableRowIndex => {
                 return (
-                    <TableRow cleaners={cleaners} rooms={rooms} index={row} key={row} />
+                    <TableRow cleaners={cleaners} rooms={rooms} tableRowIndex={tableRowIndex} key={tableRowIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
                 )
             })}
         </tbody>
