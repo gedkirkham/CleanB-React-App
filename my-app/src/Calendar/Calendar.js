@@ -31,6 +31,20 @@ const TableRow = ({cleaners, rooms, tableRowIndex}) => {
             cleanerIndex++;
         }
     }
+    else if(rooms.length < cleaners.length) {
+        var cleanerIndex = 0;
+        for(var columnCount = 0; columnCount <= rooms.length; columnCount++){
+            cleaners.slice(cleanerIndex, cleanerIndex + 1).map(cleaner => {
+                paddedCleanersArray.push(cleaner);
+            })
+            cleanerIndex++;
+        }
+    }
+    else if(rooms.length === cleaners.length) {
+        cleaners.map(cleaner => {
+            paddedCleanersArray.push(cleaner);
+        })
+    }
     return (
         <tr>
             <td>
