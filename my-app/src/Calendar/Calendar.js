@@ -5,20 +5,22 @@ const TableHeaders = ({room}) => (
     <th key={room.name}>{room.name}</th>
 )
 
-const TableRow = ({cleaners, rooms, tableRowIndex}) => {
+const TableRow = ({cleaners, rooms, _tableRowIndex}) => {
     var calendarDateList = CalendarDates();
     var paddedCleanersArray = [];
     var flag = false;
+    var tableRowIndex = _tableRowIndex;
     if(cleaners.length < rooms.length) {
         var cleanerIndex = 0;
-        for(var columnCount = 0; columnCount <= rooms.length; columnCount++){
-            if(cleanerIndex === cleaners.length){
+        for(var columnCount = 0; columnCount < rooms.length; columnCount++){
+            if(cleanerIndex + tableRowIndex >= cleaners.length){
                 cleanerIndex = 0;
+                tableRowIndex = 0;
                 flag = true;
             }
 
             if(flag === false){
-                cleaners.slice(cleanerIndex, cleanerIndex + 1).map(cleaner => {
+                cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
                     paddedCleanersArray.push(cleaner);
                 })
             }
@@ -105,7 +107,7 @@ const Table = ({cleaners, rooms}) => (
         <tbody>
             {CalenderLength().map(tableRowIndex => {
                 return (
-                    <TableRow cleaners={cleaners} rooms={rooms} tableRowIndex={tableRowIndex} key={tableRowIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
+                    <TableRow cleaners={cleaners} rooms={rooms} _tableRowIndex={tableRowIndex} key={tableRowIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
                 )
             })}
         </tbody>
