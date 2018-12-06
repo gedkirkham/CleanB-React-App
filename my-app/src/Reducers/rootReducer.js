@@ -2,7 +2,8 @@ const initState = {
     cleaners: [
         {name: 'Ged', id: 1},
         {name: 'Tom', id: 2},
-        {name: 'Peter', id: 3}
+        {name: 'Peter', id: 3},
+        {name: 'Bob', id: 4}
     ],
     rooms: [ 
         {name: 'Room 1', frequency: 'weekly', id: 1},
