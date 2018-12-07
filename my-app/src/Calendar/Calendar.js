@@ -10,42 +10,28 @@ const TableRow = ({cleaners, rooms, _tableRowIndex}) => {
     var paddedCleanersArray = [];
     var flag = false;
     var tableRowIndex = _tableRowIndex;
-    if(cleaners.length < rooms.length) {
-        var cleanerIndex = 0;
-        for(var columnCount = 0; columnCount < rooms.length; columnCount++){
-            if(cleanerIndex + tableRowIndex >= cleaners.length){
-                cleanerIndex = 0;
-                tableRowIndex = 0;
-                flag = true;
-            }
-
-            if(flag === false){
-                cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
-                    paddedCleanersArray.push(cleaner);
-                })
-            }
-            else if(flag === true){
-                cleaners.slice(0,1).map(cleaner => {
-                    paddedCleanersArray.push(cleaner);
-                })
-                flag = false;
-            }
-            cleanerIndex++;
+    var cleanerIndex = 0;
+    
+    //cleaner/room assignment calculation
+    for(var columnCount = 0; columnCount < rooms.length; columnCount++){
+        if(cleanerIndex + tableRowIndex >= cleaners.length){
+            cleanerIndex = 0;
+            tableRowIndex = 0;
+            flag = true;
         }
-    }
-    else if(rooms.length < cleaners.length) {
-        var cleanerIndex = 0;
-        for(var columnCount = 0; columnCount <= rooms.length; columnCount++){
-            cleaners.slice(cleanerIndex, cleanerIndex + 1).map(cleaner => {
+
+        if(flag === false){
+            cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
                 paddedCleanersArray.push(cleaner);
             })
-            cleanerIndex++;
         }
-    }
-    else if(rooms.length === cleaners.length) {
-        cleaners.map(cleaner => {
-            paddedCleanersArray.push(cleaner);
-        })
+        else if(flag === true){
+            cleaners.slice(0,1).map(cleaner => {
+                paddedCleanersArray.push(cleaner);
+            })
+            flag = false;
+        }
+        cleanerIndex++;
     }
     return (
         <tr>
