@@ -5,11 +5,10 @@ const TableHeaders = ({room}) => (
     <th key={room.name}>{room.name}</th>
 )
 
-const TableRow = ({cleaners, rooms, _tableRowIndex}) => {
+const TableRow = ({cleaners, rooms, tableRowIndex}) => {
     var calendarDateList = CalendarDates();
     var paddedCleanersArray = [];
     var flag = false;
-    var tableRowIndex = _tableRowIndex;
     var cleanerIndex = 0;
     
     //cleaner/room assignment calculation
@@ -93,18 +92,33 @@ const Table = ({cleaners, rooms}) => (
         <tbody>
             {CalenderLength().map(tableRowIndex => {
                 return (
-                    <TableRow cleaners={cleaners} rooms={rooms} _tableRowIndex={tableRowIndex} key={tableRowIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
+                    <TableRow cleaners={cleaners} rooms={rooms} tableRowIndex={tableRowIndex} key={tableRowIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
                 )
             })}
         </tbody>
     </table>
 )
 
+const DownloadCalendar = ({cleaners, rooms}) => {
+    return (
+        <form id="download-calendar" onClick={ConvertTableToCsv} cleaners={cleaners} rooms={rooms}>
+            <button>Download</button>
+        </form>
+)}
+
+const ConvertTableToCsv = (event) => {
+    event.preventDefault();
+    console.log("convert to csv and download calendar");
+}
+
 const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
     return (
         <div className="calendar">
             <h3>Calendar:</h3>
             <Table cleaners={cleaners} rooms={rooms}/>
+            
+            <h3>Download calendar:</h3>
+            <DownloadCalendar cleaners={cleaners} rooms={rooms}/>
         </div>
     )
 }
