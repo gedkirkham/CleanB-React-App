@@ -81,7 +81,7 @@ class Home extends Component {
   render() {
     return (
             <div className="cleanb-app container">
-                <AddCleaner addCleaner={this.addCleaner} /> 
+                <AddCleaner addCleaner={this.addCleaner} />
                 <Cleaners cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} />
                 <AddRoom addRoom={this.addRoom} />    
                 <Rooms rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
@@ -153,7 +153,10 @@ const mapDispatchToProps = (dispatch) => {
 
         //rooms
         addRoom: (name) => { dispatch(addRoom(name))},
-        deleteRoom: (id) => { dispatch(deleteRoom(id))}
+        deleteRoom: (id) => { dispatch(deleteRoom(id))},
+
+        //calendar
+        // addCleanerToCalendar : (name) => { dispatch(addCleanerToCalendar(name))}
     }
 }
 

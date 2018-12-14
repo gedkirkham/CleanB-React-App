@@ -1,9 +1,97 @@
-import React from 'react'
+import React, { Component } from 'react'
+// import TableHeaders from './Calendar'
+// import TableRow from './Calendar'
+// import Table from './Calendar'
+// import CalendarLength from './Calendar'
+// import DownloadCalendar from './Calendar'
 import DeleteIcon from '../Images/delete-icon.png'
 
-const TableHeaders = ({room}) => (
-    <th key={room.name}>{room.name}</th>
-)
+class Calendar extends Component {
+    state = {
+        cleanerArray : [],
+        cleaners : [],
+        rooms : []
+    }
+
+    // handleSubmit = (event) => {
+    //     event.preventDefault();
+
+    //     this.setState({
+    //         cleanerArray : this.props.cleaners
+    //     })
+
+    //     this.state.cleanerArray.map(cleaner => {
+    //         return (
+    //             console.log("this.state.cleanerArray: " + cleaner.name)
+    //         )
+    //     })
+    // }
+    
+    ConvertTableToCsv = (event, cleaners, rooms) => {
+        event.preventDefault();
+        cleaners.map(cleaner => {
+            return (
+                console.log("convert to csv and download calendar: " + cleaner.name)
+            )
+        })
+    }
+
+    render() {
+        return (
+            <div className="calendar">
+                <h3>Calendar:</h3>
+                <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
+                
+                <h3>Download calendar:</h3>
+                <DownloadCalendar onClick={this.handleSubmit} cleaners={this.props.cleaners} rooms={this.props.rooms} />
+            </div>
+        )
+    }
+}
+
+const DownloadCalendar = ({cleaners, rooms}) => {
+    return (
+        <form id="download-calendar">
+            <button>Download</button>
+        </form>
+)}
+
+const CalendarDates = () => {
+    var cleaningDateList = [];
+    var weekLengthAsNumber = 0;
+    for (var i = 0; i < CalendarLength().length; i++){
+        cleaningDateList[i] = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
+        var weekLengthAsNumber = weekLengthAsNumber + 7;
+    }
+    return (
+        cleaningDateList
+    )
+}
+
+const DaysUntilSaturday = () => {
+    var currentDayOfTheWeekAsNum = new Date().getDay();
+    var saturdayAsNum = 6;
+    var daysUntilSaturday = 0;
+    if(currentDayOfTheWeekAsNum !== saturdayAsNum){
+        daysUntilSaturday = saturdayAsNum - currentDayOfTheWeekAsNum;
+    }
+    return (
+        daysUntilSaturday
+    )
+}
+
+const CalendarLength = () => {
+    var tableRowArray = [0,1,2,3];
+    return (
+        tableRowArray
+    )
+}
+
+const TableHeaders = ({room}) => {
+    return (
+        <th key={room.name}>{room.name}</th>
+    )
+}
 
 const TableRow = ({cleaners, rooms, tableRowIndex}) => {
     var calendarDateList = CalendarDates();
@@ -21,12 +109,16 @@ const TableRow = ({cleaners, rooms, tableRowIndex}) => {
 
         if(flag === false){
             cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
-                paddedCleanersArray.push(cleaner);
+                return (
+                    paddedCleanersArray.push(cleaner)
+                )
             })
         }
         else if(flag === true){
             cleaners.slice(0,1).map(cleaner => {
-                paddedCleanersArray.push(cleaner);
+                return (
+                    paddedCleanersArray.push(cleaner)
+                )
             })
             flag = false;
         }
@@ -46,81 +138,28 @@ const TableRow = ({cleaners, rooms, tableRowIndex}) => {
     )
 }
 
-const DaysUntilSaturday = () => {
-    var currentDayOfTheWeekAsNum = new Date().getDay();
-    var saturdayAsNum = 6;
-    var daysUntilSaturday = 0;
-    if(currentDayOfTheWeekAsNum !== saturdayAsNum){
-        daysUntilSaturday = saturdayAsNum - currentDayOfTheWeekAsNum;
-    }
-    return (
-        daysUntilSaturday
-    )
-}
-
-const CalendarDates = () => {
-    var cleaningDateList = [];
-    var weekLengthAsNumber = 0;
-    for (var i = 0; i < CalenderLength().length; i++){
-        cleaningDateList[i] = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
-        var weekLengthAsNumber = weekLengthAsNumber + 7;
-    }
-    return (
-        cleaningDateList
-    )
-}
-
-const CalenderLength = () => {
-    var tableRowArray = [0,1,2,3];
-    return (
-        tableRowArray
-    )
-}
-
-const Table = ({cleaners, rooms}) => (
-    <table>
-        <thead>
-            <tr>
-                <th>Dates:</th>
-                {rooms.map(room => {
+const Table = ({cleaners, rooms}) => {
+    return(
+        <table>
+            <thead>
+                <tr>
+                    <th>Dates:</th>
+                    {rooms.map(room => {
+                        return (
+                            <TableHeaders room={room} key={room.name} />
+                        )
+                    })} 
+                </tr>
+            </thead>
+            <tbody>
+                {CalendarLength().map(tableRowIndex => {
                     return (
-                        <TableHeaders room={room} key={room.name} />
+                        <TableRow cleaners={cleaners} rooms={rooms} tableRowIndex={tableRowIndex} key={tableRowIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
                     )
-                })} 
-            </tr>
-        </thead>
-        <tbody>
-            {CalenderLength().map(tableRowIndex => {
-                return (
-                    <TableRow cleaners={cleaners} rooms={rooms} tableRowIndex={tableRowIndex} key={tableRowIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
-                )
-            })}
-        </tbody>
-    </table>
-)
-
-const DownloadCalendar = ({cleaners, rooms}) => {
-    return (
-        <form id="download-calendar" onClick={ConvertTableToCsv} cleaners={cleaners} rooms={rooms}>
-            <button>Download</button>
-        </form>
-)}
-
-const ConvertTableToCsv = (event) => {
-    event.preventDefault();
-    console.log("convert to csv and download calendar");
-}
-
-const Calendar = ({cleaners, deleteCleaner, rooms, deleteRoom}) => {
-    return (
-        <div className="calendar">
-            <h3>Calendar:</h3>
-            <Table cleaners={cleaners} rooms={rooms}/>
-            
-            <h3>Download calendar:</h3>
-            <DownloadCalendar cleaners={cleaners} rooms={rooms}/>
-        </div>
+                })}
+            </tbody>
+        </table>
     )
 }
 
-export default Calendar
+export default Calendar;
