@@ -1,10 +1,4 @@
 import React, { Component } from 'react'
-// import TableHeaders from './Calendar'
-// import TableRow from './Calendar'
-// import Table from './Calendar'
-// import CalendarLength from './Calendar'
-// import DownloadCalendar from './Calendar'
-import DeleteIcon from '../Images/delete-icon.png'
 
 class Calendar extends Component {
     state = {
