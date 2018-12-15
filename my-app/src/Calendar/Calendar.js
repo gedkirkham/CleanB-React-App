@@ -9,7 +9,6 @@ class Calendar extends Component {
     render() {
         const handleSubmit = (event) => {
             event.preventDefault();
-
             ConvertTableToCsv();
 
             var element = document.createElement("a");
@@ -18,7 +17,7 @@ class Calendar extends Component {
             element.download = "myFile.csv";
             element.click();
 
-            this.setState({
+            this.setState({ 
                 paddedCleanersArray : [],
                 paddedCleanersArrayAsCsv : []
             })
@@ -29,7 +28,7 @@ class Calendar extends Component {
             this.state.paddedCleanersArray.map(cleaner => {
                 this.state.paddedCleanersArrayAsCsv.push(cleaner.name)
                 
-                if(counter === this.props.rooms.length - 1){
+                if(counter === this.props.rooms.length - 1){ //TODO: use room.length rather than this.props.
                     this.state.paddedCleanersArrayAsCsv.push("\n")
                     counter = 0;
                 }
@@ -40,10 +39,10 @@ class Calendar extends Component {
             })
         }
     
-        const DownloadCalendar = ({cleaners, rooms}) => {
+        const DownloadCalendar = () => {//TODO:pass this.props.rooms to this const.
             return (
                 <form id="download-calendar">
-                    <button>Download</button>
+                    <button onClick={handleSubmit}>Download</button>
                 </form>
         )}
         
@@ -51,7 +50,7 @@ class Calendar extends Component {
             var cleaningDateList = [];
             var weekLengthAsNumber = 0;
             for (var i = 0; i < CalendarLength().length; i++){
-                cleaningDateList[i] = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
+                cleaningDateList[i] = new Date(new Date().getFullYear() ,new Date().getMonth(), new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
                 var weekLengthAsNumber = weekLengthAsNumber + 7;
             }
             return (
@@ -132,6 +131,7 @@ class Calendar extends Component {
         }
 
         const Table = ({cleaners, rooms}) => {
+            this.state.paddedCleanersArray = []
             return (
                 <table>
                     <thead>
@@ -161,7 +161,7 @@ class Calendar extends Component {
                 <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
                 
                 <h3>Download calendar:</h3>
-                <button id="myInput" onClick={handleSubmit} cleaners={this.props.cleaners} rooms={this.props.rooms}>Download</button>
+                <DownloadCalendar cleaners={this.props.cleaners} rooms={this.props.rooms}/> 
             </div>
         )
     }
