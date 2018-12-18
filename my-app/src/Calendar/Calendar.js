@@ -10,31 +10,50 @@ class Calendar extends Component {
         const handleSubmit = (event) => {
             event.preventDefault();
             ConvertTableToCsv();
-
-            var element = document.createElement("a");
-            var file = new Blob(this.state.paddedCleanersArrayAsCsv, {type: 'text/plain'});
-            element.href = URL.createObjectURL(file);
-            element.download = "myFile.csv";
-            element.click();
+            GenerateAndDownloadFile();
 
             this.setState({ 
                 paddedCleanersArray : [],
                 paddedCleanersArrayAsCsv : []
             })
         }
+
+        const GenerateAndDownloadFile = () => {
+            var element = document.createElement("a");
+            var file = new Blob(this.state.paddedCleanersArrayAsCsv, {type: 'text/plain'});
+            element.href = URL.createObjectURL(file);
+            element.download = new Date() + "_calendar.csv";
+            element.click();
+        }
         
         const ConvertTableToCsv = (rooms) => {
-            var counter = 0;
+            var columnCounter = 0;
+            var dateIndex = 0;
+            var calendarDateList = CalendarDates();
+
+            //headers
+            this.state.paddedCleanersArrayAsCsv.push("Dates,"),
+            this.props.rooms.map(room => {
+                this.state.paddedCleanersArrayAsCsv.push(room.name + ",")
+            })
+            this.state.paddedCleanersArrayAsCsv.push("\n"),
+
+            //content
+            this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ","),
             this.state.paddedCleanersArray.map(cleaner => {
                 this.state.paddedCleanersArrayAsCsv.push(cleaner.name)
                 
-                if(counter === this.props.rooms.length - 1){ //TODO: use room.length rather than this.props.
-                    this.state.paddedCleanersArrayAsCsv.push("\n")
-                    counter = 0;
+                if(columnCounter === this.props.rooms.length - 1){ //TODO: use room.length rather than this.props.
+                    columnCounter = 0;
+                    if(dateIndex < calendarDateList.length - 1){
+                        this.state.paddedCleanersArrayAsCsv.push("\n")
+                        dateIndex++;
+                        this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ",")
+                    }
                 }
                 else {
-                    this.state.paddedCleanersArrayAsCsv.push(",")
-                   counter++
+                    this.state.paddedCleanersArrayAsCsv.push(","),
+                    columnCounter++
                 }
             })
         }
@@ -71,7 +90,7 @@ class Calendar extends Component {
         }
         
         const CalendarLength = () => {
-            var tableRowArray = [0,1,2,3];
+            var tableRowArray = [0,1,2,3];//TODO: add variable length
             return (
                 tableRowArray
             )
