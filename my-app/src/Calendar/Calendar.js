@@ -107,6 +107,7 @@ class Calendar extends Component {
             var paddedCleanersArray = [];
             var flag = false;
             var cleanerIndex = 0;
+            var dateIndex = tableRowIndex;
 
             //cleaner/room assignment calculation
             for(var columnCount = 0; columnCount < rooms.length; columnCount++){
@@ -138,7 +139,7 @@ class Calendar extends Component {
             return (
                 <tr>
                     <td>
-                        {calendarDateList[tableRowIndex]}
+                        {calendarDateList[dateIndex]}
                     </td>   
                     {paddedCleanersArray.slice(0,rooms.length).map(cleaner => {
                         return (
