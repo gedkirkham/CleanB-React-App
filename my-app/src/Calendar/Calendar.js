@@ -109,6 +109,7 @@ class Calendar extends Component {
             var cleanerIndex = 0;
             var dateIndex = tableRowIndex;
             var weekIndex = tableRowIndex + 1;
+            var skipFlag;
 
             //cleaner/room assignment calculation
             for(var columnCount = 0; columnCount < rooms.length; columnCount++){
@@ -119,46 +120,20 @@ class Calendar extends Component {
                 }
 
                 var currentRoom = rooms[columnCount];
-                var currentRoomName = currentRoom.name;
                 var currentRoomFrequency = currentRoom.frequency;
 
-                if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex != 1 )){
-                    if(flag === false){
-                        cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
-                            return (
-                                this.state.paddedCleanersArray.push(""),
-                                paddedCleanersArray.push("")
-                            )
-                        })
-                    }
-                    else if(flag === true){
-                        cleaners.slice(0,1).map(cleaner => {
-                            return (
-                                this.state.paddedCleanersArray.push(""),
-                                paddedCleanersArray.push("")
-                            )
-                        })
-                        flag = false;
-                    }
+                if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex != 1)){
+                    skipFlag = true;
                 }
                 else {
-                    if(flag === false){
-                        cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
-                            return (
-                                this.state.paddedCleanersArray.push(cleaner),
-                                paddedCleanersArray.push(cleaner)
-                            )
-                        })
-                    }
-                    else if(flag === true){
-                        cleaners.slice(0,1).map(cleaner => {
-                            return (
-                                this.state.paddedCleanersArray.push(cleaner),
-                                paddedCleanersArray.push(cleaner)
-                            )
-                        })
-                        flag = false;
-                    }
+                    skipFlag = false;
+                }
+
+                var cleanerToReturn = AddCleanerToArray(flag, skipFlag, cleaners, cleanerIndex, tableRowIndex);
+                this.state.paddedCleanersArray.push(cleanerToReturn);
+                paddedCleanersArray.push(cleanerToReturn);
+
+                if(!((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex != 1))){
                     cleanerIndex++;
                 }
             }   
@@ -173,6 +148,26 @@ class Calendar extends Component {
                         )
                     })} 
                 </tr>
+            )
+        }
+
+        const AddCleanerToArray = (flag, skipFlag, cleaners, cleanerIndex, tableRowIndex) => {
+            var _cleanerIndex = cleanerIndex;
+            var _tableRowIndex = tableRowIndex;
+            var cleanerToReturn = "default";
+            
+            if(skipFlag === false){
+                cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
+                    return (
+                        cleanerToReturn = cleaner
+                    )
+                })
+            }
+            else if (skipFlag === true){
+                cleanerToReturn = "";
+            }
+            return (
+                cleanerToReturn
             )
         }
 

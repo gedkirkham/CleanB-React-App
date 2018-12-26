@@ -10,7 +10,8 @@ const initState = {
         {name: 'Fortnightly room', frequency: 'fortnightly', id: 2},
         {name: 'Room 3', frequency: 'weekly', id: 3},
         {name: 'thrice-monthly', frequency: 'thrice-monthly', id: 4},
-        {name: 'monthly', frequency: 'monthly', id: 5}
+        {name: 'monthly', frequency: 'monthly', id: 5},
+        {name: 'Garage', frequency: 'weekly', id: 6}
     ]
 }
 
