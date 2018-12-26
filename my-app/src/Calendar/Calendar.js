@@ -3,7 +3,13 @@ import React, { Component } from 'react'
 class Calendar extends Component {
     state = {
         paddedCleanersArray : [],
-        paddedCleanersArrayAsCsv : []
+        paddedCleanersArrayAsCsv : [],
+        fortnigtlyFrequencyCounter : [
+            {
+                name : null,
+                frequency : 0
+            }
+        ]
     }
 
     render() {
@@ -69,7 +75,7 @@ class Calendar extends Component {
             var cleaningDateList = [];
             var weekLengthAsNumber = 0;
             for (var i = 0; i < CalendarLength().length; i++){
-                cleaningDateList[i] = new Date(new Date().getFullYear() ,new Date().getMonth(), new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
+                cleaningDateList[i] = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
                 var weekLengthAsNumber = weekLengthAsNumber + 7;
             }
             return (
@@ -108,6 +114,7 @@ class Calendar extends Component {
             var flag = false;
             var cleanerIndex = 0;
             var dateIndex = tableRowIndex;
+            var roomFrequencyCounter = 0;
 
             //cleaner/room assignment calculation
             for(var columnCount = 0; columnCount < rooms.length; columnCount++){
@@ -116,6 +123,18 @@ class Calendar extends Component {
                     tableRowIndex = 0;
                     flag = true;
                 }
+
+                var currentRoom = rooms[columnCount];
+                var currentRoomName = currentRoom.name;
+                var currentRoomFrequency = currentRoom.frequency;
+                console.log(currentRoomName + " : " + currentRoomFrequency);
+
+                if(currentRoomFrequency === "fortnightly"){
+                    roomFrequencyCounter++;
+                    this.state.fortnigtlyFrequencyCounter.frequency = roomFrequencyCounter;
+                    this.state.fortnigtlyFrequencyCounter.name = currentRoomName;
+                }
+                console.log(this.state.fortnigtlyFrequencyCounter.name + " : " + this.state.fortnigtlyFrequencyCounter.frequency);
         
                 if(flag === false){
                     cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
@@ -186,7 +205,5 @@ class Calendar extends Component {
         )
     }
 }
-
-
 
 export default Calendar;
