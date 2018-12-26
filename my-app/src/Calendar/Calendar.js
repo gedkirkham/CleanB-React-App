@@ -3,13 +3,7 @@ import React, { Component } from 'react'
 class Calendar extends Component {
     state = {
         paddedCleanersArray : [],
-        paddedCleanersArrayAsCsv : [],
-        fortnigtlyFrequencyCounter : [
-            {
-                name : null,
-                frequency : 0
-            }
-        ]
+        paddedCleanersArrayAsCsv : []
     }
 
     render() {
@@ -114,7 +108,7 @@ class Calendar extends Component {
             var flag = false;
             var cleanerIndex = 0;
             var dateIndex = tableRowIndex;
-            var roomFrequencyCounter = 0;
+            var weekIndex = tableRowIndex + 1;
 
             //cleaner/room assignment calculation
             for(var columnCount = 0; columnCount < rooms.length; columnCount++){
@@ -127,34 +121,47 @@ class Calendar extends Component {
                 var currentRoom = rooms[columnCount];
                 var currentRoomName = currentRoom.name;
                 var currentRoomFrequency = currentRoom.frequency;
-                console.log(currentRoomName + " : " + currentRoomFrequency);
 
-                if(currentRoomFrequency === "fortnightly"){
-                    roomFrequencyCounter++;
-                    this.state.fortnigtlyFrequencyCounter.frequency = roomFrequencyCounter;
-                    this.state.fortnigtlyFrequencyCounter.name = currentRoomName;
+                if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex != 1 )){
+                    if(flag === false){
+                        cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
+                            return (
+                                this.state.paddedCleanersArray.push(""),
+                                paddedCleanersArray.push("")
+                            )
+                        })
+                    }
+                    else if(flag === true){
+                        cleaners.slice(0,1).map(cleaner => {
+                            return (
+                                this.state.paddedCleanersArray.push(""),
+                                paddedCleanersArray.push("")
+                            )
+                        })
+                        flag = false;
+                    }
                 }
-                console.log(this.state.fortnigtlyFrequencyCounter.name + " : " + this.state.fortnigtlyFrequencyCounter.frequency);
-        
-                if(flag === false){
-                    cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
-                        return (
-                            this.state.paddedCleanersArray.push(cleaner),
-                            paddedCleanersArray.push(cleaner)
-                        )
-                    })
+                else {
+                    if(flag === false){
+                        cleaners.slice(cleanerIndex + tableRowIndex, cleanerIndex + tableRowIndex + 1).map(cleaner => {
+                            return (
+                                this.state.paddedCleanersArray.push(cleaner),
+                                paddedCleanersArray.push(cleaner)
+                            )
+                        })
+                    }
+                    else if(flag === true){
+                        cleaners.slice(0,1).map(cleaner => {
+                            return (
+                                this.state.paddedCleanersArray.push(cleaner),
+                                paddedCleanersArray.push(cleaner)
+                            )
+                        })
+                        flag = false;
+                    }
+                    cleanerIndex++;
                 }
-                else if(flag === true){
-                    cleaners.slice(0,1).map(cleaner => {
-                        return (
-                            this.state.paddedCleanersArray.push(cleaner),
-                            paddedCleanersArray.push(cleaner)
-                        )
-                    })
-                    flag = false;
-                }
-                cleanerIndex++;
-            }
+            }   
             return (
                 <tr>
                     <td>
