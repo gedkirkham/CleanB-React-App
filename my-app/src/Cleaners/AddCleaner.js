@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {ENTER_CLEANERS_NAME_CONST, ADD_CLEANER_CONST, PROVIDE_CLEANERS_NAME_CONST} from '../Constants'
 
 class AddCleaner extends Component {
     state = {
@@ -26,7 +27,7 @@ class AddCleaner extends Component {
             })
         }
         else if (this.state.name === '') {
-            setTimeout(this.warningMessage("Please provide a cleaners name."),0);       
+            setTimeout(this.warningMessage({PROVIDE_CLEANERS_NAME_CONST}),0);       
         }
     }
 
@@ -37,10 +38,10 @@ class AddCleaner extends Component {
     render() {
         return(
             <div className="row">
-                <h3>Enter a cleaners name:</h3>
+                <h3>{ENTER_CLEANERS_NAME_CONST}</h3>
                 <form id="add-cleaner-form" onSubmit={this.handleSubmit}>
                     <input type="text" name="name" onChange={this.handleChange} value={this.state.name} />
-                    <button>Add cleaner</button>
+                    <button>{ADD_CLEANER_CONST}</button>
                 </form>
             </div>
         )

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {ADD_ROOM_CONST, ADD_A_ROOM_CONST, PROVIDE_ROOM_NAME_CONST, CLEANING_FREQUENCY_CONST, WEEKLY_CONST, FORTNIGHTLY_CONST, THRICE_MONTHLY_CONST, MONTHLY_CONST} from '../Constants'
 
 class AddRoom extends Component {
     state = {
@@ -27,7 +28,7 @@ class AddRoom extends Component {
             })
         }
         else if(this.state.name === ''){
-            setTimeout(this.warningMessage("Please provide a room name."),0)
+            setTimeout(this.warningMessage({PROVIDE_ROOM_NAME_CONST}),0)
         }
     }
 
@@ -38,19 +39,19 @@ class AddRoom extends Component {
     render() {
         return (
             <div className="add-room row">
-                <h3>Add a room:</h3>
+                <h3>{ADD_A_ROOM_CONST}</h3>
                 <form id="add-room-form" onSubmit={this.handleSubmit}>
                     {/* //TODO: Add a smart autofill feature */}
                     {/* //TODO: Add a 'edit' feature */}
                     <input type="text" name="name" onChange={this.handleChange} value={this.state.name}/>
-                    <h3>Cleaning frequency:</h3>
+                    <h3>{CLEANING_FREQUENCY_CONST}</h3>
                     <select className="browser-default" name="frequency" onChange={this.handleChange} value={this.state.frequency}>
-                        <option value="weekly">Once a week</option>
-                        <option value="fortnightly">Once every two weeks</option>
-                        <option value="thrice-monthly">Once every three weeks</option>
-                        <option value="monthly">Once a month</option>
+                        <option value="weekly">{WEEKLY_CONST}</option>
+                        <option value="fortnightly">{FORTNIGHTLY_CONST}</option>
+                        <option value="thrice-monthly">{THRICE_MONTHLY_CONST}</option>
+                        <option value="monthly">{MONTHLY_CONST}</option>
                     </select>
-                    <button>Add room</button>
+                    <button>{ADD_ROOM_CONST}</button>
                 </form> 
             </div>
         )

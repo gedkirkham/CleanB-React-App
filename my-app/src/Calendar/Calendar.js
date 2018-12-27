@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, FORTNIGHTLY_VAR_CONST, MONTHLY_VAR_CONST, THRICE_MONTHLY_VAR_CONST} from '../Constants'
 
 class Calendar extends Component {
     state = {
@@ -66,7 +67,7 @@ class Calendar extends Component {
         const DownloadCalendar = () => {//TODO:pass this.props.rooms to this const.
             return (
                 <form id="download-calendar">
-                    <button onClick={handleSubmit}>Download</button>
+                    <button onClick={handleSubmit}>{DOWNLOAD_CONST}</button>
                 </form>
         )}
         
@@ -126,7 +127,6 @@ class Calendar extends Component {
 
                 var currentRoom = rooms[columnCount];
                 var currentRoomFrequency = currentRoom.frequency;
-
                 if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1)){
                     skipFlag = true;
                 }
@@ -159,7 +159,7 @@ class Calendar extends Component {
         const AddCleanerToArray = (flag, skipFlag, cleaners, cleanerIndex, tableRowIndex) => {
             var _cleanerIndex = cleanerIndex;
             var _tableRowIndex = tableRowIndex;
-            var cleanerToReturn = "default";
+            var cleanerToReturn;
             
             if(skipFlag === false){
                 cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
@@ -181,7 +181,7 @@ class Calendar extends Component {
                 <table>
                     <thead>
                         <tr>
-                            <th>Dates:</th>
+                            <th>{DATES_CONST}</th>
                             {rooms.map(room => {
                                 return (
                                     <TableHeaders room={room} key={room.name} />
@@ -203,12 +203,12 @@ class Calendar extends Component {
         return (
             <div className="calendar row">
                 <div className="row">
-                    <h3>Calendar:</h3>
+                    <h3>{CALENDAR_CONST}</h3>
                     <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
                 </div>
                 
                 <div className="row">
-                    <h3>Download calendar:</h3>
+                    <h3>{DOWNLOAD_CALENDAR_CONST}</h3>
                     <DownloadCalendar cleaners={this.props.cleaners} rooms={this.props.rooms}/> 
                 </div>
             </div>

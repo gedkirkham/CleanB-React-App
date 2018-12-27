@@ -1,22 +1,23 @@
 import React from 'react'
 import DeleteIcon from '../Images/delete-icon.png'
+import {CLEANERS_CONST, NO_CLEANERS_CONST, DELETE_ICON_ALT_CONST} from '../Constants'
 
 const Cleaners = ({cleaners, deleteCleaner}) => {
     const cleanerList = cleaners.length ? (
         cleaners.map(cleaner => {
             return (
                 <div className="cleaner collection-item row" key={cleaner.id}>
-                    <img className="left" src={DeleteIcon} onClick={() => {deleteCleaner(cleaner.id)}} alt="Delete Icon"></img>
+                    <img className="left" src={DeleteIcon} onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img>
                     <div className="left">{cleaner.name}</div>
                 </div>
             )   
         })
     ) : (
-        <p>You have no cleaners :/</p>
+        <p>{NO_CLEANERS_CONST}</p>
     )
     return (
         <div className="cleaner-list row">
-            <h3>Cleaners:</h3>
+            <h3>{CLEANERS_CONST}</h3>
             {cleanerList}
         </div>
     )

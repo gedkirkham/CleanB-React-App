@@ -1,12 +1,13 @@
 import React from 'react';
 import DeleteIcon from '../Images/delete-icon.png'
+import {ROOMS_CONST, DELETE_ICON_ALT_CONST} from '../Constants'
 
 const Rooms = ({rooms, deleteRoom}) => {
     const roomList = rooms.length ? (
         rooms.map(room => {
             return (
                 <div className="room collection-item row" key={room.name}>
-                    <img className="left" src={DeleteIcon} onClick={() => {deleteRoom(room.id)}} alt="Delete Icon"></img>
+                    <img className="left" src={DeleteIcon} onClick={() => {deleteRoom(room.id)}} alt={DELETE_ICON_ALT_CONST}></img>
                     <div className="left">{room.name}</div>
                 </div>
             )   
@@ -16,7 +17,7 @@ const Rooms = ({rooms, deleteRoom}) => {
     )
     return (
         <div className="rooms-list row">
-            <h3>Rooms:</h3>
+            <h3>{ROOMS_CONST}</h3>
             {roomList}
         </div>
     )

@@ -9,6 +9,7 @@ import { addCleaner } from '../Actions/cleanerActions'
 import { deleteCleaner } from '../Actions/cleanerActions'
 import { addRoom } from '../Actions/roomActions'
 import { deleteRoom } from '../Actions/roomActions'
+import {CLEANER_ALREADY_EXISTS_CONST, ROOM_ALREADY_EXISTS} from '../Constants'
 
 class Home extends Component {
     componentDidMount(){
@@ -43,7 +44,7 @@ class Home extends Component {
         }
         else {
             //TODO: build a better warning message
-            setTimeout(this.warningMessage("Cleaner already exists."),0)
+            setTimeout(this.warningMessage({CLEANER_ALREADY_EXISTS_CONST}),0)
         }
     }
     
@@ -70,7 +71,7 @@ class Home extends Component {
         }
         else {
             //TODO: build a better warning message
-            setTimeout(this.warningMessage("Room already exists."),0)
+            setTimeout(this.warningMessage({ROOM_ALREADY_EXISTS}),0)
         }   
     }
     
@@ -154,9 +155,6 @@ const mapDispatchToProps = (dispatch) => {
         //rooms
         addRoom: (name) => { dispatch(addRoom(name))},
         deleteRoom: (id) => { dispatch(deleteRoom(id))},
-
-        //calendar
-        // addCleanerToCalendar : (name) => { dispatch(addCleanerToCalendar(name))}
     }
 }
 
