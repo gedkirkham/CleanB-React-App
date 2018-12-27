@@ -32,15 +32,15 @@ class Calendar extends Component {
             var calendarDateList = CalendarDates();
 
             //headers
-            this.state.paddedCleanersArrayAsCsv.push("Dates,"),
-            this.props.rooms.map(room => {
+            this.state.paddedCleanersArrayAsCsv.push("Dates,")
+            this.props.rooms.forEach(room => {
                 this.state.paddedCleanersArrayAsCsv.push(room.name + ",")
             })
-            this.state.paddedCleanersArrayAsCsv.push("\n"),
+            this.state.paddedCleanersArrayAsCsv.push("\n")
 
             //content
-            this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ","),
-            this.state.paddedCleanersArray.map(cleaner => {
+            this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ",")
+            this.state.paddedCleanersArray.forEach(cleaner => {
                 this.state.paddedCleanersArrayAsCsv.push(cleaner.name)
                 
                 if(columnCounter === this.props.rooms.length - 1){ //TODO: use room.length rather than this.props.
@@ -52,7 +52,7 @@ class Calendar extends Component {
                     }
                 }
                 else {
-                    this.state.paddedCleanersArrayAsCsv.push(","),
+                    this.state.paddedCleanersArrayAsCsv.push(",")
                     columnCounter++
                 }
             })
@@ -70,7 +70,7 @@ class Calendar extends Component {
             var weekLengthAsNumber = 0;
             for (var i = 0; i < CalendarLength().length; i++){
                 cleaningDateList[i] = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
-                var weekLengthAsNumber = weekLengthAsNumber + 7;
+                weekLengthAsNumber = weekLengthAsNumber + 7;
             }
             return (
                 cleaningDateList
@@ -122,7 +122,7 @@ class Calendar extends Component {
                 var currentRoom = rooms[columnCount];
                 var currentRoomFrequency = currentRoom.frequency;
 
-                if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex != 1)){
+                if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1)){
                     skipFlag = true;
                 }
                 else {
@@ -133,7 +133,7 @@ class Calendar extends Component {
                 this.state.paddedCleanersArray.push(cleanerToReturn);
                 paddedCleanersArray.push(cleanerToReturn);
 
-                if(!((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex != 1))){
+                if(!((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1))){
                     cleanerIndex++;
                 }
             }   
@@ -172,7 +172,6 @@ class Calendar extends Component {
         }
 
         const Table = ({cleaners, rooms}) => {
-            this.state.paddedCleanersArray = []
             return (
                 <table>
                     <thead>

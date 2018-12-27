@@ -43,6 +43,7 @@ const rootReducer = (state = initState, action) => {
                 ...state,
                 rooms: newRoomList
             }
+        default:
     }
     return state;
 }
