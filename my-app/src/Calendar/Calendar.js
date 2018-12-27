@@ -41,7 +41,12 @@ class Calendar extends Component {
             //content
             this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ",")
             this.state.paddedCleanersArray.forEach(cleaner => {
-                this.state.paddedCleanersArrayAsCsv.push(cleaner.name)
+                if(cleaner.name != undefined){
+                    this.state.paddedCleanersArrayAsCsv.push(cleaner.name)    
+                }
+                else{
+                    this.state.paddedCleanersArrayAsCsv.push("")
+                }
                 
                 if(columnCounter === this.props.rooms.length - 1){ //TODO: use room.length rather than this.props.
                     columnCounter = 0;
