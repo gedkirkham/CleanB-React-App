@@ -41,7 +41,7 @@ class Calendar extends Component {
             //content
             this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ",")
             this.state.paddedCleanersArray.forEach(cleaner => {
-                if(cleaner.name != undefined){
+                if(cleaner.name !== undefined){
                     this.state.paddedCleanersArrayAsCsv.push(cleaner.name)    
                 }
                 else{
@@ -201,12 +201,16 @@ class Calendar extends Component {
         }
           
         return (
-            <div className="calendar">
-                <h3>Calendar:</h3>
-                <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
+            <div className="calendar row">
+                <div className="row">
+                    <h3>Calendar:</h3>
+                    <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
+                </div>
                 
-                <h3>Download calendar:</h3>
-                <DownloadCalendar cleaners={this.props.cleaners} rooms={this.props.rooms}/> 
+                <div className="row">
+                    <h3>Download calendar:</h3>
+                    <DownloadCalendar cleaners={this.props.cleaners} rooms={this.props.rooms}/> 
+                </div>
             </div>
         )
     }

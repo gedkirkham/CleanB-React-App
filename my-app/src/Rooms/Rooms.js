@@ -5,9 +5,9 @@ const Rooms = ({rooms, deleteRoom}) => {
     const roomList = rooms.length ? (
         rooms.map(room => {
             return (
-                <div className="room collection-item" key={room.name}>
-                    <div>{room.name}</div>
-                    <img src={DeleteIcon} onClick={() => {deleteRoom(room.id)}} alt="Delete Icon"></img>
+                <div className="room collection-item row" key={room.name}>
+                    <img className="left" src={DeleteIcon} onClick={() => {deleteRoom(room.id)}} alt="Delete Icon"></img>
+                    <div className="left">{room.name}</div>
                 </div>
             )   
         })
@@ -15,7 +15,7 @@ const Rooms = ({rooms, deleteRoom}) => {
         <p>You have no rooms :/</p>
     )
     return (
-        <div className="rooms-list">
+        <div className="rooms-list row">
             <h3>Rooms:</h3>
             {roomList}
         </div>

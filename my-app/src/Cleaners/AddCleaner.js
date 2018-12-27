@@ -36,7 +36,7 @@ class AddCleaner extends Component {
 
     render() {
         return(
-            <div>
+            <div className="row">
                 <h3>Enter a cleaners name:</h3>
                 <form id="add-cleaner-form" onSubmit={this.handleSubmit}>
                     <input type="text" name="name" onChange={this.handleChange} value={this.state.name} />

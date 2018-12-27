@@ -2,14 +2,19 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+
+  --delete-icon-width-percentage: 3%;
+  --delete-icon-margins: 4px 4px 0 0;
 }
 
 .cleaner-list .cleaner img {
-  width: 8%;
+  width: var(--delete-icon-width-percentage);
   height: auto;
+  margin: var(--delete-icon-margins);
 }
 
 .rooms-list .room img {
-  width: 8%;
+  width: 3%;
   height: auto;
+  margin: var(--delete-icon-margins);
 }
