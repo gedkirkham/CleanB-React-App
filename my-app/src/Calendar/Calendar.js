@@ -199,6 +199,25 @@ class Calendar extends Component {
             </table>
             )
         }
+
+        const ListAsOption = ({rooms, cleaners}) => {
+            var listItems;
+            
+            if(rooms != null){
+                listItems = rooms;
+            }
+            else if (cleaners != null) {
+                listItems = cleaners;
+            }
+            
+            return (
+                listItems.map(listItem => {
+                    return (
+                        <option key={listItem.name} value={listItem.name}>{listItem.name}</option>
+                    )
+                })
+            )
+        }
           
         return (
             <div className="calendar row">
@@ -210,19 +229,11 @@ class Calendar extends Component {
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
                 <form className="row input-field" >
                     <select name="excluded-room" size="4" className="row browser-default" multiple>
-                        <option value="Room 1">Room 1</option>
-                        <option value="Room 2">Room 2</option>
-                        <option value="Room 3">Room 3</option>
-                        <option value="Room 4">Room 4</option>
-                        <option value="Room 5">Room 5</option>
+                        <ListAsOption rooms={this.props.rooms} />
                     </select>
 
                     <select name="cleaner" size="4" className="row browser-default" multiple>
-                        <option value="Cleaner 1">Cleaner 1</option>
-                        <option value="Cleaner 2">Cleaner 2</option>
-                        <option value="Cleaner 3">Cleaner 3</option>
-                        <option value="Cleaner 4">Cleaner 4</option>
-                        <option value="Cleaner 5">Cleaner 5</option>
+                        <ListAsOption cleaners={this.props.cleaners} />
                     </select>
 
                     <button>{EXCLUDE_CONST}</button>
