@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, FORTNIGHTLY_VAR_CONST, MONTHLY_VAR_CONST, THRICE_MONTHLY_VAR_CONST} from '../Constants'
+import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
     state = {
