@@ -24,3 +24,5 @@ export const CALENDAR_CONST = "Calendar:";
 export const DOWNLOAD_CALENDAR_CONST = "Download calendar:";
 export const DATES_CONST = "Dates:";
 export const DOWNLOAD_CONST = "Download";
+export const EXCLUDE_CLEANER_FROM_ROOM_CONST = "Exclude cleaner from a room:";
+export const EXCLUDE_CONST = "Exclude";

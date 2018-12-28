@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
+import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, EXCLUDE_CLEANER_FROM_ROOM_CONST, EXCLUDE_CONST} from '../Constants'
 
 class Calendar extends Component {
     state = {
@@ -206,10 +206,10 @@ class Calendar extends Component {
                     <h3>{CALENDAR_CONST}</h3>
                     <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
                 </div>
-
-                <form>
-                    Exclude cleaner from a room:
-                    <select name="Exclusion room" size="4" multiple>
+                
+                <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
+                <form className="row input-field" >
+                    <select name="excluded-room" size="4" className="row browser-default" multiple>
                         <option value="Room 1">Room 1</option>
                         <option value="Room 2">Room 2</option>
                         <option value="Room 3">Room 3</option>
@@ -217,7 +217,7 @@ class Calendar extends Component {
                         <option value="Room 5">Room 5</option>
                     </select>
 
-                    <select name="Cleaner" size="4" multiple>
+                    <select name="cleaner" size="4" className="row browser-default" multiple>
                         <option value="Cleaner 1">Cleaner 1</option>
                         <option value="Cleaner 2">Cleaner 2</option>
                         <option value="Cleaner 3">Cleaner 3</option>
@@ -225,7 +225,7 @@ class Calendar extends Component {
                         <option value="Cleaner 5">Cleaner 5</option>
                     </select>
 
-                    <input type="submit"/>
+                    <button>{EXCLUDE_CONST}</button>
                 </form>
                 
                 <div className="row">
