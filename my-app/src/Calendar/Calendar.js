@@ -4,7 +4,10 @@ import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, EX
 class Calendar extends Component {
     state = {
         paddedCleanersArray : [],
-        paddedCleanersArrayAsCsv : []
+        paddedCleanersArrayAsCsv : [],
+        exclusionList : [],
+        exclusionListCleaner : "",
+        exclusionListRoom : ""
     }
 
     render() {
@@ -17,6 +20,42 @@ class Calendar extends Component {
                 paddedCleanersArray : [],
                 paddedCleanersArrayAsCsv : []
             })
+        }
+
+        const handleExclusionSubmit = (event) => {
+            event.preventDefault();
+
+            if(this.state.exclusionListCleaner !== '') {
+                this.setState({
+                    exclusionList : {cleaner : this.state.exclusionListCleaner, room : this.state.exclusionListRoom}
+                })
+                
+                this.setState({
+                    exclusionListCleaner : '',
+                    exclusionListRoom : ''
+                })
+            }
+
+            console.log(this.state.exclusionList)
+        }
+
+        const handleChange = (event) => {
+            if(event.target.name === "cleaner"){
+                this.setState({
+                    exclusionListCleaner : event.target.value
+                })
+                console.log("cleaner if statment")
+                console.log(this.state.exclusionListCleaner);
+                console.log("state: ******************"+this.state.exclusionListCleaner);
+            }
+            else if(event.target.name === "excluded-room"){
+                this.setState({
+                    exclusionListRoom : event.target.value
+                })
+                console.log("excluded-room if statment")
+                console.log(event.target.value);
+                console.log("state: ******************"+this.state.exclusionListRoom);
+            }
         }
 
         const GenerateAndDownloadFile = () => {
@@ -214,10 +253,10 @@ class Calendar extends Component {
             }
             
             return (
-                <select name={name} size="4" className="row browser-default" multiple>
+                <select name={name} size="4" className="row browser-default" onChange={handleChange}>  
                     {listItems.map(listItem => {
                         return (
-                            <option key={listItem.name} value={listItem.name}>{listItem.name}</option>
+                            <option id={name} key={listItem.name} value={listItem.name}>{listItem.name}</option>
                         )
                     })}
                 </select>
@@ -230,14 +269,21 @@ class Calendar extends Component {
                     <h3>{CALENDAR_CONST}</h3>
                     <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
                 </div>
-                
+
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
-                <form className="row input-field" >
+                <form className="row input-field" onSubmit={() => {handleExclusionSubmit(this.state.exclusionListCleaner, this.state.exclusionListRoom)}}>
                     <ListAsOption rooms={this.props.rooms} />
                     <ListAsOption cleaners={this.props.cleaners} />
 
                     <button>{EXCLUDE_CONST}</button>
                 </form>
+
+                {/* const Cleaners = ({cleaners, deleteCleaner}) => {
+                    const cleanerList = cleaners.length ? (
+                        cleaners.map(cleaner => {
+                            return (
+                                <div className="cleaner collection-item row" key={cleaner.id}>
+                                    <img className="left" src={DeleteIcon} onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img> */}
                 
                 <div className="row">
                     <h3>{DOWNLOAD_CALENDAR_CONST}</h3>
