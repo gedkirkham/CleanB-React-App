@@ -36,25 +36,17 @@ class Calendar extends Component {
                 })
             }
 
-            console.log(this.state.exclusionList)
+            console.log("this.state.exclusionList: " + this.state.exclusionList)
         }
 
         const handleChange = (event) => {
             if(event.target.name === "cleaner"){
-                this.setState({
-                    exclusionListCleaner : event.target.value
-                })
-                console.log("cleaner if statment")
-                console.log(this.state.exclusionListCleaner);
-                console.log("state: ******************"+this.state.exclusionListCleaner);
+                this.state.exclusionListCleaner = event.target.value;
+                console.log("this.state.exclusionListCleaner: " +this.state.exclusionListCleaner);
             }
             else if(event.target.name === "excluded-room"){
-                this.setState({
-                    exclusionListRoom : event.target.value
-                })
-                console.log("excluded-room if statment")
-                console.log(event.target.value);
-                console.log("state: ******************"+this.state.exclusionListRoom);
+                this.state.exclusionListRoom = event.target.value;
+                console.log("this.state.exclusionListRoom: "+this.state.exclusionListRoom);
             }
         }
 
@@ -271,7 +263,11 @@ class Calendar extends Component {
                 </div>
 
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
-                <form className="row input-field" onSubmit={() => {handleExclusionSubmit(this.state.exclusionListCleaner, this.state.exclusionListRoom)}}>
+
+                {/* onSubmit={this.handleSubmit}>
+                onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img> 
+                onSubmit={() => {handleExclusionSubmit(this.state.exclusionListCleaner, this.state.exclusionListRoom)}}*/}
+                <form className="row input-field" onSubmit={handleExclusionSubmit}>
                     <ListAsOption rooms={this.props.rooms} />
                     <ListAsOption cleaners={this.props.cleaners} />
 
