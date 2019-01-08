@@ -10,6 +10,17 @@ class Calendar extends Component {
         exclusionListRoom : ""
     }
 
+    shouldComponentUpdate(nextProps,nextState){
+        console.log('shouldComponentUpdate');
+        
+        if(nextState.exclusionListCleaner !== this.state.exclusionListCleaner || nextState.exclusionListRoom !== this.state.exclusionListRoom){
+            return false;
+        }//TODO: componenet still updates after user has remoevd a room/cleaner. After that, this feature no longer works and the component updates.
+        else {
+            return true;
+        }
+    }
+    
     render() {
         const handleSubmit = (event) => {
             event.preventDefault();
@@ -41,12 +52,14 @@ class Calendar extends Component {
 
         const handleChange = (event) => {
             if(event.target.name === "cleaner"){
-                this.state.exclusionListCleaner = event.target.value;
-                console.log("this.state.exclusionListCleaner: " +this.state.exclusionListCleaner);
+                this.setState({
+                    exclusionListCleaner : event.target.value
+                })
             }
             else if(event.target.name === "excluded-room"){
-                this.state.exclusionListRoom = event.target.value;
-                console.log("this.state.exclusionListRoom: "+this.state.exclusionListRoom);
+                this.setState({
+                    exclusionListRoom : event.target.value
+                })
             }
         }
 
