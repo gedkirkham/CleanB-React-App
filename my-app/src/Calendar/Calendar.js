@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, EXCLUDE_CLEANER_FROM_ROOM_CONST, EXCLUDE_CONST} from '../Constants'
+import ExcludeCleaner from '../Cleaners/ExcludeCleaner'
+import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
     state = {
@@ -10,17 +11,6 @@ class Calendar extends Component {
         exclusionListRoom : ""
     }
 
-    shouldComponentUpdate(nextProps,nextState){
-        console.log('shouldComponentUpdate');
-        
-        if(nextState.exclusionListCleaner !== this.state.exclusionListCleaner || nextState.exclusionListRoom !== this.state.exclusionListRoom){
-            return false;
-        }//TODO: componenet still updates after user has remoevd a room/cleaner. After that, this feature no longer works and the component updates.
-        else {
-            return true;
-        }
-    }
-    
     render() {
         const handleSubmit = (event) => {
             event.preventDefault();
@@ -31,36 +21,6 @@ class Calendar extends Component {
                 paddedCleanersArray : [],
                 paddedCleanersArrayAsCsv : []
             })
-        }
-
-        const handleExclusionSubmit = (event) => {
-            event.preventDefault();
-
-            if(this.state.exclusionListCleaner !== '') {
-                this.setState({
-                    exclusionList : {cleaner : this.state.exclusionListCleaner, room : this.state.exclusionListRoom}
-                })
-                
-                this.setState({
-                    exclusionListCleaner : '',
-                    exclusionListRoom : ''
-                })
-            }
-
-            console.log("this.state.exclusionList: " + this.state.exclusionList)
-        }
-
-        const handleChange = (event) => {
-            if(event.target.name === "cleaner"){
-                this.setState({
-                    exclusionListCleaner : event.target.value
-                })
-            }
-            else if(event.target.name === "excluded-room"){
-                this.setState({
-                    exclusionListRoom : event.target.value
-                })
-            }
         }
 
         const GenerateAndDownloadFile = () => {
@@ -243,30 +203,6 @@ class Calendar extends Component {
             </table>
             )
         }
-
-        const ListAsOption = ({rooms, cleaners}) => {
-            var listItems;
-            var name;
-            
-            if(rooms != null){
-                listItems = rooms;
-                name = "excluded-room"
-            }
-            else if (cleaners != null) {
-                listItems = cleaners;
-                name = "cleaner"
-            }
-            
-            return (
-                <select name={name} size="4" className="row browser-default" onChange={handleChange}>  
-                    {listItems.map(listItem => {
-                        return (
-                            <option id={name} key={listItem.name} value={listItem.name}>{listItem.name}</option>
-                        )
-                    })}
-                </select>
-            )
-        }
           
         return (
             <div className="calendar row">
@@ -275,25 +211,8 @@ class Calendar extends Component {
                     <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
                 </div>
 
-                <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
+                <ExcludeCleaner/>
 
-                {/* onSubmit={this.handleSubmit}>
-                onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img> 
-                onSubmit={() => {handleExclusionSubmit(this.state.exclusionListCleaner, this.state.exclusionListRoom)}}*/}
-                <form className="row input-field" onSubmit={handleExclusionSubmit}>
-                    <ListAsOption rooms={this.props.rooms} />
-                    <ListAsOption cleaners={this.props.cleaners} />
-
-                    <button>{EXCLUDE_CONST}</button>
-                </form>
-
-                {/* const Cleaners = ({cleaners, deleteCleaner}) => {
-                    const cleanerList = cleaners.length ? (
-                        cleaners.map(cleaner => {
-                            return (
-                                <div className="cleaner collection-item row" key={cleaner.id}>
-                                    <img className="left" src={DeleteIcon} onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img> */}
-                
                 <div className="row">
                     <h3>{DOWNLOAD_CALENDAR_CONST}</h3>
                     <DownloadCalendar cleaners={this.props.cleaners} rooms={this.props.rooms}/> 
