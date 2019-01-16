@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "hamoni-sync": "^1.1.1",
+    "materialize-css": "^1.0.0-rc.2",
     "react": "^16.6.0",
     "react-dom": "^16.5.1",
     "react-redux": "^5.1.0",

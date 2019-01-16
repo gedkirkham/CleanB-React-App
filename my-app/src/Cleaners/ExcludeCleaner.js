@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import M from 'materialize-css';
 import { connect } from 'react-redux'
 import {EXCLUDE_CLEANER_FROM_ROOM_CONST, EXCLUDE_CONST} from '../Constants'
 
@@ -11,10 +12,16 @@ class ExcludeCleaner extends Component {
         exclusionListRoom : ""
     }
 
+    componentDidMount() {
+        document.addEventListener('DOMContentLoaded', function() {
+            M.FormSelect.init(document.querySelectorAll('select'), document.querySelectorAll('option'));
+          });
+    }
+
     shouldComponentUpdate(nextProps,nextState){
         console.log('shouldComponentUpdate');
         
-        if(nextState.exclusionListCleaner !== this.state.exclusionListCleaner || nextState.exclusionListRoom !== this.state.exclusionListRoom || nextState.exclusionList.cleaner !== this.state.exclusionList.cleaner || nextState.exclusionList.room !== this.state.exclusionList.room){
+        if(this.state.exclusionListCleaner !== "" || nextState.exclusionListCleaner !== "" || this.state.exclusionListRoom !== "" || nextState.exclusionListRoom !== ""){
             return false;
         }
         else {
@@ -32,11 +39,6 @@ class ExcludeCleaner extends Component {
             }
         })
         
-        this.setState({
-            exclusionListCleaner : '',
-            exclusionListRoom : '' //TODO: component is updating and re-rereendering once submit button has been executed three times?
-        })
-
         console.log("this.state.exclusionList.cleaner: " + this.state.exclusionList.cleaner)
         console.log("this.state.exclusionList.room: " + this.state.exclusionList.room)
     }
@@ -58,18 +60,22 @@ class ExcludeCleaner extends Component {
         const ListAsOption = ({rooms, cleaners}) => {
             var listItems;
             var name;
+            var option;
             
             if(rooms != null){
                 listItems = rooms;
-                name = "excluded-room"
+                name = "excluded-room";
+                option = "room";
             }
             else if (cleaners != null) {
                 listItems = cleaners;
-                name = "cleaner"
+                name = "cleaner";
+                option = name;
             }
             
             return (
-                <select name={name} size="4" className="row browser-default" onChange={this.handleChange}>  
+                <select value={option} name={name} size="4" className="row" onChange={this.handleChange}>  
+                    <option value={option} disabled>Choose your {option}</option>
                     {listItems.map(listItem => {
                         return (
                             <option id={name} key={listItem.name} value={listItem.name}>{listItem.name}</option>
@@ -83,12 +89,9 @@ class ExcludeCleaner extends Component {
             <div className="exclude-cleaner row">
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
 
-                {/* onSubmit={this.handleSubmit}>
-                onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img> 
-                onSubmit={() => {handleExclusionSubmit(this.state.exclusionListCleaner, this.state.exclusionListRoom)}}*/}
                 <form className="row input-field" onSubmit={this.handleExclusionSubmit}>
-                    <ListAsOption rooms={this.props.rooms} />
                     <ListAsOption cleaners={this.props.cleaners} />
+                    <ListAsOption rooms={this.props.rooms} />
                     <button>{EXCLUDE_CONST}</button>
                 </form>
             </div>
@@ -115,5 +118,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-// export default ExcludeCleaner
 export default connect(mapStateToProps, mapDispatchToProps)(ExcludeCleaner);
