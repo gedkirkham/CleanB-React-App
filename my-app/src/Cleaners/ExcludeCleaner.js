@@ -21,14 +21,12 @@ class ExcludeCleaner extends Component {
     shouldComponentUpdate(nextProps,nextState){
         console.log('shouldComponentUpdate');
         
-        // if(this.state.exclusionListCleaner !== "" || nextState.exclusionListCleaner !== "" || this.state.exclusionListRoom !== "" || nextState.exclusionListRoom !== ""){
-        //     return false;
-        // }
-        // else {
-        //     return true;
-        // }
-
-        return true;
+        if(this.state.exclusionListCleaner !== "" || nextState.exclusionListCleaner !== "" || this.state.exclusionListRoom !== "" || nextState.exclusionListRoom !== ""){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
     
     handleExclusionSubmit = (event) => {
@@ -76,7 +74,7 @@ class ExcludeCleaner extends Component {
             }
             
             return (
-                <select value={option} name={name} className="row browser-default" onChange={this.handleChange}>  
+                <select defaultValue={option} name={name} className="row browser-default" onChange={this.handleChange}>  
                     <option value={option} disabled>Choose your {option}</option>
                     {listItems.map(listItem => {
                         return (
