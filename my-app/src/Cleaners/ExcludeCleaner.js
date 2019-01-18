@@ -19,9 +19,9 @@ class ExcludeCleaner extends Component {
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        console.log('shouldComponentUpdate');
+        console.log('should component update');
         
-        if(this.state.exclusionListCleaner !== "" || nextState.exclusionListCleaner !== "" || this.state.exclusionListRoom !== "" || nextState.exclusionListRoom !== ""){
+        if(this.props.cleaners === nextProps.cleaners && this.props.rooms === nextProps.rooms){
             return false;
         }
         else {
