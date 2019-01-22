@@ -12,7 +12,8 @@ const initState = {
         {name: 'thrice-monthly', frequency: 'thrice-monthly', id: 4},
         {name: 'monthly', frequency: 'monthly', id: 5},
         {name: 'Garage', frequency: 'weekly', id: 6}
-    ]
+    ],
+    exclusionList: []
 }
 
 const rootReducer = (state = initState, action) => {
@@ -43,7 +44,15 @@ const rootReducer = (state = initState, action) => {
                 ...state,
                 rooms: newRoomList
             }
+        case 'ADD_CLEANER_TO_EXCLUSION_LIST':
+            if (!state.exclusionList.includes(action.name)){
+                return {
+                    ...state,
+                    exclusionList: [...state.exclusionList, action.name]
+                }
+            }
         default:
+            console.log("No switch statment found within rootReducer.")//TODO: error catch.
     }
     return state;
 }

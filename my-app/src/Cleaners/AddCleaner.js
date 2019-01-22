@@ -41,7 +41,7 @@ class AddCleaner extends Component {
                 <h3>{ENTER_CLEANERS_NAME_CONST}</h3>
                 <form id="add-cleaner-form" onSubmit={this.handleSubmit}>
                     <input type="text" name="name" onChange={this.handleChange} value={this.state.name} />
-                    <button>{ADD_CLEANER_CONST}</button>
+                    <button className="btn grey">{ADD_CLEANER_CONST}</button>
                 </form>
             </div>
         )

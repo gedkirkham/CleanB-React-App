@@ -71,7 +71,7 @@ class Calendar extends Component {
         const DownloadCalendar = () => {//TODO:pass this.props.rooms to this const.
             return (
                 <form id="download-calendar">
-                    <button onClick={handleSubmit}>{DOWNLOAD_CONST}</button>
+                    <button className="btn grey" onClick={handleSubmit}>{DOWNLOAD_CONST}</button>
                 </form>
         )}
         

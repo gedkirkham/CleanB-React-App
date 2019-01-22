@@ -11,3 +11,10 @@ export const deleteCleaner = (id) => {
         id
     }
 }
+
+export const addCleanerToExclusionList = (name) => {
+    return {
+        type: 'ADD_CLEANER_TO_EXCLUSION_LIST', 
+        name
+    }
+}

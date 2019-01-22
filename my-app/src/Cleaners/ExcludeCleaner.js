@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import M from 'materialize-css';
 import { connect } from 'react-redux'
+import { addCleanerToExclusionList } from '../Actions/cleanerActions'
 import {EXCLUDE_CLEANER_FROM_ROOM_CONST, EXCLUDE_CONST} from '../Constants'
 
 class ExcludeCleaner extends Component {
@@ -38,9 +39,12 @@ class ExcludeCleaner extends Component {
                 room : this.state.exclusionListRoom
             }
         })
+
+        this.props.addCleanerToExclusionList(this.state.exclusionList.cleaner);
         
-        console.log("this.state.exclusionList.cleaner: " + this.state.exclusionList.cleaner)
-        console.log("this.state.exclusionList.room: " + this.state.exclusionList.room)
+        console.log("this.props.exclusionList.name: " + this.props.exclusionList);
+        console.log("this.state.exclusionList.cleaner: " + this.state.exclusionList.cleaner);
+        console.log("this.state.exclusionList.room: " + this.state.exclusionList.room);
     }
 
     handleChange = (event) => {
@@ -92,7 +96,7 @@ class ExcludeCleaner extends Component {
                 <form className="row input-field" onSubmit={this.handleExclusionSubmit}>
                     <ListAsOption cleaners={this.props.cleaners} />
                     <ListAsOption rooms={this.props.rooms} />
-                    <button>{EXCLUDE_CONST}</button>
+                    <button className="btn grey">{EXCLUDE_CONST}</button>
                 </form>
             </div>
         )
@@ -102,19 +106,14 @@ class ExcludeCleaner extends Component {
 const mapStateToProps = (state) => {
     return {
         cleaners : state.cleaners,
-        rooms : state.rooms 
+        rooms : state.rooms ,
+        exclusionList : state.exclusionList
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //cleaners
-        // addCleaner: (name) => { dispatch(addCleaner(name))},
-        // deleteCleaner: (id) => { dispatch(deleteCleaner(id))},
-
-        // //rooms
-        // addRoom: (name) => { dispatch(addRoom(name))},
-        // deleteRoom: (id) => { dispatch(deleteRoom(id))},
+        addCleanerToExclusionList: (name) => { dispatch(addCleanerToExclusionList(name))}
     }
 }
 
