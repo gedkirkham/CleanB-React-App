@@ -9,8 +9,8 @@ class ExcludeCleaner extends Component {
         paddedCleanersArray : [],
         paddedCleanersArrayAsCsv : [],
         exclusionList : [],
-        exclusionListCleaner : "",
-        exclusionListRoom : ""
+        exclusionListCleaner : null,
+        exclusionListRoom : null
     }
 
     componentDidMount() {

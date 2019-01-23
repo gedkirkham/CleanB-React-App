@@ -46,11 +46,18 @@ const rootReducer = (state = initState, action) => {
             }
         case 'ADD_CLEANER_TO_EXCLUSION_LIST':
             if (!state.exclusionList.includes(action.name)){
-                return {
-                    ...state,
-                    exclusionList: [...state.exclusionList, action.name]
+                if (action.name !== null && action.name !== undefined){
+                    return {
+                        ...state,
+                        exclusionList: [...state.exclusionList, action.name]
+                    }
+                } else {
+                    console.log(action.name + " can not be added to list.")    
                 }
+            } else {
+                console.log(action.name + " already exists.")
             }
+            break;
         default:
             console.log("No switch statment found within rootReducer.")//TODO: error catch.
     }
