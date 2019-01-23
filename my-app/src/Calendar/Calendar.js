@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ExcludeCleaner from '../Cleaners/ExcludeCleaner'
+import { connect } from 'react-redux'
 import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
@@ -115,7 +116,6 @@ class Calendar extends Component {
         const TableRow = ({cleaners, rooms, tableRowIndex}) => {
             var calendarDateList = CalendarDates();
             var paddedCleanersArray = [];
-            var flag = false;
             var cleanerIndex = 0;
             var dateIndex = tableRowIndex;
             var weekIndex = tableRowIndex + 1;
@@ -126,7 +126,6 @@ class Calendar extends Component {
                 if(cleanerIndex + tableRowIndex >= cleaners.length){
                     cleanerIndex = 0;
                     tableRowIndex = 0;
-                    flag = true;
                 }
 
                 var currentRoom = rooms[columnCount];
@@ -138,7 +137,7 @@ class Calendar extends Component {
                     skipFlag = false;
                 }
 
-                var cleanerToReturn = AddCleanerToArray(flag, skipFlag, cleaners, cleanerIndex, tableRowIndex);
+                var cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex);
                 this.state.paddedCleanersArray.push(cleanerToReturn);
                 paddedCleanersArray.push(cleanerToReturn);
 
@@ -160,19 +159,18 @@ class Calendar extends Component {
             )
         }
 
-        const AddCleanerToArray = (flag, skipFlag, cleaners, cleanerIndex, tableRowIndex) => {
+        const AddCleanerToArray = (skipFlag, cleaners, cleanerIndex, tableRowIndex) => {
             var _cleanerIndex = cleanerIndex;
             var _tableRowIndex = tableRowIndex;
             var cleanerToReturn;
+
+            cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
+                return (
+                    cleanerToReturn = cleaner
+                )
+            })
             
-            if(skipFlag === false){
-                cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
-                    return (
-                        cleanerToReturn = cleaner
-                    )
-                })
-            }
-            else if (skipFlag === true){
+            if (skipFlag === true || this.props.exclusionList.includes(cleanerToReturn.name)){
                 cleanerToReturn = "";
             }
             return (
@@ -222,4 +220,11 @@ class Calendar extends Component {
     }
 }
 
-export default Calendar;
+const mapStateToProps = (state) => {
+    return {
+        cleaners : state.cleaners,
+        exclusionList : state.exclusionList
+    }
+}
+
+export default connect(mapStateToProps)(Calendar);
