@@ -138,25 +138,22 @@ class Calendar extends Component {
                     skipFlag = false;
                 }
 
+                //Ensure that cleaners index tracks dateIndex. This ensures that cleaner index incremenets each week.
                 if(columnCount === 0) {
-                    console.log("columnCount equals 0")
                     cleanerIndex = dateIndex;
+                    if (cleanerIndex >= cleaners.length) cleanerIndex = 0;
                     cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
                 } else {
                     cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
                 }
-                console.log(cleanerIndex);
-                console.log(cleanerToReturn.name);
                 
                 //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
-                //columnCount and excludeFlag ensures that the first cleaners index within a row always increments if excluded cleaners have been added.
                 if (this.props.exclusionList.includes(cleanerToReturn.name)){
                     if((++cleanerIndex) >= cleaners.length){
                         cleanerIndex = 0;
                     }
                     
                     cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
-                    console.log(cleanerToReturn.name);
                     while(this.props.exclusionList.includes(cleanerToReturn.name)){
                         if(++cleanerIndex >= cleaners.length){
                             cleanerIndex = 0;
@@ -188,9 +185,8 @@ class Calendar extends Component {
             )
         }
 
-        const AddCleanerToArray = (skipFlag, cleaners, cleanerIndex, tableRowIndex, _columnCount) => {
+        const AddCleanerToArray = (skipFlag, cleaners, cleanerIndex, _columnCount) => {
             var _cleanerIndex = cleanerIndex;
-            var _tableRowIndex = tableRowIndex;
             var cleanerToReturn;
             
             cleaners.slice(_cleanerIndex, _cleanerIndex + 1).map(cleaner => {
