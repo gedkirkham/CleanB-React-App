@@ -9,7 +9,8 @@ class Calendar extends Component {
         paddedCleanersArrayAsCsv : [],
         exclusionList : [],
         exclusionListCleaner : "",
-        exclusionListRoom : ""
+        exclusionListRoom : "",
+        excludeFlag : false
     }
 
     render() {
@@ -136,8 +137,28 @@ class Calendar extends Component {
                 else {
                     skipFlag = false;
                 }
-
+                
+                //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
                 var cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                //columnCount and excludeFlag ensures that the first cleaners index within a row always increments if excluded cleaners have been added.
+                if (this.props.exclusionList.includes(cleanerToReturn.name) || (columnCount === 0 && this.state.excludeFlag === true)){
+                    if((++cleanerIndex + tableRowIndex + 1) > cleaners.length){
+                        cleanerIndex = 0;
+                        tableRowIndex = 0;
+                    }
+                    
+                    cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                    while(this.props.exclusionList.includes(cleanerToReturn.name)){
+                        if((++cleanerIndex + tableRowIndex + 1) > cleaners.length){
+                            cleanerIndex = 0;
+                            tableRowIndex = 0;
+                        }
+                        cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                    }
+
+                    if (this.state.excludeFlag !== true) this.state.excludeFlag = true;
+                }
+
                 this.state.paddedCleanersArray.push(cleanerToReturn);
                 paddedCleanersArray.push(cleanerToReturn);
 
@@ -163,74 +184,12 @@ class Calendar extends Component {
             var _cleanerIndex = cleanerIndex;
             var _tableRowIndex = tableRowIndex;
             var cleanerToReturn;
-            var excludeFlag;
             
-            // if (_columnCount === 0){
-            //     var excludeFlag = false;
-            // }
-            console.log("AddCleanerToArray ==========")
-            console.log("_cleanerIndex: " + _cleanerIndex)
-            console.log("excludeFlag: " + excludeFlag)
-            console.log("_columnCount: " + _columnCount)
-
-            // cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
-            //     return (
-            //         cleanerToReturn = cleaner
-            //     )
-            // })
-
-            excludeFlag = false;
-            cleaners.map(cleaner => {
-                if (this.props.exclusionList.includes(cleaner.name) && _columnCount === 0 && excludeFlag === false){
-                    _cleanerIndex++;//TODO: this causes a bug
-                    excludeFlag = true;
-                    console.log(excludeFlag);
-                    // if(_cleanerIndex >= (_cleanerIndex + _tableRowIndex)){
-                    //     _cleanerIndex = 0;
-                    // }
-                    return console.log("incremented: "  + _cleanerIndex)
-                }
-                else {
-                    console.log("else cleanerINdex: " + _cleanerIndex)
-                }
-             })
-             console.log(_cleanerIndex);
-
-
-            // if ((cleaners.map(cleaner => {
-            //                 if (this.props.exclusionList.includes(cleaner.name)){
-            //                     return true
-            //                 }
-            //         })
-            // ) === true){
-            //     console.log(cleanerToReturn.name + " in exclusion list")
-            //     _cleanerIndex++;
-            // }
-            // else {
-            //     console.log("not entered.")
-            //     cleaners.forEach(cleaner => {
-            //         console.log(cleaner.name)
-            //         if (this.props.exclusionList.includes(cleaner.name)){
-            //             console.log(cleaner.name)
-            //         }
-            //     })
-            // }
-
-            // if (this.props.exclusionList.includes(cleanerToReturn.name) || excludeFlag === true){
-            //     excludeFlag = true;
-            //     console.log(cleanerToReturn.name + " in exclusion list")
-            //     _cleanerIndex++;
-            // }
-            // console.log("excludeFlag: " + excludeFlag)
-
             cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
                 return (
                     cleanerToReturn = cleaner
                 )
             })
-
-            // console.log(cleanerToReturn.name);
-            // console.log(_cleanerIndex);
 
             if (skipFlag === true){
                 cleanerToReturn = "";
