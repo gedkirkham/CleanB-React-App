@@ -121,12 +121,12 @@ class Calendar extends Component {
             var dateIndex = tableRowIndex;
             var weekIndex = tableRowIndex + 1;
             var skipFlag;
+            var cleanerToReturn;
 
             //cleaner/room assignment calculation
             for(var columnCount = 0; columnCount < rooms.length; columnCount++){
-                if(cleanerIndex + tableRowIndex >= cleaners.length){
+                if(cleanerIndex >= cleaners.length){
                     cleanerIndex = 0;
-                    tableRowIndex = 0;
                 }
 
                 var currentRoom = rooms[columnCount];
@@ -137,21 +137,29 @@ class Calendar extends Component {
                 else {
                     skipFlag = false;
                 }
+
+                if(columnCount === 0) {
+                    console.log("columnCount equals 0")
+                    cleanerIndex = dateIndex;
+                    cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                } else {
+                    cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                }
+                console.log(cleanerIndex);
+                console.log(cleanerToReturn.name);
                 
                 //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
-                var cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
                 //columnCount and excludeFlag ensures that the first cleaners index within a row always increments if excluded cleaners have been added.
-                if (this.props.exclusionList.includes(cleanerToReturn.name) || (columnCount === 0 && this.state.excludeFlag === true)){
-                    if((++cleanerIndex + tableRowIndex + 1) > cleaners.length){
+                if (this.props.exclusionList.includes(cleanerToReturn.name)){
+                    if((++cleanerIndex) >= cleaners.length){
                         cleanerIndex = 0;
-                        tableRowIndex = 0;
                     }
                     
                     cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                    console.log(cleanerToReturn.name);
                     while(this.props.exclusionList.includes(cleanerToReturn.name)){
-                        if((++cleanerIndex + tableRowIndex + 1) > cleaners.length){
+                        if(++cleanerIndex >= cleaners.length){
                             cleanerIndex = 0;
-                            tableRowIndex = 0;
                         }
                         cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
                     }
@@ -185,7 +193,7 @@ class Calendar extends Component {
             var _tableRowIndex = tableRowIndex;
             var cleanerToReturn;
             
-            cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
+            cleaners.slice(_cleanerIndex, _cleanerIndex + 1).map(cleaner => {
                 return (
                     cleanerToReturn = cleaner
                 )
