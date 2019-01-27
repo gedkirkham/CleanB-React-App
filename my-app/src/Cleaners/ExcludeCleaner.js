@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import M from 'materialize-css';
 import { connect } from 'react-redux'
 import { addCleanerToExclusionList } from '../Actions/cleanerActions'
 import {EXCLUDE_CLEANER_FROM_ROOM_CONST, EXCLUDE_CONST} from '../Constants'
@@ -13,15 +12,9 @@ class ExcludeCleaner extends Component {
         exclusionListRoom : null
     }
 
-    componentDidMount() {
-        document.addEventListener('DOMContentLoaded', function() {
-            M.FormSelect.init(document.querySelectorAll('select'), document.querySelectorAll('option'));
-          });
-    }
+    shouldComponentUpdate(nextProps){
+        console.log('ExcludeCleaner.js - should component update');
 
-    shouldComponentUpdate(nextProps,nextState){
-        console.log('should component update');
-        
         if(this.props.cleaners === nextProps.cleaners && this.props.rooms === nextProps.rooms){
             return false;
         }
@@ -35,16 +28,11 @@ class ExcludeCleaner extends Component {
 
         this.setState({
             exclusionList : {
-                cleaner : this.state.exclusionListCleaner, 
+                cleaner : this.state.exclusionListCleaner,
                 room : this.state.exclusionListRoom
-            }
-        })
-
-        this.props.addCleanerToExclusionList(this.state.exclusionList.cleaner);
-        
-        console.log("this.props.exclusionList.name: " + this.props.exclusionList);
-        console.log("this.state.exclusionList.cleaner: " + this.state.exclusionList.cleaner);
-        console.log("this.state.exclusionList.room: " + this.state.exclusionList.room);
+            }}, function() {
+                this.props.addCleanerToExclusionList(this.state.exclusionList.cleaner);
+        });
     }
 
     handleChange = (event) => {
@@ -88,7 +76,9 @@ class ExcludeCleaner extends Component {
                 </select>
             )
         }
-
+        console.log("this.state.exclusionListCleaner: " + this.state.exclusionListCleaner);
+        console.log("this.state.exclusionListRoom: " + this.state.exclusionListRoom);
+        console.log("this.state.exclusionList: " + this.state.exclusionList);
         return (
             <div className="exclude-cleaner row">
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>

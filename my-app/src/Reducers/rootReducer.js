@@ -59,7 +59,7 @@ const rootReducer = (state = initState, action) => {
             }
             break;
         default:
-            console.log("No switch statment found within rootReducer.")//TODO: error catch.
+            if (!action.type.includes("@@redux")) console.log("No switch statment found within rootReducer.")//TODO: error catch.
     }
     return state;
 }
