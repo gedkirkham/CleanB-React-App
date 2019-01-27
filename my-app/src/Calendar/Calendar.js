@@ -9,8 +9,7 @@ class Calendar extends Component {
         paddedCleanersArrayAsCsv : [],
         exclusionList : [],
         exclusionListCleaner : "",
-        exclusionListRoom : "",
-        excludeFlag : false
+        exclusionListRoom : ""
     }
 
     render() {
@@ -160,8 +159,6 @@ class Calendar extends Component {
                         }
                         cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
                     }
-
-                    if (this.state.excludeFlag !== true) this.state.excludeFlag = true;
                 }
 
                 this.state.paddedCleanersArray.push(cleanerToReturn);
