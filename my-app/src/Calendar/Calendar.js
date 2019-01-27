@@ -147,6 +147,7 @@ class Calendar extends Component {
                 }
                 
                 //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
+                if (cleanerToReturn === undefined) cleanerToReturn = {name: ""};
                 if (this.props.exclusionList.includes(cleanerToReturn.name)){
                     if((++cleanerIndex) >= cleaners.length){
                         cleanerIndex = 0;
