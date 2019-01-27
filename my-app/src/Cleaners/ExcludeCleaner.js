@@ -30,13 +30,13 @@ class ExcludeCleaner extends Component {
             exclusionList : {
                 cleaner : this.state.exclusionListCleaner,
                 room : this.state.exclusionListRoom
-            }}, function() {//function() waits until the states have been updated
+            }}, function() { //function() waits until the states have been updated
                 //The below null check prevents form from being submitted unless both states contain a value
                 if (this.state.exclusionList.cleaner === null || this.state.exclusionList.room === null) {
                     return false;
                 }
                 else {
-                    this.props.addCleanerToExclusionList(this.state.exclusionList.cleaner);
+                    this.props.addCleanerToExclusionList(this.state.exclusionList);
                 }
         });
     }
@@ -82,9 +82,7 @@ class ExcludeCleaner extends Component {
                 </select>
             )
         }
-        console.log("this.state.exclusionListCleaner: " + this.state.exclusionListCleaner);
-        console.log("this.state.exclusionListRoom: " + this.state.exclusionListRoom);
-        console.log("this.state.exclusionList: " + this.state.exclusionList);
+        
         return (
             <div className="exclude-cleaner row">
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>

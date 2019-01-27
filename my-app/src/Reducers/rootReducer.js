@@ -49,7 +49,8 @@ const rootReducer = (state = initState, action) => {
                 if (action.name !== null && action.name !== undefined){
                     return {
                         ...state,
-                        exclusionList: [...state.exclusionList, action.name]
+                        exclusionList: [...state.exclusionList, {cleaner: action.name.cleaner, room: action.name.room}]
+                        
                     }
                 } else {
                     console.log(action.name + " can not be added to list.")    
