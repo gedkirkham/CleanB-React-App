@@ -13,7 +13,9 @@ const initState = {
         {name: 'monthly', frequency: 'monthly', id: 5},
         {name: 'Garage', frequency: 'weekly', id: 6}
     ],
-    exclusionList: []
+    exclusionList: [
+        {room: "", cleaner: [""]}
+    ]
 }
 
 const rootReducer = (state = initState, action) => {
@@ -45,12 +47,30 @@ const rootReducer = (state = initState, action) => {
                 rooms: newRoomList
             }
         case 'ADD_CLEANER_TO_EXCLUSION_LIST':
-            if (!state.exclusionList.includes(action.name)){
+        console.log(action.name)
+        var roomsIndex = 0;
+            if (!state.exclusionList.includes(action.name.room)){
                 if (action.name !== null && action.name !== undefined){
-                    return {
-                        ...state,
-                        exclusionList: [...state.exclusionList, {cleaner: action.name.cleaner, room: action.name.room}]
-                        
+                    console.log(action.name.room)
+                    state.exclusionList.forEach(exclusionItem => {
+                        console.log(exclusionItem)
+                    })
+                    // if (state.exclusionList.includes(action.name.room)) {
+                    if (state.exclusionList.some(({room}) => room.includes(action.name.room))) {    
+                        roomsIndex = state.exclusionList.indexOf({room: "Room 1"})
+                        console.log(roomsIndex)
+                        console.log("exclusionList DOES includes "+action.name.room)
+                        return {
+                            ...state,
+                            exclusionList: [...state.exclusionList[roomsIndex], {room: action.name.room, cleaner: [...state.exclusionList[roomsIndex].cleaner, action.name.cleaner]}]
+                        }
+                    }
+                    else {  
+                        console.log("exclusionList NOT includes action.name.room")
+                        return {
+                            ...state,
+                            exclusionList: [...state.exclusionList, {room: action.name.room, cleaner: [action.name.cleaner]}]
+                        }
                     }
                 } else {
                     console.log(action.name + " can not be added to list.")    
