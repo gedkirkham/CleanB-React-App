@@ -33,10 +33,25 @@ class ExcludeCleaner extends Component {
             }}, function() { //function() waits until the states have been updated
                 //The below null check prevents form from being submitted unless both states contain a value
                 if (this.state.exclusionList.cleaner === null || this.state.exclusionList.room === null) {
+                    alert("A cleaner and room need to be selected");//TODO: Add better error handling.
                     return false;
                 }
                 else {
-                    this.props.addCleanerToExclusionList(this.state.exclusionList);
+                    if (this.props.exclusionList.some(({room}) => room.includes(this.state.exclusionList.room))) {
+                        let roomsIndex = this.props.exclusionList.findIndex(p => p.room === this.state.exclusionList.room)
+                        let exclusionListItem = this.props.exclusionList[roomsIndex];
+                        let cleaners = exclusionListItem.cleaner;
+                        
+                        if (cleaners.includes(this.state.exclusionList.cleaner)){
+                            alert("Cleaner has already been excluded from cleaning this room.")//TODO: add better error handling
+                        }
+                        else {
+                            this.props.addCleanerToExclusionList(this.state.exclusionList);
+                        }
+                    }
+                    else {
+                        this.props.addCleanerToExclusionList(this.state.exclusionList);
+                    }
                 }
         });
     }
@@ -88,8 +103,8 @@ class ExcludeCleaner extends Component {
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
 
                 <form className="row input-field" onSubmit={this.handleExclusionSubmit}>
-                    <ListAsOption cleaners={this.props.cleaners} />
                     <ListAsOption rooms={this.props.rooms} />
+                    <ListAsOption cleaners={this.props.cleaners} />
                     <button className="btn grey">{EXCLUDE_CONST}</button>
                 </form>
             </div>

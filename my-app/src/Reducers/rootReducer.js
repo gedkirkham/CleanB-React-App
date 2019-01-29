@@ -45,25 +45,23 @@ const rootReducer = (state = initState, action) => {
                 rooms: newRoomList
             }
         case 'ADD_CLEANER_TO_EXCLUSION_LIST':
-        var roomsIndex = 0;
             if (!state.exclusionList.includes(action.name.room)){
                 if (action.name !== null && action.name !== undefined){
                     if (state.exclusionList.some(({room}) => room.includes(action.name.room))) {    
-                        roomsIndex = state.exclusionList.findIndex(p => p.room == action.name.room)
+                        let roomsIndex = state.exclusionList.findIndex(p => p.room === action.name.room)
 
-                        //Amend current index if room exists in exclusion list array.
-                        let items = [...state.exclusionList];
-                        let item = {...items[roomsIndex]};
-                        let oldCleaners = item.cleaner;
+                        //Amend current index if room exists in array.
+                        let exclusionList = [...state.exclusionList];
+                        let exclusionListItem = {...exclusionList[roomsIndex]};
+                        let oldCleaners = exclusionListItem.cleaner;
                         let newCleaners = [...oldCleaners, action.name.cleaner]
-                        items[roomsIndex] = {room: action.name.room, cleaner: newCleaners};
+                        exclusionList[roomsIndex] = {room: action.name.room, cleaner: newCleaners};
                         return {
                             ...state,
-                            exclusionList: items
+                            exclusionList: exclusionList
                         }
                     }
                     else {  
-                        console.log("exclusionList NOT includes action.name.room")
                         return {
                             ...state,
                             exclusionList: [...state.exclusionList, {room: action.name.room, cleaner: [action.name.cleaner]}]

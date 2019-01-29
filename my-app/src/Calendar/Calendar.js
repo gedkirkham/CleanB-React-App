@@ -172,7 +172,6 @@ class Calendar extends Component {
                 if(!((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1))){
                     cleanerIndex++;
                 }
-                console.log(this.props.exclusionList);
             }   
             return (
                 <tr>
