@@ -13,9 +13,7 @@ const initState = {
         {name: 'monthly', frequency: 'monthly', id: 5},
         {name: 'Garage', frequency: 'weekly', id: 6}
     ],
-    exclusionList: [
-        {room: "", cleaner: [""]}
-    ]
+    exclusionList: []
 }
 
 const rootReducer = (state = initState, action) => {
@@ -47,22 +45,21 @@ const rootReducer = (state = initState, action) => {
                 rooms: newRoomList
             }
         case 'ADD_CLEANER_TO_EXCLUSION_LIST':
-        console.log(action.name)
         var roomsIndex = 0;
             if (!state.exclusionList.includes(action.name.room)){
                 if (action.name !== null && action.name !== undefined){
-                    console.log(action.name.room)
-                    state.exclusionList.forEach(exclusionItem => {
-                        console.log(exclusionItem)
-                    })
-                    // if (state.exclusionList.includes(action.name.room)) {
                     if (state.exclusionList.some(({room}) => room.includes(action.name.room))) {    
-                        roomsIndex = state.exclusionList.indexOf({room: "Room 1"})
-                        console.log(roomsIndex)
-                        console.log("exclusionList DOES includes "+action.name.room)
+                        roomsIndex = state.exclusionList.findIndex(p => p.room == action.name.room)
+
+                        //Amend current index if room exists in exclusion list array.
+                        let items = [...state.exclusionList];
+                        let item = {...items[roomsIndex]};
+                        let oldCleaners = item.cleaner;
+                        let newCleaners = [...oldCleaners, action.name.cleaner]
+                        items[roomsIndex] = {room: action.name.room, cleaner: newCleaners};
                         return {
                             ...state,
-                            exclusionList: [...state.exclusionList[roomsIndex], {room: action.name.room, cleaner: [...state.exclusionList[roomsIndex].cleaner, action.name.cleaner]}]
+                            exclusionList: items
                         }
                     }
                     else {  
