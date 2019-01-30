@@ -51,7 +51,7 @@ class AddRoom extends Component {
                         <option value="thrice-monthly">{THRICE_MONTHLY_CONST}</option>
                         <option value="monthly">{MONTHLY_CONST}</option>
                     </select>
-                    <button>{ADD_ROOM_CONST}</button>
+                    <button className="btn grey">{ADD_ROOM_CONST}</button>
                 </form> 
             </div>
         )
