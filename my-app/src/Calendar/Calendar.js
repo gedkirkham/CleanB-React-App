@@ -112,6 +112,30 @@ class Calendar extends Component {
                 <th key={room.name}>{room.name}</th>
             )
         }
+
+        const checkExclusionList = (currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex, columnCount) => {
+            //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
+            if (cleanerToReturn === undefined) cleanerToReturn = {name: ""}; //Fixes bug that occurs when no cleaners are present.
+            var cleanerIndexExclusionList = cleanerIndex;
+            let cleanerCounter = 0;
+            
+            //Return current room index to determine if it is the exclusion list. Segment exclusion list into smaller components to make it easier to search/understand the code.
+            let roomsIndex = this.props.exclusionList.findIndex(p => p.room === currentRoom.name)
+            let exclusionList = this.props.exclusionList;
+            let exclusionListItem = {...exclusionList[roomsIndex]};
+            let excludedCleanerList = exclusionListItem.cleaner;
+            
+            //Check if returned cleaner is in the current rooms exclusion list and if true, then increment to next cleaner.
+            while (roomsIndex >= 0 && cleanerCounter++ < this.props.cleaners.length && excludedCleanerList.includes(cleanerToReturn.name)) {    
+                if (++cleanerIndexExclusionList >= this.props.cleaners.length) cleanerIndexExclusionList = 0;
+                cleanerToReturn = AddCleanerToArray(skipFlag, this.props.cleaners, cleanerIndexExclusionList, tableRowIndex, columnCount);
+                
+                //If all cleaners have been excluded for current room, then return ""
+                if (cleanerCounter >= this.props.cleaners.length) cleanerToReturn = "";
+            }
+
+            return cleanerToReturn;
+        }
         
         const TableRow = ({cleaners, rooms, tableRowIndex}) => {
             var calendarDateList = CalendarDates();
@@ -146,26 +170,8 @@ class Calendar extends Component {
                     cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
                 }
                 
-                //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
-                if (cleanerToReturn === undefined) cleanerToReturn = {name: ""}; //Fixes bug that occurs when no cleaners are present.
-                var exclusionListCounter = 0;
-                var cleanIndexExclusionList = cleanerIndex;
-                do { //Loop is required to ensure that exclusionList array is iterated through from start to finish each time.
-                    var matchFound = false;
-                    var excludeAll = false;
-                    
-                    this.props.exclusionList.forEach(exclusionListItem => { //Loop through exclusionList
-                        if (exclusionListItem.cleaner === cleanerToReturn.name && exclusionListItem.room === currentRoom.name) {
-                            matchFound = true;
-                            if (++cleanIndexExclusionList >= cleaners.length) cleanIndexExclusionList = 0;
-                            cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanIndexExclusionList, tableRowIndex, columnCount);
-                        }
-                    })
+                cleanerToReturn = checkExclusionList(currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex, columnCount);
 
-                    if (exclusionListCounter > this.props.exclusionList.length && matchFound === true) excludeAll = true;
-                } while (exclusionListCounter++ <= this.props.exclusionList.length)
-
-                if (excludeAll === true) cleanerToReturn = "";
                 this.state.paddedCleanersArray.push(cleanerToReturn);
                 paddedCleanersArray.push(cleanerToReturn);
 
