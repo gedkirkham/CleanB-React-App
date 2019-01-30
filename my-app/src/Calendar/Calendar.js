@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
+import ExcludeCleaner from '../Cleaners/ExcludeCleaner'
+import { connect } from 'react-redux'
 import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
     state = {
         paddedCleanersArray : [],
-        paddedCleanersArrayAsCsv : []
+        paddedCleanersArrayAsCsv : [],
+        exclusionList : [],
+        exclusionListCleaner : "",
+        exclusionListRoom : ""
     }
 
     render() {
@@ -67,7 +72,7 @@ class Calendar extends Component {
         const DownloadCalendar = () => {//TODO:pass this.props.rooms to this const.
             return (
                 <form id="download-calendar">
-                    <button onClick={handleSubmit}>{DOWNLOAD_CONST}</button>
+                    <button className="btn grey" onClick={handleSubmit}>{DOWNLOAD_CONST}</button>
                 </form>
         )}
         
@@ -107,22 +112,44 @@ class Calendar extends Component {
                 <th key={room.name}>{room.name}</th>
             )
         }
+
+        const checkExclusionList = (currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex, columnCount) => {
+            //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
+            if (cleanerToReturn === undefined) cleanerToReturn = {name: ""}; //Fixes bug that occurs when no cleaners are present.
+            var cleanerIndexExclusionList = cleanerIndex;
+            let cleanerCounter = 0;
+            
+            //Return current room index to determine if it is the exclusion list. Segment exclusion list into smaller components to make it easier to search/understand the code.
+            let roomsIndex = this.props.exclusionList.findIndex(p => p.room === currentRoom.name)
+            let exclusionList = this.props.exclusionList;
+            let exclusionListItem = {...exclusionList[roomsIndex]};
+            let excludedCleanerList = exclusionListItem.cleaner;
+            
+            //Check if returned cleaner is in the current rooms exclusion list and if true, then increment to next cleaner.
+            while (roomsIndex >= 0 && cleanerCounter++ < this.props.cleaners.length && excludedCleanerList.includes(cleanerToReturn.name)) {    
+                if (++cleanerIndexExclusionList >= this.props.cleaners.length) cleanerIndexExclusionList = 0;
+                cleanerToReturn = AddCleanerToArray(skipFlag, this.props.cleaners, cleanerIndexExclusionList, tableRowIndex, columnCount);
+                
+                //If all cleaners have been excluded for current room, then return ""
+                if (cleanerCounter >= this.props.cleaners.length) cleanerToReturn = "";
+            }
+
+            return cleanerToReturn;
+        }
         
         const TableRow = ({cleaners, rooms, tableRowIndex}) => {
             var calendarDateList = CalendarDates();
             var paddedCleanersArray = [];
-            var flag = false;
             var cleanerIndex = 0;
             var dateIndex = tableRowIndex;
             var weekIndex = tableRowIndex + 1;
             var skipFlag;
-
+            var cleanerToReturn;
+            
             //cleaner/room assignment calculation
             for(var columnCount = 0; columnCount < rooms.length; columnCount++){
-                if(cleanerIndex + tableRowIndex >= cleaners.length){
+                if(cleanerIndex >= cleaners.length){
                     cleanerIndex = 0;
-                    tableRowIndex = 0;
-                    flag = true;
                 }
 
                 var currentRoom = rooms[columnCount];
@@ -134,7 +161,17 @@ class Calendar extends Component {
                     skipFlag = false;
                 }
 
-                var cleanerToReturn = AddCleanerToArray(flag, skipFlag, cleaners, cleanerIndex, tableRowIndex);
+                //Ensure that cleaners index tracks dateIndex. This ensures that cleaner index incremenets each week.
+                if(columnCount === 0) {
+                    cleanerIndex = dateIndex;
+                    if (cleanerIndex >= cleaners.length) cleanerIndex = 0;
+                    cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                } else {
+                    cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
+                }
+                
+                cleanerToReturn = checkExclusionList(currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex, columnCount);
+
                 this.state.paddedCleanersArray.push(cleanerToReturn);
                 paddedCleanersArray.push(cleanerToReturn);
 
@@ -156,19 +193,17 @@ class Calendar extends Component {
             )
         }
 
-        const AddCleanerToArray = (flag, skipFlag, cleaners, cleanerIndex, tableRowIndex) => {
+        const AddCleanerToArray = (skipFlag, cleaners, cleanerIndex, _columnCount) => {
             var _cleanerIndex = cleanerIndex;
-            var _tableRowIndex = tableRowIndex;
             var cleanerToReturn;
             
-            if(skipFlag === false){
-                cleaners.slice((_cleanerIndex + _tableRowIndex), (_cleanerIndex + _tableRowIndex + 1)).map(cleaner => {
-                    return (
-                        cleanerToReturn = cleaner
-                    )
-                })
-            }
-            else if (skipFlag === true){
+            cleaners.slice(_cleanerIndex, _cleanerIndex + 1).map(cleaner => {
+                return (
+                    cleanerToReturn = cleaner
+                )
+            })
+
+            if (skipFlag === true){
                 cleanerToReturn = "";
             }
             return (
@@ -207,27 +242,8 @@ class Calendar extends Component {
                     <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
                 </div>
 
-                <form>
-                    Exclude cleaner from a room:
-                    <select name="Exclusion room" size="4" multiple>
-                        <option value="Room 1">Room 1</option>
-                        <option value="Room 2">Room 2</option>
-                        <option value="Room 3">Room 3</option>
-                        <option value="Room 4">Room 4</option>
-                        <option value="Room 5">Room 5</option>
-                    </select>
+                <ExcludeCleaner/>
 
-                    <select name="Cleaner" size="4" multiple>
-                        <option value="Cleaner 1">Cleaner 1</option>
-                        <option value="Cleaner 2">Cleaner 2</option>
-                        <option value="Cleaner 3">Cleaner 3</option>
-                        <option value="Cleaner 4">Cleaner 4</option>
-                        <option value="Cleaner 5">Cleaner 5</option>
-                    </select>
-
-                    <input type="submit"/>
-                </form>
-                
                 <div className="row">
                     <h3>{DOWNLOAD_CALENDAR_CONST}</h3>
                     <DownloadCalendar cleaners={this.props.cleaners} rooms={this.props.rooms}/> 
@@ -237,4 +253,11 @@ class Calendar extends Component {
     }
 }
 
-export default Calendar;
+const mapStateToProps = (state) => {
+    return {
+        cleaners : state.cleaners,
+        exclusionList : state.exclusionList
+    }
+}
+
+export default connect(mapStateToProps)(Calendar);
