@@ -1,18 +1,9 @@
 const initState = {
     cleaners: [
         {name: 'Ged', id: 1},
-        {name: 'Tom', id: 2},
-        {name: 'Peter', id: 3},
-        {name: 'Bob', id: 4}
+        {name: 'Razvan', id: 2}
     ],
-    rooms: [ 
-        {name: 'Room 1', frequency: 'weekly', id: 1},
-        {name: 'Fortnightly room', frequency: 'fortnightly', id: 2},
-        {name: 'Room 3', frequency: 'weekly', id: 3},
-        {name: 'thrice-monthly', frequency: 'thrice-monthly', id: 4},
-        {name: 'monthly', frequency: 'monthly', id: 5},
-        {name: 'Garage', frequency: 'weekly', id: 6}
-    ],
+    rooms: [],
     exclusionList: []
 }
 
