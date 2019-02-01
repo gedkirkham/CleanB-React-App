@@ -146,6 +146,13 @@ class Calendar extends Component {
             var cleanerToReturn;
             let skipCount = 0;
             console.log("tablecolumn: " + this.state.columnIndex)
+            // let tableRowIndex = 0;
+
+            // if(tableRowIndex === 0){
+            //     this.setState({
+            //         columnIndex : 1
+            //     })  
+            // }
             
             //cleaner/room assignment calculation
             for(var tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++){
@@ -155,7 +162,7 @@ class Calendar extends Component {
                 var dateIndex = tableRowIndex;
                 var weekIndex = tableRowIndex + 1;
                 var currentRoom = rooms[this.state.columnIndex];
-                console.log(currentRoom)
+                // console.log(currentRoom)
                 var currentRoomFrequency = currentRoom.frequency;
                 console.log(tableRowIndex);
 
@@ -171,15 +178,17 @@ class Calendar extends Component {
 
                 //Ensure that cleaners index tracks dateIndex. This ensures that cleaner index incremenets each week.
                 // if(columnCount === 0) {
-                    cleanerIndex = tableRowIndex + this.state.columnIndex + skipCount;
-                    if (cleanerIndex >= cleaners.length) cleanerIndex = 0;
-                    cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, this.state.columnIndex);
+                // if (cleanerIndex >= cleaners.length) cleanerIndex = 0;    
+                cleanerIndex = tableRowIndex + this.state.columnIndex + skipCount;
+                    // if (cleanerIndex >= cleaners.length) cleanerIndex = 0;
+                    cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, this.state.columnIndex);
                 // } else {
                 //     cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
                 // }
                 
                 // cleanerToReturn = checkExclusionList(currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex, columnCount);
 
+                console.log("cleanerToReturn : " +cleanerToReturn.name)
                 this.state.paddedCleanersArray.push(cleanerToReturn);
                 paddedCleanersArray.push(cleanerToReturn);
 
@@ -188,26 +197,32 @@ class Calendar extends Component {
                 }
             } 
             
-            if(tableRowIndex = 0){
-            this.setState({
-                columnIndex : 0
-            })  
-        }
-
+            
+            paddedCleanersArray.slice(0,CalendarDates().length).map(cleaner => {
+                return (
+                    console.log("cleaner : "+cleaner.name)
+                )
+            })
             console.log("this.state.columnIndex : "+this.state.columnIndex)
-            return (
-                <tr>
-                    {/* <td>
-                        {calendarDateList[dateIndex]}
-                    </td>    */}
-                    {paddedCleanersArray.slice(0,rooms.length).map(cleaner => {
-                        return (
-                            <td key={Math.random()}>{cleaner.name}</td>
-                        )
-                    })} 
-                </tr>
-            )
-        }
+            let paddedCleanersArraySliced = paddedCleanersArray.slice(0,CalendarDates().length);
+            paddedCleanersArraySliced.forEach(cleaner => {
+                console.log("paddedCleanersArraySliced : "+cleaner.name);
+            })
+            
+            //tr column, td row
+                return (
+                        // {<td>
+                        //     {calendarDateList[dateIndex]}
+                        // </td>}
+                        paddedCleanersArraySliced.map(cleaner => {
+                            return (
+                                <tr>
+                                    <td key={Math.random()}>{cleaner.name}</td>
+                                </tr>
+                            )
+                        })
+                )
+            }
 
         const AddCleanerToArray = (skipFlag, cleaners, cleanerIndex, _columnCount) => {
             var _cleanerIndex = cleanerIndex;
@@ -232,7 +247,7 @@ class Calendar extends Component {
                 <table>
                     <thead>
                         <tr>
-                            <th>{DATES_CONST}</th>
+                            {/* <th>{DATES_CONST}</th> */}
                             {rooms.map(room => {
                                 return (
                                     <TableHeaders room={room} key={room.name} />
@@ -241,9 +256,11 @@ class Calendar extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.rooms.map(room => {
+                        {this.props.rooms.map(room => {//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
                             return (
-                                <TableColumn cleaners={cleaners} rooms={rooms} key={this.state.columnIndex} />//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.
+                                <td>
+                                    <TableColumn cleaners={cleaners} rooms={rooms} key={room} />
+                                </td>
                             )
                         })}
                     </tbody>
