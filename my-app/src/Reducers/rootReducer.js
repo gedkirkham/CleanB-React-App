@@ -8,7 +8,7 @@ const initState = {
     rooms: [
         {name: "Lounge", frequency: "weekly", id: 1},
         {name: "Kitchen", frequency: "fortnightly", id: 2},
-        {name: "Garage", frequency: "monthly", id: 3},
+        {name: "Garage", frequency: "weekly", id: 3},
     ],
     exclusionList: []
 }
