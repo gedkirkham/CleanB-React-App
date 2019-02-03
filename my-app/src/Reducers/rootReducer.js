@@ -9,6 +9,7 @@ const initState = {
         {name: "Lounge", frequency: "weekly", id: 1},
         {name: "Kitchen", frequency: "fortnightly", id: 2},
         {name: "Garage", frequency: "weekly", id: 3},
+        {name: "Bedroom", frequency: "weekly", id: 4}
     ],
     exclusionList: []
 }

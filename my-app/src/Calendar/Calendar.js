@@ -114,7 +114,7 @@ class Calendar extends Component {
             )
         }
 
-        const checkExclusionList = (currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex, columnCount) => {
+        const checkExclusionList = (currentRoom, cleanerIndex, cleanerToReturn, skipFlag) => {
             //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
             if (cleanerToReturn === undefined) cleanerToReturn = {name: ""}; //Fixes bug that occurs when no cleaners are present.
             var cleanerIndexExclusionList = cleanerIndex;
@@ -129,7 +129,7 @@ class Calendar extends Component {
             //Check if returned cleaner is in the current rooms exclusion list and if true, then increment to next cleaner.
             while (roomsIndex >= 0 && cleanerCounter++ < this.props.cleaners.length && excludedCleanerList.includes(cleanerToReturn.name)) {    
                 if (++cleanerIndexExclusionList >= this.props.cleaners.length) cleanerIndexExclusionList = 0;
-                cleanerToReturn = AddCleanerToArray(skipFlag, this.props.cleaners, cleanerIndexExclusionList, tableRowIndex, columnCount);
+                cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndexExclusionList);
                 
                 //If all cleaners have been excluded for current room, then return ""
                 if (cleanerCounter >= this.props.cleaners.length) cleanerToReturn = "";
@@ -138,26 +138,8 @@ class Calendar extends Component {
             return cleanerToReturn;
         }
         
-        const DefineTableArray = () => {
-            var calendarDateList = CalendarDates();
+        const BuildTableArray = () => {
             var paddedCleanersArray = [
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
                     [],
                     [],
                     [],
@@ -170,120 +152,81 @@ class Calendar extends Component {
             
             var skipFlag;
             var cleanerToReturn;
-            let skipCount = 0;
             
-            // let tableRowIndex = 0;
-
-            // if(tableRowIndex === 0){
-            //     this.setState({
-            //         columnIndex : 1
-            //     })  
-            // }
-
             //loop through each column/room
             //cycle through each row within that column and assign a cleaner
             //return and cycle through this array column then row item at a time to suite the table format
             
             //cleaner/room assignment calculation
             for (let columnIndex = 0; columnIndex < this.props.rooms.length; columnIndex++) {
-                let cleanerIncrementor = 0;
-                var cleanerIndex = 0;
-                console.log("=====================column "+ columnIndex + "=========================")
-                for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
-                    if(cleanerIndex >= this.props.cleaners.length){
-                        cleanerIndex = 0;
-                    }
-                    var dateIndex = tableRowIndex;
-                    var weekIndex = tableRowIndex + 1;
-                    var currentRoom = this.props.rooms[columnIndex];
-                    // console.log(currentRoom)
-                    var currentRoomFrequency = currentRoom.frequency;
+                var currentRoom = this.props.rooms[columnIndex];
+                var currentRoomFrequency = currentRoom.frequency;
+                
+                //TODO: looking at a way to improve exclusion list so that the table checks exclusion array upon render.
+                // let cleaners = this.props.cleaners;
+                // let newCleaners = cleaners.name;
+                // let roomsIndex = this.props.exclusionList.findIndex(p => p.room === currentRoom.name)
+                // let exclusionList = this.props.exclusionList;
+                // let exclusionListItem = {...exclusionList[roomsIndex]};
+                // let excludedCleanerList = exclusionListItem.cleaner;
+                
+                // if (excludedCleanerList !== undefined) {
+                //     excludedCleanerList.map(listItem => {
+                //         return (
+                //             console.log("excludedCleanerList : " +listItem)
+                //         )
+                //     })
 
-                    if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1)){
-                        skipFlag = true;
-                        // skipCount++;
-                        // console.log("skipCount: " +skipCount)
-                        // console.log("this.state.columnIndex: "+this.state.columnIndex)
-                    }
-                    else {
-                        skipFlag = false;
-                    }
-
-                    //Ensure that cleaners index tracks dateIndex. This ensures that cleaner index incremenets each week.
-                    // if(columnCount === 0) {
-                    // if (cleanerIndex >= cleaners.length) cleanerIndex = 0;    
-                    cleanerIndex = cleanerIncrementor + columnIndex;
-                    if (cleanerIndex >= this.props.cleaners.length) cleanerIndex = 0;
-                    cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex);
-                    if (cleanerToReturn !== "") cleanerIncrementor++;
-                    // } else {
-                    //     cleanerToReturn = AddCleanerToArray(skipFlag, cleaners, cleanerIndex, tableRowIndex, columnCount);
-                    // }
+                //     cleaners.filter(x => {
+                //         console.log("x : "+x.name)
+                //     })
                     
-                    // cleanerToReturn = checkExclusionList(currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex, columnCount);
+                //     let difference = cleaners.filter(x => !excludedCleanerList.includes(x)).concat(excludedCleanerList.filter(x => !cleaners.name.includes(x)));
+                //     // Array.prototype.diff = cleaners.filter(x => excludedCleanerList.includes(x));
+                //     difference.map(diffs => {
+                //             return (
+                //                 console.log("diff item : " + diffs) 
+                //             )
+                //     })
+                // }
 
-                    // console.log("cleanerToReturn : " +cleanerToReturn.name)
-                    this.state.paddedCleanersArray.push(cleanerToReturn);
-                    console.log("columnIndex: "+columnIndex)
-                    console.log("tableRowIndex: "+tableRowIndex)
-                    console.log("cleanerToReturn: "+cleanerToReturn.name)
-                    paddedCleanersArray[columnIndex].push(cleanerToReturn);
-                    console.log(paddedCleanersArray[columnIndex]);
+                let cleanerIncrementor = 0;
+                let columnStartIndex = columnIndex;
+                var cleanerIndex = 0;
+                for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
+                        var dateIndex = tableRowIndex;
+                        var weekIndex = tableRowIndex + 1;
+                        
 
-                    // if(!((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1))){
-                    //     cleanerIndex++;
-                    // }
-                    if(skipFlag !== true){
-                        cleanerIndex++;
+                        if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1)){
+                            skipFlag = true;
+                        }
+                        else {
+                            skipFlag = false;
+                        }
+
+                        cleanerIndex = columnStartIndex + cleanerIncrementor;
+
+                        if (cleanerIndex >= this.props.cleaners.length) {
+                            cleanerIndex = 0;
+                            columnStartIndex = 0;
+                            cleanerIncrementor = 0;
+                        }
+
+                        cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex);
+                        if (cleanerToReturn !== "") cleanerIncrementor++;
+                        
+                        cleanerToReturn = checkExclusionList(currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex);
+
+                        paddedCleanersArray[columnIndex]
+                        this.state.paddedCleanersArray.push(cleanerToReturn);
+                        paddedCleanersArray[columnIndex].push(cleanerToReturn);
                     }
-                }
-            }
-
-            // paddedCleanersArray.slice(0,CalendarDates().length).map(cleaner => {
-            //     return (
-            //         console.log("cleaner : "+cleaner.name)
-            //     )
-            // })
-            // let paddedCleanersArraySliced = paddedCleanersArray.slice(0,CalendarDates().length);
-            // paddedCleanersArraySliced.forEach(cleaner => {
-            //     console.log("paddedCleanersArraySliced : "+cleaner.name);
-            // })
-            
-            //tr column, td row
+                }   
 
             return (
                 paddedCleanersArray
                 )
-            // for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
-            //     for (let columnIndex = 0; columnIndex < this.props.rooms.length; columnIndex++) {
-            //                 console.log("columnIndex : "+columnIndex)
-            //                 var paddedCleanersArrayColumn = paddedCleanersArray[columnIndex][tableRowIndex];
-            //                 console.log("paddedCleanersArrayColumn : " +paddedCleanersArrayColumn.name)
-            //                 // paddedCleanersArrayColumn.map(cleaner => {
-            //                 //     return (
-            //                 //         console.log("paddedCleanersArrayColumn : "+cleaner.name)
-            //                 //     )
-            //                 // })
-                            
-            //                 // var concertPrice = parseFloat(concertArray[0].value);
-            //                 // var concertImage = concertArray[0].image;
-            //                 return (
-            //                     // {<td>
-            //                     //     {calendarDateList[dateIndex]}
-            //                     // </td>}
-            //                     // paddedCleanersArraySliced.map(cleaner => {
-            //                     //     return (
-            //                     //         <td key={Math.random()}>{cleaner.name}</td>
-            //                     //     )
-            //                     // })
-            //                     paddedCleanersArrayColumn.map(cleaner => {
-            //                             return (
-            //                                 <td key={Math.random()}>{paddedCleanersArrayColumn.name}</td>
-            //                             )
-            //                         })
-            //             )
-            //         }  
-            //     } 
             }
 
         const AddCleanerToArray = (skipFlag, cleanerIndex) => {
@@ -301,56 +244,41 @@ class Calendar extends Component {
                 })
             }
 
-            // if (skipFlag === true){
-            //     cleanerToReturn = "";
-            // }
             return (
                 cleanerToReturn
             )
         }
 
-        const Table = ({cleaners, rooms}) => {
+        const Table = () => {
             let roomsIndex = 0;
             let rowIndex = 0;
-            let tableArray = DefineTableArray();
-            let tableLength = CalendarDates();
-            console.log("tableLength: "+tableLength.length)
+            let tableArray = BuildTableArray();
             return (
                 <table>
                     <thead>
                         <tr>
-                            {/* <th>{DATES_CONST}</th> */}
-                            {rooms.map(room => {
+                            <th>{DATES_CONST}</th>
+                            {this.props.rooms.map(room => {
                                 return (
-                                    <TableHeaders room={room} />
+                                    <TableHeaders room={room} key={Math.random() + "," + room} />
                                 )
                             })} 
                         </tr>
                     </thead>
                     <tbody>
-                        {tableLength.map(() => {
+                        {CalendarDates().map((date) => {
                             return (
-                                <tr>
-                                    {this.props.rooms.map((room) => {//tr is row 
-                                        console.log("roomsIndex : "+roomsIndex)
-                                        console.log("rowIndex : "+rowIndex)
+                                <tr key={date}>
+                                    <td key={date}>{date}</td>
+                                    {this.props.rooms.map(() => {
                                         if (roomsIndex === this.props.rooms.length) rowIndex++;
                                         if (roomsIndex >= this.props.rooms.length) roomsIndex = 0;
                                         
                                         var cleanerName = tableArray[roomsIndex++][rowIndex];
                                         if (cleanerName === undefined) cleanerName = "";
                                         
-                                        console.log("cleanerName : " + cleanerName.name)
-                                        console.log("ROOOOOOOOOOOM--------- " +room.name)
-                                        {/* tableArray[roomsIndex - 1].map(cleaner => {
-                                            return (
-                                                console.log("tableArray[roomsIndex] : "+cleaner.name)
-                                            )
-                                        }) */}
-                                        
-                                        
                                         return (
-                                            <td>
+                                            <td key={Math.random() + "," + cleanerName.name}>
                                                 {cleanerName.name}
                                             </td>
                                         )
@@ -362,7 +290,6 @@ class Calendar extends Component {
             </table>
             )
         }
-        //<TableRow cleaners={cleaners} rooms={rooms} _roomsIndex={roomsIndex++} /*//TODO: How to solve the issue where padded cleaners have the same key. I will need to have the same key in order to remove the correct cleaner from db.*/ />
           
         return (
             <div className="calendar row">
