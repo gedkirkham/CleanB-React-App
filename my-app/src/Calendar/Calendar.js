@@ -102,7 +102,7 @@ class Calendar extends Component {
         }
         
         const CalendarLength = () => {
-            var tableRowArray = [0,1,2,3];//TODO: add variable length
+            var tableRowArray = [0,1,2,3,4,5,6,7];//TODO: add variable length
             return (
                 tableRowArray
             )
@@ -114,135 +114,61 @@ class Calendar extends Component {
             )
         }
 
-        const checkExclusionList = (currentRoom, cleanerIndex, cleanerToReturn, skipFlag) => {
-            //Ensure that cleaners within the excluded cleaners array are excluded from the calendar.
-            if (cleanerToReturn === undefined) cleanerToReturn = {name: ""}; //Fixes bug that occurs when no cleaners are present.
-            var cleanerIndexExclusionList = cleanerIndex;
-            let cleanerCounter = 0;
+        const returnNonExcludedCleaners = (currentRoom) => {
+            //Initialise array
+            let nonExcludedCleanerList = [];
             
-            //Return current room index to determine if it is the exclusion list. Segment exclusion list into smaller components to make it easier to search/understand the code.
+            //Return excluded cleaner list for current room
             let roomsIndex = this.props.exclusionList.findIndex(p => p.room === currentRoom.name)
             let exclusionList = this.props.exclusionList;
             let exclusionListItem = {...exclusionList[roomsIndex]};
             let excludedCleanerList = exclusionListItem.cleaner;
             
-            //Check if returned cleaner is in the current rooms exclusion list and if true, then increment to next cleaner.
-            while (roomsIndex >= 0 && cleanerCounter++ < this.props.cleaners.length && excludedCleanerList.includes(cleanerToReturn.name)) {    
-                if (++cleanerIndexExclusionList >= this.props.cleaners.length) cleanerIndexExclusionList = 0;
-                cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndexExclusionList);
-                
-                //If all cleaners have been excluded for current room, then return ""
-                if (cleanerCounter >= this.props.cleaners.length) cleanerToReturn = "";
+            //Check to see if excludedCleanerList contains any cleaners. 
+            if (excludedCleanerList !== undefined) {
+                //If true, loop through prop cleaners list and check to see if any cleaner is contained within the exclusion cleaner list.
+                this.props.cleaners.forEach(propCleaner => {
+                        //If the cleaner is not found, then add cleaner to new cleaner list.
+                        if (!excludedCleanerList.includes(propCleaner.name)) {
+                            nonExcludedCleanerList.push({name: propCleaner.name, id: Math.random()});
+                        }
+                    }) 
+            } 
+            else {
+                nonExcludedCleanerList = this.props.cleaners;
             }
 
-            return cleanerToReturn;
+            return nonExcludedCleanerList;
         }
         
         const BuildTableArray = () => {
-            var paddedCleanersArray = [
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    []  
-                ];//TODO: properly define
-            
+            //Initialise multi-dimensional paddedCleanersArray
+            var paddedCleanersArray = new Array(this.props.rooms.length);
+            for (var i = 0; i < paddedCleanersArray.length; i++) {
+                paddedCleanersArray[i] = new Array(0);
+            }
+
             var skipFlag;
             var cleanerToReturn;
+            let cleanerResetOffSet = 0;
+            let columnCleanerIncrementor = 0;
             
-            //loop through each column/room
-            //cycle through each row within that column and assign a cleaner
-            //return and cycle through this array column then row item at a time to suite the table format
-            
-            //cleaner/room assignment calculation
+            //Cleaner/room assignment calculation
             for (let columnIndex = 0; columnIndex < this.props.rooms.length; columnIndex++) {
                 var currentRoom = this.props.rooms[columnIndex];
                 var currentRoomFrequency = currentRoom.frequency;
 
                 let cleanerIncrementor = 0;
-                let columnStartIndex = columnIndex;
                 var cleanerIndex = 0;
-                
-                //TODO: looking at a way to improve exclusion list so that the table checks exclusion array upon render.
-                let cleaners = this.props.cleaners;
-                let roomsIndex = this.props.exclusionList.findIndex(p => p.room === currentRoom.name)
-                let exclusionList = this.props.exclusionList;
-                let exclusionListItem = {...exclusionList[roomsIndex]};
-                let excludedCleanerList = exclusionListItem.cleaner;
+                let nonExcludedCleanerList = returnNonExcludedCleaners(currentRoom);
+                let weekIndex = 0;
+                columnCleanerIncrementor = columnIndex;
 
-                let newCleaners = [];
-                this.props.cleaners.map(cleaner => {
-                    return (
-                        console.log("this.props.cleaners : " +cleaner.name)
-                    )
-                })
-
-                // cleanerIndex = columnStartIndex + cleanerIncrementor;
-
-                // if (cleanerIndex >= this.props.cleaners.length) {
-                //     cleanerIndex = 0;
-                //     columnStartIndex = 0;
-                //     cleanerIncrementor = 0;
-                // }
-                
-                var counter = 0;
-                if (excludedCleanerList !== undefined) {
-                    excludedCleanerList.map(cleaner => {
-                        return (
-                            console.log("excludedCleanerList : " +cleaner)
-                        )
-                    })
-                    
-                    
-                    excludedCleanerList.map(excludedCleaner => {
-                        console.log("counter : " + counter++)
-                        this.props.cleaners.map(propCleaner => {
-                                if (propCleaner.name !== excludedCleaner) {
-                                    console.log("MATCH - "+ propCleaner.name);
-                                    newCleaners.push({name: propCleaner.name, id: Math.random()});
-                                }
-                                else {
-                                    console.log("propCleaner "+propCleaner)
-                                    console.log("cleaner does not match - "+ excludedCleaner)
-                                }
-                            }) 
-                        })
-                } 
-                else {
-                    newCleaners = this.props.cleaners;
-                }
-
-                newCleaners.map(cleaner => {
-                    console.log("FINAL -----------newCleaners : " +cleaner.name)
-                })
-                
-
-                // if (excludedCleanerList !== undefined) {
-                //     excludedCleanerList.map(listItem => {
-                //         return (
-                //             console.log("excludedCleanerList : " +listItem)
-                //         )
-                //     })
-
-                //     cleaners.filter(x => {
-                //         console.log("x : "+x.name)
-                //     })
-                    
-                //     let difference = cleaners.filter(x => !excludedCleanerList.includes(x)).concat(excludedCleanerList.filter(x => !cleaners.name.includes(x)));
-                //     // Array.prototype.diff = cleaners.filter(x => excludedCleanerList.includes(x));
-                //     difference.map(diffs => {
-                //             return (
-                //                 console.log("diff item : " + diffs) 
-                //             )
-                //     })
-                // }
                 for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
-                        var dateIndex = tableRowIndex;
-                        var weekIndex = tableRowIndex + 1;
-                        
+                        //Ensure that the week counter resets every 4 weeks
+                        if (tableRowIndex === 0) weekIndex = tableRowIndex + 1;
+                        else if (weekIndex >= 4) weekIndex = 1; 
+                        else weekIndex++;
 
                         if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1)){
                             skipFlag = true;
@@ -250,24 +176,24 @@ class Calendar extends Component {
                         else {
                             skipFlag = false;
                         }
+                        if (tableRowIndex === 0) cleanerIndex = cleanerIncrementor + cleanerResetOffSet;
+                        else cleanerIndex = cleanerIncrementor + columnCleanerIncrementor;
 
-                        cleanerIndex = columnStartIndex + cleanerIncrementor;
-
-                        if (cleanerIndex >= newCleaners.length) {
+                        if (cleanerIndex >= nonExcludedCleanerList.length) {
                             cleanerIndex = 0;
-                            columnStartIndex = 0;
                             cleanerIncrementor = 0;
+                            columnCleanerIncrementor = 0;
                         }
 
-                        cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, newCleaners);
+                        cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList);
                         if (cleanerToReturn !== "") cleanerIncrementor++;
                         
-                        // cleanerToReturn = checkExclusionList(currentRoom, cleanerIndex, cleanerToReturn, skipFlag, tableRowIndex);
-
-                        paddedCleanersArray[columnIndex]
                         this.state.paddedCleanersArray.push(cleanerToReturn);
                         paddedCleanersArray[columnIndex].push(cleanerToReturn);
                     }
+
+                    if (cleanerResetOffSet >= this.props.cleaners.length - 1) cleanerResetOffSet = 0;
+                    else cleanerResetOffSet++
                 }   
 
             return (
@@ -275,7 +201,7 @@ class Calendar extends Component {
                 )
             }
 
-        const AddCleanerToArray = (skipFlag, cleanerIndex, newCleaners) => {
+        const AddCleanerToArray = (skipFlag, cleanerIndex, nonExcludedCleanerList) => {
             var _cleanerIndex = cleanerIndex;
             var cleanerToReturn;
             
@@ -283,7 +209,7 @@ class Calendar extends Component {
                 cleanerToReturn = "";
             }
             else {
-                newCleaners.slice(_cleanerIndex, _cleanerIndex + 1).map(cleaner => {
+                nonExcludedCleanerList.slice(_cleanerIndex, _cleanerIndex + 1).map(cleaner => {
                     return (
                         cleanerToReturn = cleaner
                     )
