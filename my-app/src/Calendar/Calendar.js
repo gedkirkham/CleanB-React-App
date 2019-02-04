@@ -152,6 +152,7 @@ class Calendar extends Component {
             var cleanerToReturn;
             let cleanerResetOffSet = 0;
             let columnCleanerIncrementor = 0;
+            let previousCleanerIndex = 0;
             
             //Cleaner/room assignment calculation
             for (let columnIndex = 0; columnIndex < this.props.rooms.length; columnIndex++) {
@@ -176,7 +177,11 @@ class Calendar extends Component {
                         else {
                             skipFlag = false;
                         }
+
                         if (tableRowIndex === 0) cleanerIndex = cleanerIncrementor + cleanerResetOffSet;
+                        else if (columnIndex >= this.props.cleaners.length) {
+                            cleanerIndex = previousCleanerIndex + 1;
+                        }
                         else cleanerIndex = cleanerIncrementor + columnCleanerIncrementor;
 
                         if (cleanerIndex >= nonExcludedCleanerList.length) {
@@ -185,9 +190,10 @@ class Calendar extends Component {
                             columnCleanerIncrementor = 0;
                         }
 
+                        previousCleanerIndex = cleanerIndex;
+
                         cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList);
                         if (cleanerToReturn !== "") cleanerIncrementor++;
-                        
                         this.state.paddedCleanersArray.push(cleanerToReturn);
                         paddedCleanersArray[columnIndex].push(cleanerToReturn);
                     }
