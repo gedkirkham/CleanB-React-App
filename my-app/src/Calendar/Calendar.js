@@ -163,6 +163,7 @@ class Calendar extends Component {
                 var cleanerIndex = 0;
                 let nonExcludedCleanerList = returnNonExcludedCleaners(currentRoom);
                 let weekIndex = 0;
+                let offSet = 0;
                 columnCleanerIncrementor = columnIndex;
 
                 for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
@@ -180,13 +181,14 @@ class Calendar extends Component {
 
                         if (tableRowIndex === 0) cleanerIndex = cleanerIncrementor + cleanerResetOffSet;
                         else if (columnIndex >= this.props.cleaners.length) {
-                            cleanerIndex = previousCleanerIndex + 1;
+                            cleanerIndex = previousCleanerIndex + offSet + 1;
                         }
                         else cleanerIndex = cleanerIncrementor + columnCleanerIncrementor;
 
                         if (cleanerIndex >= nonExcludedCleanerList.length) {
                             cleanerIndex = 0;
                             cleanerIncrementor = 0;
+                            offSet = 0;
                             columnCleanerIncrementor = 0;
                         }
 
@@ -194,6 +196,8 @@ class Calendar extends Component {
 
                         cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList);
                         if (cleanerToReturn !== "") cleanerIncrementor++;
+                        if (cleanerToReturn === "") offSet--;
+                        else offSet = 0;
                         this.state.paddedCleanersArray.push(cleanerToReturn);
                         paddedCleanersArray[columnIndex].push(cleanerToReturn);
                     }

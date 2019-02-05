@@ -11,7 +11,7 @@ const initState = {
         {name: "Garage", frequency: "monthly", id: 3},
         {name: "Bedroom", frequency: "weekly", id: 4},
         {name: "Garden", frequency: "weekly", id: 5},
-        {name: "Hall way 1", frequency: "weekly", id: 6},
+        {name: "Hall way 1", frequency: "fortnightly", id: 6},
         {name: "Hall way 2", frequency: "weekly", id: 7}
     ],
     exclusionList: []
