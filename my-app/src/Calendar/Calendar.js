@@ -148,23 +148,20 @@ class Calendar extends Component {
                 paddedCleanersArray[i] = new Array(0);
             }
 
-            var skipFlag;
-            var cleanerToReturn;
-            let cleanerResetOffSet = 0;
-            let columnCleanerIncrementor = 0;
-            let previousCleanerIndex = 0;
+            let cleanerColumnIndex = 0;
             
             //Cleaner/room assignment calculation
             for (let columnIndex = 0; columnIndex < this.props.rooms.length; columnIndex++) {
-                var currentRoom = this.props.rooms[columnIndex];
-                var currentRoomFrequency = currentRoom.frequency;
-
-                let cleanerIncrementor = 0;
+                //Initialise values
                 var cleanerIndex = 0;
-                let nonExcludedCleanerList = returnNonExcludedCleaners(currentRoom);
                 let weekIndex = 0;
                 let offSet = 0;
-                columnCleanerIncrementor = columnIndex;
+                let previousCleanerIndex = 0;
+                let skipFlag;
+
+                var currentRoom = this.props.rooms[columnIndex];
+                var currentRoomFrequency = currentRoom.frequency;
+                let nonExcludedCleanerList = returnNonExcludedCleaners(currentRoom);
 
                 for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
                         //Ensure that the week counter resets every 4 weeks
@@ -172,38 +169,42 @@ class Calendar extends Component {
                         else if (weekIndex >= 4) weekIndex = 1; 
                         else weekIndex++;
 
-                        if((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || (currentRoomFrequency === "monthly" && weekIndex !== 1)){
+                        //Determine if the current room and week requires that the cleaner is skipped.
+                        if ((currentRoomFrequency === "fortnightly" && (weekIndex === 2 || weekIndex === 4)) || 
+                            (currentRoomFrequency === "thrice-monthly" && weekIndex === 4) || 
+                            (currentRoomFrequency === "monthly" && weekIndex !== 1)) {
                             skipFlag = true;
-                        }
-                        else {
-                            skipFlag = false;
-                        }
+                        } else skipFlag = false;
+                        
+                        //Determine cleanerIndex value. 
+                        //First week tracks columnIndex but resets to 0 depending on cleaner.length.
+                        if (tableRowIndex === 0) cleanerIndex = cleanerColumnIndex;
+                        else cleanerIndex = previousCleanerIndex + offSet + 1;
 
-                        if (tableRowIndex === 0) cleanerIndex = cleanerIncrementor + cleanerResetOffSet;
-                        else if (columnIndex >= this.props.cleaners.length) {
-                            cleanerIndex = previousCleanerIndex + offSet + 1;
-                        }
-                        else cleanerIndex = cleanerIncrementor + columnCleanerIncrementor;
-
+                        //If cleanerIndex is greater than cleaner list, then reset values to 0.
                         if (cleanerIndex >= nonExcludedCleanerList.length) {
                             cleanerIndex = 0;
-                            cleanerIncrementor = 0;
                             offSet = 0;
-                            columnCleanerIncrementor = 0;
                         }
 
-                        previousCleanerIndex = cleanerIndex;
-
-                        cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList);
-                        if (cleanerToReturn !== "") cleanerIncrementor++;
+                        //Return cleaner from list.
+                        //If no cleaner is returned, modify offSet value so that cleaners are not skipped over
+                        let cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList);
                         if (cleanerToReturn === "") offSet--;
                         else offSet = 0;
-                        this.state.paddedCleanersArray.push(cleanerToReturn);
+
+                        //Push cleaner to state and local array for download/calendar display
+                        this.state.paddedCleanersArray.push(cleanerToReturn);//TODO: condense these into a single array?
                         paddedCleanersArray[columnIndex].push(cleanerToReturn);
+
+                        //Save last cleaners index.
+                        previousCleanerIndex = cleanerIndex;
                     }
 
-                    if (cleanerResetOffSet >= this.props.cleaners.length - 1) cleanerResetOffSet = 0;
-                    else cleanerResetOffSet++
+                    //Reset cleanerColumnIndex if it is greater than or equal to cleaners.length. 
+                    //This ensures that for week one for each room, a new cleaner is assigned that follows the calendar's pattern.
+                    if (cleanerColumnIndex >= this.props.cleaners.length - 1) cleanerColumnIndex = 0;
+                    else cleanerColumnIndex++
                 }   
 
             return (
