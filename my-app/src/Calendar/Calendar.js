@@ -158,6 +158,7 @@ class Calendar extends Component {
                 let offSet = 0;
                 let previousCleanerIndex = 0;
                 let skipFlag;
+                let offSetFlag = false;
 
                 var currentRoom = this.props.rooms[columnIndex];
                 var currentRoomFrequency = currentRoom.frequency;
@@ -188,10 +189,19 @@ class Calendar extends Component {
                         }
 
                         //Return cleaner from list.
-                        //If no cleaner is returned, modify offSet value so that cleaners are not skipped over
+                        //If no cleaner is returned, modify offSet value so that cleaners are not skipped over.
+                        //Use offSetFlag to ensure that offSet value is only decremented once. This is required
+                        //for when the frequency of a room requires cleaners to not be assigned for more than
+                        //one consecutive week.
                         let cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList);
-                        if (cleanerToReturn === "") offSet--;
-                        else offSet = 0;
+                        if (cleanerToReturn === "" && offSetFlag === false) {
+                            offSet--;
+                            offSetFlag = true;
+                        }
+                        else if (cleanerToReturn !== "") {
+                            offSet = 0;
+                            offSetFlag = false;
+                        }
 
                         //Push cleaner to state and local array for download/calendar display
                         this.state.paddedCleanersArray.push(cleanerToReturn);//TODO: condense these into a single array?
