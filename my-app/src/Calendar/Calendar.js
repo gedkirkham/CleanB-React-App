@@ -20,7 +20,7 @@ class Calendar extends Component {
             GenerateAndDownloadFile();
 
             this.setState({ 
-                paddedCleanersArray : [],
+                paddedCleanersArray : [[]],
                 paddedCleanersArrayAsCsv : []
             })
         }
@@ -33,19 +33,19 @@ class Calendar extends Component {
             element.click();
         }
         
-        const ConvertTableToCsv = (rooms) => {
+        const ConvertTableToCsv = () => {
             var columnCounter = 0;
             var dateIndex = 0;
             var calendarDateList = CalendarDates();
 
-            //headers
+            //Add headers
             this.state.paddedCleanersArrayAsCsv.push("Dates,")
             this.props.rooms.forEach(room => {
                 this.state.paddedCleanersArrayAsCsv.push(room.name + ",")
             })
             this.state.paddedCleanersArrayAsCsv.push("\n")
 
-            //content
+            //Add table content
             this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ",")
             this.state.paddedCleanersArray.forEach(cleaner => {
                 if(cleaner.name !== undefined){
@@ -80,32 +80,31 @@ class Calendar extends Component {
         const CalendarDates = () => {
             var cleaningDateList = [];
             var weekLengthAsNumber = 0;
+            
             for (var i = 0; i < CalendarLength().length; i++){
                 cleaningDateList[i] = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
                 weekLengthAsNumber = weekLengthAsNumber + 7;
             }
-            return (
-                cleaningDateList
-            )
+            
+            return (cleaningDateList)
         }
         
         const DaysUntilSaturday = () => {
             var currentDayOfTheWeekAsNum = new Date().getDay();
             var saturdayAsNum = 6;
             var daysUntilSaturday = 0;
-            if(currentDayOfTheWeekAsNum !== saturdayAsNum){
+            
+            if (currentDayOfTheWeekAsNum !== saturdayAsNum) {
                 daysUntilSaturday = saturdayAsNum - currentDayOfTheWeekAsNum;
             }
-            return (
-                daysUntilSaturday
-            )
+            
+            return (daysUntilSaturday)
         }
         
         const CalendarLength = () => {
             var tableRowArray = [0,1,2,3,4,5,6,7];//TODO: add variable length
-            return (
-                tableRowArray
-            )
+            
+            return (tableRowArray)
         }
         
         const TableHeaders = ({room}) => {
@@ -114,7 +113,7 @@ class Calendar extends Component {
             )
         }
 
-        const returnNonExcludedCleaners = (currentRoom) => {
+        const ReturnNonExcludedCleaners = (currentRoom) => {
             //Initialise array
             let nonExcludedCleanerList = [];
             
@@ -146,7 +145,10 @@ class Calendar extends Component {
             var paddedCleanersArray = new Array(this.props.rooms.length);
             for (var i = 0; i < paddedCleanersArray.length; i++) {
                 paddedCleanersArray[i] = new Array(0);
+                this.state.paddedCleanersArray[i] = new Array(0);
             }
+
+
 
             let cleanerColumnIndex = 0;
             
@@ -162,7 +164,7 @@ class Calendar extends Component {
 
                 var currentRoom = this.props.rooms[columnIndex];
                 var currentRoomFrequency = currentRoom.frequency;
-                let nonExcludedCleanerList = returnNonExcludedCleaners(currentRoom);
+                let nonExcludedCleanerList = ReturnNonExcludedCleaners(currentRoom);
 
                 for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
                         //Ensure that the week counter resets every 4 weeks
@@ -204,7 +206,7 @@ class Calendar extends Component {
                         }
 
                         //Push cleaner to state and local array for download/calendar display
-                        this.state.paddedCleanersArray.push(cleanerToReturn);//TODO: condense these into a single array?
+                        this.state.paddedCleanersArray[columnIndex].push(cleanerToReturn);//TODO: condense these into a single array?
                         paddedCleanersArray[columnIndex].push(cleanerToReturn);
 
                         //Save last cleaners index.
@@ -217,9 +219,7 @@ class Calendar extends Component {
                     else cleanerColumnIndex++
                 }   
 
-            return (
-                paddedCleanersArray
-                )
+                return (paddedCleanersArray)
             }
 
         const AddCleanerToArray = (skipFlag, cleanerIndex, nonExcludedCleanerList) => {
@@ -237,9 +237,7 @@ class Calendar extends Component {
                 })
             }
 
-            return (
-                cleanerToReturn
-            )
+            return (cleanerToReturn)
         }
 
         const Table = () => {
@@ -264,12 +262,12 @@ class Calendar extends Component {
                                 <tr key={date}>
                                     <td key={date}>{date}</td>
                                     {this.props.rooms.map(() => {
-                                        if (roomsIndex === this.props.rooms.length) rowIndex++;
-                                        if (roomsIndex >= this.props.rooms.length) roomsIndex = 0;
-                                        
+                                        //Cycle through array and assign return a cleaner.
                                         var cleanerName = tableArray[roomsIndex++][rowIndex];
                                         if (cleanerName === undefined) cleanerName = "";
                                         
+                                        //If roomsIndex has reached the maximum, increment the row and reset roomsIndex.
+                                        if (roomsIndex === this.props.rooms.length) rowIndex++, roomsIndex = 0;
                                         return (
                                             <td key={Math.random() + "," + cleanerName.name}>
                                                 {cleanerName.name}
