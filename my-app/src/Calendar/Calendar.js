@@ -5,7 +5,7 @@ import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} fr
 
 class Calendar extends Component {
     state = {
-        paddedCleanersArray : [],
+        paddedCleanersArray : [[]],
         paddedCleanersArrayAsCsv : [],
         exclusionList : [],
         exclusionListCleaner : "",
@@ -18,11 +18,6 @@ class Calendar extends Component {
             event.preventDefault();
             ConvertTableToCsv();
             GenerateAndDownloadFile();
-
-            this.setState({ 
-                paddedCleanersArray : [[]],
-                paddedCleanersArrayAsCsv : []
-            })
         }
 
         const GenerateAndDownloadFile = () => {
@@ -43,20 +38,23 @@ class Calendar extends Component {
 
             //Add table content
             let rowIndex = 0;
-            CalendarDates().map((date) => {
+            CalendarDates().forEach((date) => {
                 let roomsIndex = 0;
                 
                 //Add date
                 this.state.paddedCleanersArrayAsCsv.push(date + ",");
                 
                 //Cycle through each column and row and assign a cleaner.
-                {this.props.rooms.map(() => {
+                this.props.rooms.forEach(() => {
                     //Return a cleaner
                     var cleaner = this.state.paddedCleanersArray[roomsIndex++][rowIndex];
-                    if (cleaner.name === undefined) cleaner = "", this.state.paddedCleanersArrayAsCsv.push(cleaner)
+                    if (cleaner.name === undefined) {
+                        cleaner = "";
+                        this.state.paddedCleanersArrayAsCsv.push(cleaner);
+                    }
                     else this.state.paddedCleanersArrayAsCsv.push(cleaner.name)
                     this.state.paddedCleanersArrayAsCsv.push(",")
-                })}
+                })
                 
                 //Create new line for next row.
                 this.state.paddedCleanersArrayAsCsv.push("\n");
@@ -136,9 +134,7 @@ class Calendar extends Component {
         
         const BuildTableArray = () => {
             //Initialise multi-dimensional paddedCleanersArray
-            var paddedCleanersArray = new Array(this.props.rooms.length);
-            for (var i = 0; i < paddedCleanersArray.length; i++) {
-                paddedCleanersArray[i] = new Array(0);
+            for (var i = 0; i < this.props.rooms.length; i++) {
                 this.state.paddedCleanersArray[i] = new Array(0);
             }
 
@@ -261,7 +257,10 @@ class Calendar extends Component {
                                         var cleaner = this.state.paddedCleanersArray[roomsIndex++][rowIndex];
 
                                         //If roomsIndex has reached the maximum, increment the row and reset roomsIndex.
-                                        if (roomsIndex === this.props.rooms.length) rowIndex++, roomsIndex = 0;
+                                        if (roomsIndex === this.props.rooms.length) {
+                                            rowIndex++;
+                                            roomsIndex = 0;
+                                        }
                                         return (
                                             <td key={Math.random() + "," + cleaner.name}>
                                                 {cleaner.name}
