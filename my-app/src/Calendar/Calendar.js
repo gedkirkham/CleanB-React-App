@@ -34,43 +34,37 @@ class Calendar extends Component {
         }
         
         const ConvertTableToCsv = () => {
-            var columnCounter = 0;
-            var dateIndex = 0;
-            var calendarDateList = CalendarDates();
-
             //Add headers
-            this.state.paddedCleanersArrayAsCsv.push("Dates,")
+            this.state.paddedCleanersArrayAsCsv.push(DATES_CONST + ",");
             this.props.rooms.forEach(room => {
                 this.state.paddedCleanersArrayAsCsv.push(room.name + ",")
             })
             this.state.paddedCleanersArrayAsCsv.push("\n")
 
             //Add table content
-            this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ",")
-            this.state.paddedCleanersArray.forEach(cleaner => {
-                if(cleaner.name !== undefined){
-                    this.state.paddedCleanersArrayAsCsv.push(cleaner.name)    
-                }
-                else{
-                    this.state.paddedCleanersArrayAsCsv.push("")
-                }
+            let rowIndex = 0;
+            CalendarDates().map((date) => {
+                let roomsIndex = 0;
                 
-                if(columnCounter === this.props.rooms.length - 1){ //TODO: use room.length rather than this.props.
-                    columnCounter = 0;
-                    if(dateIndex < calendarDateList.length - 1){
-                        this.state.paddedCleanersArrayAsCsv.push("\n")
-                        dateIndex++;
-                        this.state.paddedCleanersArrayAsCsv.push(calendarDateList[dateIndex] + ",")
-                    }
-                }
-                else {
+                //Add date
+                this.state.paddedCleanersArrayAsCsv.push(date + ",");
+                
+                //Cycle through each column and row and assign a cleaner.
+                {this.props.rooms.map(() => {
+                    //Return a cleaner
+                    var cleaner = this.state.paddedCleanersArray[roomsIndex++][rowIndex];
+                    if (cleaner.name === undefined) cleaner = "", this.state.paddedCleanersArrayAsCsv.push(cleaner)
+                    else this.state.paddedCleanersArrayAsCsv.push(cleaner.name)
                     this.state.paddedCleanersArrayAsCsv.push(",")
-                    columnCounter++
-                }
+                })}
+                
+                //Create new line for next row.
+                this.state.paddedCleanersArrayAsCsv.push("\n");
+                rowIndex++;
             })
         }
     
-        const DownloadCalendar = () => {//TODO:pass this.props.rooms to this const.
+        const DownloadCalendar = () => {
             return (
                 <form id="download-calendar">
                     <button className="btn grey" onClick={handleSubmit}>{DOWNLOAD_CONST}</button>
@@ -148,8 +142,6 @@ class Calendar extends Component {
                 this.state.paddedCleanersArray[i] = new Array(0);
             }
 
-
-
             let cleanerColumnIndex = 0;
             
             //Cleaner/room assignment calculation
@@ -206,8 +198,7 @@ class Calendar extends Component {
                         }
 
                         //Push cleaner to state and local array for download/calendar display
-                        this.state.paddedCleanersArray[columnIndex].push(cleanerToReturn);//TODO: condense these into a single array?
-                        paddedCleanersArray[columnIndex].push(cleanerToReturn);
+                        this.state.paddedCleanersArray[columnIndex].push(cleanerToReturn);
 
                         //Save last cleaners index.
                         previousCleanerIndex = cleanerIndex;
@@ -219,7 +210,7 @@ class Calendar extends Component {
                     else cleanerColumnIndex++
                 }   
 
-                return (paddedCleanersArray)
+                return (this.state.paddedCleanersArray)
             }
 
         const AddCleanerToArray = (skipFlag, cleanerIndex, nonExcludedCleanerList) => {
@@ -243,12 +234,16 @@ class Calendar extends Component {
         const Table = () => {
             let roomsIndex = 0;
             let rowIndex = 0;
-            let tableArray = BuildTableArray();
+
+            //Build table array
+            BuildTableArray();
+
+            //Render table to page
             return (
                 <table>
                     <thead>
                         <tr>
-                            <th>{DATES_CONST}</th>
+                            <th>{DATES_CONST}:</th>
                             {this.props.rooms.map(room => {
                                 return (
                                     <TableHeaders room={room} key={Math.random() + "," + room} />
@@ -262,15 +257,14 @@ class Calendar extends Component {
                                 <tr key={date}>
                                     <td key={date}>{date}</td>
                                     {this.props.rooms.map(() => {
-                                        //Cycle through array and assign return a cleaner.
-                                        var cleanerName = tableArray[roomsIndex++][rowIndex];
-                                        if (cleanerName === undefined) cleanerName = "";
-                                        
+                                        //Cycle through array and assign  a cleaner.
+                                        var cleaner = this.state.paddedCleanersArray[roomsIndex++][rowIndex];
+
                                         //If roomsIndex has reached the maximum, increment the row and reset roomsIndex.
                                         if (roomsIndex === this.props.rooms.length) rowIndex++, roomsIndex = 0;
                                         return (
-                                            <td key={Math.random() + "," + cleanerName.name}>
-                                                {cleanerName.name}
+                                            <td key={Math.random() + "," + cleaner.name}>
+                                                {cleaner.name}
                                             </td>
                                         )
                                     })} 
