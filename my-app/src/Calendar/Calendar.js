@@ -4,8 +4,22 @@ import { connect } from 'react-redux'
 import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
+    constructor(props) {
+        super(props);
+        // Don't call this.setState() here!
+        var arrayItem = [[]]//TODO: carry on from here
+        for (var i = 0; i < this.props.rooms.length; i++) {
+                        // this.state.paddedCleanersArray[i] = new Array(0);
+                        arrayItem = new Array(i);
+                        arrayItem[i] = new Array(0);
+                    }
+        this.state = { 
+            paddedCleanersArray : arrayItem 
+        };
+      }
+
     state = {
-        paddedCleanersArray : [[]],
+        // paddedCleanersArray : [[]],
         paddedCleanersArrayAsCsv : [],
         exclusionList : [],
         exclusionListCleaner : "",
@@ -134,9 +148,19 @@ class Calendar extends Component {
         
         const BuildTableArray = () => {
             //Initialise multi-dimensional paddedCleanersArray
-            for (var i = 0; i < this.props.rooms.length; i++) {
-                this.state.paddedCleanersArray[i] = new Array(0);
-            }
+            // var arrayItem = [[]]
+            // for (var i = 0; i < this.props.rooms.length; i++) {
+            //     this.state.paddedCleanersArray[i] = new Array(0);
+            //     // arrayItem = new Array(i);
+            //     arrayItem[i] = new Array(0);
+            // }
+
+            // console.log("arrayItem: "+arrayItem)
+            // this.setState({
+            //     paddedCleanersArray : arrayItem
+            // })
+
+            console.log("this.state.paddedCleanersArray: "+this.state.paddedCleanersArray)
 
             let cleanerColumnIndex = 0;
             
