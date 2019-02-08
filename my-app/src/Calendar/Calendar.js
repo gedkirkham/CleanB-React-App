@@ -4,22 +4,22 @@ import { connect } from 'react-redux'
 import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
-    constructor(props) {
-        super(props);
-        // Don't call this.setState() here!
-        var arrayItem = [[]]//TODO: carry on from here
-        for (var i = 0; i < this.props.rooms.length; i++) {
-                        // this.state.paddedCleanersArray[i] = new Array(0);
-                        arrayItem = new Array(i);
-                        arrayItem[i] = new Array(0);
-                    }
-        this.state = { 
-            paddedCleanersArray : arrayItem 
-        };
-      }
+    // constructor(props) {
+    //     super(props);
+    //     // Don't call this.setState() here!
+    //     var arrayItem = [[]]//TODO: carry on from here
+    //     for (var i = 0; i < this.props.rooms.length; i++) {
+    //                     // this.state.paddedCleanersArray[i] = new Array(0);
+    //                     arrayItem = new Array(i);
+    //                     arrayItem[i] = new Array(0);
+    //                 }
+    //     this.state = { 
+    //         paddedCleanersArray : arrayItem 
+    //     };
+    //   }
 
     state = {
-        // paddedCleanersArray : [[]],
+        paddedCleanersArray : [[]],
         paddedCleanersArrayAsCsv : [],
         exclusionList : [],
         exclusionListCleaner : "",
@@ -148,19 +148,20 @@ class Calendar extends Component {
         
         const BuildTableArray = () => {
             //Initialise multi-dimensional paddedCleanersArray
-            // var arrayItem = [[]]
-            // for (var i = 0; i < this.props.rooms.length; i++) {
-            //     this.state.paddedCleanersArray[i] = new Array(0);
-            //     // arrayItem = new Array(i);
-            //     arrayItem[i] = new Array(0);
-            // }
+            var arrayItem = [[]]
+            for (var i = 0; i < this.props.rooms.length; i++) {
+                // this.state.paddedCleanersArray[i] = new Array(0);
+                arrayItem = new Array(i);
+                arrayItem[i] = new Array(0);
+            }
+            console.log("arrayItem :: "+arrayItem)
 
             // console.log("arrayItem: "+arrayItem)
             // this.setState({
             //     paddedCleanersArray : arrayItem
             // })
 
-            console.log("this.state.paddedCleanersArray: "+this.state.paddedCleanersArray)
+            // console.log("this.state.paddedCleanersArray: "+this.state.paddedCleanersArray)
 
             let cleanerColumnIndex = 0;
             
@@ -218,7 +219,13 @@ class Calendar extends Component {
                         }
 
                         //Push cleaner to state and local array for download/calendar display
-                        this.state.paddedCleanersArray[columnIndex].push(cleanerToReturn);
+                        // this.state.paddedCleanersArray[columnIndex].push(cleanerToReturn);
+                        arrayItem[columnIndex] = cleanerToReturn;
+
+                        console.log("arrayItem[columnIndex]: "+columnIndex + " " +arrayItem[columnIndex].name)
+
+                        console.log("arrayItem[0] "+arrayItem[0].name)
+                        
 
                         //Save last cleaners index.
                         previousCleanerIndex = cleanerIndex;
@@ -230,7 +237,7 @@ class Calendar extends Component {
                     else cleanerColumnIndex++
                 }   
 
-                return (this.state.paddedCleanersArray)
+                return (arrayItem)
             }
 
         const AddCleanerToArray = (skipFlag, cleanerIndex, nonExcludedCleanerList) => {
@@ -256,7 +263,16 @@ class Calendar extends Component {
             let rowIndex = 0;
 
             //Build table array
-            BuildTableArray();
+            var arrayItem = BuildTableArray();
+
+            // arrayItem.forEach((item) => {
+            //     console.log("returned arrayItem: " + item.name)
+            // })
+
+            // this.setState({
+            //     paddedCleanersArray : arrayItem
+            // })
+            
 
             //Render table to page
             return (
@@ -278,7 +294,9 @@ class Calendar extends Component {
                                     <td key={date}>{date}</td>
                                     {this.props.rooms.map(() => {
                                         //Cycle through array and assign  a cleaner.
-                                        var cleaner = this.state.paddedCleanersArray[roomsIndex++][rowIndex];
+                                        var cleaner = arrayItem[roomsIndex++];//[rowIndex]; TODO: removing rowIndex allows array to be displayed.
+                                        if (cleaner === undefined) cleaner = {name: ""}
+                                        console.log("cleaner:::::::::::::::::::::::::: "+cleaner.name)
 
                                         //If roomsIndex has reached the maximum, increment the row and reset roomsIndex.
                                         if (roomsIndex === this.props.rooms.length) {
