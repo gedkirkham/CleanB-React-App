@@ -4,14 +4,6 @@ import { connect } from 'react-redux'
 import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
-    state = {
-        paddedCleanersArrayAsCsv : [],
-        exclusionList : [],
-        exclusionListCleaner : "",
-        exclusionListRoom : "",
-        columnIndex : 0
-    }
-
     render() {
         const handleSubmit = (event) => {
             event.preventDefault();
