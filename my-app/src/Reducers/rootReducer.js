@@ -1,7 +1,6 @@
 const initState = {
     cleaners: [
-        {name: 'Ged', id: 1},
-        {name: 'Razvan', id: 2},
+        {name: 'Ged', id: 1}
     ],
     rooms: [],
     exclusionList: []
