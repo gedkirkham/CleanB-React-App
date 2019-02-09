@@ -5,8 +5,6 @@ import {EXCLUDE_CLEANER_FROM_ROOM_CONST, EXCLUDE_CONST} from '../Constants'
 
 class ExcludeCleaner extends Component {
     state = {
-        paddedCleanersArray : [],
-        paddedCleanersArrayAsCsv : [],
         exclusionList : [],
         exclusionListCleaner : null,
         exclusionListRoom : null

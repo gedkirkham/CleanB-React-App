@@ -4,22 +4,7 @@ import { connect } from 'react-redux'
 import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
 
 class Calendar extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     // Don't call this.setState() here!
-    //     var arrayItem = [[]]//TODO: carry on from here
-    //     for (var i = 0; i < this.props.rooms.length; i++) {
-    //                     // this.state.paddedCleanersArray[i] = new Array(0);
-    //                     arrayItem = new Array(i);
-    //                     arrayItem[i] = new Array(0);
-    //                 }
-    //     this.state = { 
-    //         paddedCleanersArray : arrayItem 
-    //     };
-    //   }
-
     state = {
-        paddedCleanersArray : [[]],
         paddedCleanersArrayAsCsv : [],
         exclusionList : [],
         exclusionListCleaner : "",
@@ -30,13 +15,12 @@ class Calendar extends Component {
     render() {
         const handleSubmit = (event) => {
             event.preventDefault();
-            ConvertTableToCsv();
             GenerateAndDownloadFile();
         }
 
         const GenerateAndDownloadFile = () => {
             var element = document.createElement("a");
-            var file = new Blob(this.state.paddedCleanersArrayAsCsv, {type: 'text/plain'});
+            var file = new Blob(ConvertTableToCsv(), {type: 'text/plain'});
             element.href = URL.createObjectURL(file);
             element.download = new Date() + "_calendar.csv";
             element.click();
@@ -44,11 +28,13 @@ class Calendar extends Component {
         
         const ConvertTableToCsv = () => {
             //Add headers
-            this.state.paddedCleanersArrayAsCsv.push(DATES_CONST + ",");
+            var paddedCleanersArray = BuildTableArray();
+            var paddedCleanersArrayAsCsv = [];
+            paddedCleanersArrayAsCsv.push(DATES_CONST + ",");
             this.props.rooms.forEach(room => {
-                this.state.paddedCleanersArrayAsCsv.push(room.name + ",")
+                paddedCleanersArrayAsCsv.push(room.name + ",")
             })
-            this.state.paddedCleanersArrayAsCsv.push("\n")
+            paddedCleanersArrayAsCsv.push("\n")
 
             //Add table content
             let rowIndex = 0;
@@ -56,24 +42,26 @@ class Calendar extends Component {
                 let roomsIndex = 0;
                 
                 //Add date
-                this.state.paddedCleanersArrayAsCsv.push(date + ",");
+                paddedCleanersArrayAsCsv.push(date + ",");
                 
                 //Cycle through each column and row and assign a cleaner.
                 this.props.rooms.forEach(() => {
                     //Return a cleaner
-                    var cleaner = this.state.paddedCleanersArray[roomsIndex++][rowIndex];
+                    var cleaner = paddedCleanersArray[roomsIndex++][rowIndex];
                     if (cleaner.name === undefined) {
                         cleaner = "";
-                        this.state.paddedCleanersArrayAsCsv.push(cleaner);
+                        paddedCleanersArrayAsCsv.push(cleaner);
                     }
-                    else this.state.paddedCleanersArrayAsCsv.push(cleaner.name)
-                    this.state.paddedCleanersArrayAsCsv.push(",")
+                    else paddedCleanersArrayAsCsv.push(cleaner.name)
+                    paddedCleanersArrayAsCsv.push(",")
                 })
                 
                 //Create new line for next row.
-                this.state.paddedCleanersArrayAsCsv.push("\n");
+                paddedCleanersArrayAsCsv.push("\n");
                 rowIndex++;
             })
+
+            return paddedCleanersArrayAsCsv
         }
     
         const DownloadCalendar = () => {
@@ -92,7 +80,7 @@ class Calendar extends Component {
                 weekLengthAsNumber = weekLengthAsNumber + 7;
             }
             
-            return (cleaningDateList)
+            return cleaningDateList
         }
         
         const DaysUntilSaturday = () => {
@@ -104,13 +92,13 @@ class Calendar extends Component {
                 daysUntilSaturday = saturdayAsNum - currentDayOfTheWeekAsNum;
             }
             
-            return (daysUntilSaturday)
+            return daysUntilSaturday
         }
         
         const CalendarLength = () => {
             var tableRowArray = [0,1,2,3,4,5,6,7];//TODO: add variable length
             
-            return (tableRowArray)
+            return tableRowArray
         }
         
         const TableHeaders = ({room}) => {
@@ -148,20 +136,10 @@ class Calendar extends Component {
         
         const BuildTableArray = () => {
             //Initialise multi-dimensional paddedCleanersArray
-            var arrayItem = [[]]
+            var paddedCleanersArray = [[]]
             for (var i = 0; i < this.props.rooms.length; i++) {
-                // this.state.paddedCleanersArray[i] = new Array(0);
-                arrayItem = new Array(i);
-                arrayItem[i] = new Array(0);
+                paddedCleanersArray[i] = new Array(0);
             }
-            console.log("arrayItem :: "+arrayItem)
-
-            // console.log("arrayItem: "+arrayItem)
-            // this.setState({
-            //     paddedCleanersArray : arrayItem
-            // })
-
-            // console.log("this.state.paddedCleanersArray: "+this.state.paddedCleanersArray)
 
             let cleanerColumnIndex = 0;
             
@@ -219,13 +197,7 @@ class Calendar extends Component {
                         }
 
                         //Push cleaner to state and local array for download/calendar display
-                        // this.state.paddedCleanersArray[columnIndex].push(cleanerToReturn);
-                        arrayItem[columnIndex] = cleanerToReturn;
-
-                        console.log("arrayItem[columnIndex]: "+columnIndex + " " +arrayItem[columnIndex].name)
-
-                        console.log("arrayItem[0] "+arrayItem[0].name)
-                        
+                        paddedCleanersArray[columnIndex].push(cleanerToReturn);
 
                         //Save last cleaners index.
                         previousCleanerIndex = cleanerIndex;
@@ -237,25 +209,24 @@ class Calendar extends Component {
                     else cleanerColumnIndex++
                 }   
 
-                return (arrayItem)
+                return paddedCleanersArray
             }
 
         const AddCleanerToArray = (skipFlag, cleanerIndex, nonExcludedCleanerList) => {
-            var _cleanerIndex = cleanerIndex;
             var cleanerToReturn;
             
             if (skipFlag === true){
                 cleanerToReturn = "";
             }
             else {
-                nonExcludedCleanerList.slice(_cleanerIndex, _cleanerIndex + 1).map(cleaner => {
+                nonExcludedCleanerList.slice(cleanerIndex, cleanerIndex + 1).map(cleaner => {
                     return (
                         cleanerToReturn = cleaner
                     )
                 })
             }
 
-            return (cleanerToReturn)
+            return cleanerToReturn
         }
 
         const Table = () => {
@@ -263,16 +234,7 @@ class Calendar extends Component {
             let rowIndex = 0;
 
             //Build table array
-            var arrayItem = BuildTableArray();
-
-            // arrayItem.forEach((item) => {
-            //     console.log("returned arrayItem: " + item.name)
-            // })
-
-            // this.setState({
-            //     paddedCleanersArray : arrayItem
-            // })
-            
+            var paddedCleanersArray = BuildTableArray() 
 
             //Render table to page
             return (
@@ -294,9 +256,8 @@ class Calendar extends Component {
                                     <td key={date}>{date}</td>
                                     {this.props.rooms.map(() => {
                                         //Cycle through array and assign  a cleaner.
-                                        var cleaner = arrayItem[roomsIndex++];//[rowIndex]; TODO: removing rowIndex allows array to be displayed.
+                                        var cleaner = paddedCleanersArray[roomsIndex++][rowIndex];
                                         if (cleaner === undefined) cleaner = {name: ""}
-                                        console.log("cleaner:::::::::::::::::::::::::: "+cleaner.name)
 
                                         //If roomsIndex has reached the maximum, increment the row and reset roomsIndex.
                                         if (roomsIndex === this.props.rooms.length) {
@@ -321,14 +282,14 @@ class Calendar extends Component {
             <div className="calendar row">
                 <div className="row">
                     <h3>{CALENDAR_CONST}</h3>
-                    <Table cleaners={this.props.cleaners} rooms={this.props.rooms}/>
+                    <Table/>
                 </div>
 
                 <ExcludeCleaner/>
 
                 <div className="row">
                     <h3>{DOWNLOAD_CALENDAR_CONST}</h3>
-                    <DownloadCalendar cleaners={this.props.cleaners} rooms={this.props.rooms}/> 
+                    <DownloadCalendar/> 
                 </div>
             </div>
         )
