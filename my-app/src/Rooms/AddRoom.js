@@ -40,11 +40,11 @@ class AddRoom extends Component {
         return (
             <div className="add-room row">
                 <h3>{ADD_A_ROOM_CONST}</h3>
-                <form id="add-room-form" onSubmit={this.handleSubmit}>
+                <form className="input-field" id="add-room-form" onSubmit={this.handleSubmit}>
                     {/* //TODO: Add a smart autofill feature */}
                     {/* //TODO: Add a 'edit' feature */}
                     <input type="text" name="name" onChange={this.handleChange} value={this.state.name}/>
-                    <h3>{CLEANING_FREQUENCY_CONST}</h3>
+                    <h5>{CLEANING_FREQUENCY_CONST}</h5>
                     <select className="browser-default" name="frequency" onChange={this.handleChange} value={this.state.frequency}>
                         <option value="weekly">{WEEKLY_CONST}</option>
                         <option value="fortnightly">{FORTNIGHTLY_CONST}</option>

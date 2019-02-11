@@ -17,7 +17,7 @@ const Rooms = ({rooms, deleteRoom}) => {
     )
     return (
         <div className="rooms-list row">
-            <h3>{ROOMS_CONST}</h3>
+            <h5>{ROOMS_CONST}</h5>
             {roomList}
         </div>
     )

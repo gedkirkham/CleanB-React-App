@@ -17,7 +17,7 @@ const Cleaners = ({cleaners, deleteCleaner}) => {
     )
     return (
         <div className="cleaner-list row">
-            <h3>{CLEANERS_CONST}</h3>
+            <h5>{CLEANERS_CONST}</h5>
             {cleanerList}
         </div>
     )
