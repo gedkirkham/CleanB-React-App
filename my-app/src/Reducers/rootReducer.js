@@ -1,9 +1,18 @@
 const initState = {
     cleaners: [
-        {name: 'Ged', id: 1}
+        {name: 'Ged', id: 1},
+        {name: 'Razvan', id: 2},
+        {name: 'Tom', id: 3},
+        {name: 'Peter', id: 4}
     ],
-    rooms: [],
-    exclusionList: []
+    rooms: [
+        {name: "Lounge", frequency: "weekly", id: 1},
+        {name: "Kitchen", frequency: "fortnightly", id: 2},
+        {name: "Garage", frequency: "monthly", id: 3}
+    ],
+    exclusionList: [ 
+        {cleaner: "Ged", room: "Kitchen"}
+    ]
 }
 
 const rootReducer = (state = initState, action) => {

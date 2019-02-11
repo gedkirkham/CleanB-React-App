@@ -99,7 +99,7 @@ class Calendar extends Component {
             )
         }
 
-        const ReturnNonExcludedCleaners = (currentRoom) => {
+        const ReturnNonExcludedCleaners = (currentRoom, columnIndex, excludedCleanersDecrementorPerColumn) => {
             //Initialise array
             let nonExcludedCleanerList = [];
             
@@ -116,6 +116,11 @@ class Calendar extends Component {
                         //If the cleaner is not found, then add cleaner to new cleaner list.
                         if (!excludedCleanerList.includes(propCleaner.name)) {
                             nonExcludedCleanerList.push({name: propCleaner.name, id: Math.random()});
+                        } else { //Check to see if excluded cleaner's index is less than current columnIndex. If true, increment value that is used to decrement cleaner index within BuildTableArray().
+                            let excludedCleanerIndex = this.props.cleaners.findIndex(p => p.name === propCleaner.name);
+                            if (excludedCleanerIndex < columnIndex) {
+                                excludedCleanersDecrementorPerColumn++;
+                            }
                         }
                     }) 
             } 
@@ -123,7 +128,7 @@ class Calendar extends Component {
                 nonExcludedCleanerList = this.props.cleaners;
             }
 
-            return nonExcludedCleanerList;
+            return [nonExcludedCleanerList, excludedCleanersDecrementorPerColumn];
         }
         
         const BuildTableArray = () => {
@@ -144,10 +149,12 @@ class Calendar extends Component {
                 let previousCleanerIndex = 0;
                 let skipFlag;
                 let offSetFlag = false;
+                let excludedCleanersDecrementorPerColumn = 0;
 
                 var currentRoom = this.props.rooms[columnIndex];
                 var currentRoomFrequency = currentRoom.frequency;
-                let nonExcludedCleanerList = ReturnNonExcludedCleaners(currentRoom);
+                let nonExcludedCleanerList = ReturnNonExcludedCleaners(currentRoom, columnIndex, excludedCleanersDecrementorPerColumn);
+                excludedCleanersDecrementorPerColumn = nonExcludedCleanerList[1];
 
                 for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
                         //Ensure that the week counter resets every 4 weeks
@@ -164,11 +171,11 @@ class Calendar extends Component {
                         
                         //Determine cleanerIndex value. 
                         //First week tracks columnIndex but resets to 0 depending on cleaner.length.
-                        if (tableRowIndex === 0) cleanerIndex = cleanerColumnIndex;
+                        if (tableRowIndex === 0) cleanerIndex = cleanerColumnIndex - excludedCleanersDecrementorPerColumn;
                         else cleanerIndex = previousCleanerIndex + offSet + 1;
 
                         //If cleanerIndex is greater than cleaner list, then reset values to 0.
-                        if (cleanerIndex >= nonExcludedCleanerList.length) {
+                        if (cleanerIndex >= nonExcludedCleanerList[0].length) {
                             cleanerIndex = 0;
                             offSet = 0;
                         }
@@ -178,7 +185,7 @@ class Calendar extends Component {
                         //Use offSetFlag to ensure that offSet value is only decremented once. This is required
                         //for when the frequency of a room requires cleaners to not be assigned for more than
                         //one consecutive week.
-                        let cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList);
+                        let cleanerToReturn = AddCleanerToArray(skipFlag, cleanerIndex, nonExcludedCleanerList[0]);
                         if (cleanerToReturn === "" && offSetFlag === false) {
                             offSet--;
                             offSetFlag = true;
