@@ -1,14 +1,27 @@
 import React, { Component } from 'react'
 import ExcludeCleaner from '../Cleaners/ExcludeCleaner'
 import { connect } from 'react-redux'
-import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST} from '../Constants'
+import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, LENGTH_CONST} from '../Constants'
 
 class Calendar extends Component {
+    constructor() {
+        super();
+        this.state = {
+            calendarLength : 4
+        }
+    }
+
     render() {
         const handleSubmit = (event) => {
             event.preventDefault();
             GenerateAndDownloadFile();
         }
+
+        const handleChange = (e) => {
+            this.setState({
+                [e.target.name]: e.target.value  
+            })
+          }
 
         const GenerateAndDownloadFile = () => {
             var element = document.createElement("a");
@@ -67,7 +80,7 @@ class Calendar extends Component {
             var cleaningDateList = [];
             var weekLengthAsNumber = 0;
             
-            for (var i = 0; i < CalendarLength().length; i++){
+            for (var i = 0; i < this.state.calendarLength; i++){
                 cleaningDateList[i] = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
                 weekLengthAsNumber = weekLengthAsNumber + 7;
             }
@@ -85,12 +98,6 @@ class Calendar extends Component {
             }
             
             return daysUntilSaturday
-        }
-        
-        const CalendarLength = () => {
-            var tableRowArray = [0,1,2,3,4,5,6,7];//TODO: add variable length
-            
-            return tableRowArray
         }
         
         const TableHeaders = ({room}) => {
@@ -156,7 +163,7 @@ class Calendar extends Component {
                 let nonExcludedCleanerList = ReturnNonExcludedCleaners(currentRoom, columnIndex, excludedCleanersDecrementorPerColumn);
                 excludedCleanersDecrementorPerColumn = nonExcludedCleanerList[1];
 
-                for (let tableRowIndex = 0; tableRowIndex < CalendarLength().length; tableRowIndex++) {
+                for (let tableRowIndex = 0; tableRowIndex < this.state.calendarLength; tableRowIndex++) {
                         //Ensure that the week counter resets every 4 weeks
                         if (tableRowIndex === 0) weekIndex = tableRowIndex + 1;
                         else if (weekIndex >= 4) weekIndex = 1; 
@@ -273,14 +280,16 @@ class Calendar extends Component {
                             )
                         })}
                     </tbody>
-            </table>
-            )
-        }
+                </table>
+                )
+            }
           
         return (
             <div className="calendar row">
                 <div className="row">
                     <h3>{CALENDAR_CONST}</h3>
+                    <h6>{LENGTH_CONST}</h6>
+                    <input className="input-field" type="number" name="calendarLength" id="calendar-length" step="1" defaultValue={this.state.calendarLength} min="1" max="52" onChange={handleChange} />
                     <Table/>
                 </div>
 
