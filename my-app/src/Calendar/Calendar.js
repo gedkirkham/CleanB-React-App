@@ -1,14 +1,61 @@
 import React, { Component } from 'react'
 import ExcludeCleaner from '../Cleaners/ExcludeCleaner'
 import { connect } from 'react-redux'
-import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, LENGTH_CONST} from '../Constants'
+import {DOWNLOAD_CALENDAR_CONST, CALENDAR_CONST, DATES_CONST, DOWNLOAD_CONST, LENGTH_CONST, START_DATE_CONST} from '../Constants'
 
 class Calendar extends Component {
     constructor() {
         super();
+
+        //Return this Saturday as date and re-format to suit date input box.
+        let splitDate = this.ThisSaturdayAsDate().split("/");
+        splitDate[2] = (splitDate[2] < 10) ? "0" + splitDate[2] : splitDate[2];
+        splitDate[0] = (splitDate[0] < 10) ? "0" + splitDate[0] : splitDate[0];
+        
         this.state = {
-            calendarLength : 4
+            calendarLength : 4,
+            calendarStartDate : splitDate[2] + "-" + splitDate[0] + "-" + splitDate[1]
         }
+    }
+
+    ThisSaturdayAsDate = () => {
+        let dateAsThisSaturday = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + this.CalendarStartDate(6)).toLocaleDateString();
+        return dateAsThisSaturday 
+    }
+
+    CalendarStartDate = (startDateAsNum) => {
+        let currentDayOfTheWeekAsNum = new Date().getDay();
+        let daysUntilStartDate = (currentDayOfTheWeekAsNum !== startDateAsNum) ? startDateAsNum - currentDayOfTheWeekAsNum : 0;
+        
+        return daysUntilStartDate
+    }
+
+    CalendarDates = () => {
+        //Initialise values
+        var cleaningDateList = [];
+        var weekLengthAsNumber = 7;
+        
+        //Change formatting of this.state's date so that the style is uniform.
+        if (this.state.calendarStartDate !== "") {
+            
+            let splitDate = this.state.calendarStartDate.split("-");
+            for (let splitDateIndex = 1; splitDateIndex <= 2; splitDateIndex++) { //If first char is "0", remove to suit required date formatting.
+                splitDate[splitDateIndex] = (splitDate[splitDateIndex].charAt(0) === "0") ? splitDate[splitDateIndex].substr(0, 0) + "" + splitDate[splitDateIndex].substr(0 + 1) : splitDate[splitDateIndex];
+            }
+
+            //Assign formatted date to first index.
+            cleaningDateList[0] = splitDate[1] + "/" + splitDate[2] + "/" + splitDate[0];
+        } else { //If user clears the date input box, return this saturday in date format.
+            cleaningDateList[0] = this.ThisSaturdayAsDate();
+        }
+            
+        //Loop through remaining items and increment dates dependent on date at index 0.
+        for (var i = 1; i < this.state.calendarLength; i++){
+            cleaningDateList[i] = new Date(new Date(cleaningDateList[0]).getFullYear(), new Date(cleaningDateList[0]).getMonth(), new Date(cleaningDateList[0]).getDate() + weekLengthAsNumber).toLocaleDateString();
+            weekLengthAsNumber += 7;
+        } 
+        
+        return cleaningDateList
     }
 
     render() {
@@ -21,7 +68,7 @@ class Calendar extends Component {
             this.setState({
                 [e.target.name]: e.target.value  
             })
-          }
+        }
 
         const GenerateAndDownloadFile = () => {
             var element = document.createElement("a");
@@ -43,7 +90,7 @@ class Calendar extends Component {
 
             //Add table content
             let rowIndex = 0;
-            CalendarDates().forEach((date) => {
+            this.CalendarDates().forEach((date) => {
                 let roomsIndex = 0;
                 
                 //Add date
@@ -75,30 +122,6 @@ class Calendar extends Component {
                     <button className="btn grey" onClick={handleSubmit}>{DOWNLOAD_CONST}</button>
                 </form>
         )}
-        
-        const CalendarDates = () => {
-            var cleaningDateList = [];
-            var weekLengthAsNumber = 0;
-            
-            for (var i = 0; i < this.state.calendarLength; i++){
-                cleaningDateList[i] = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + DaysUntilSaturday() + weekLengthAsNumber).toLocaleDateString();
-                weekLengthAsNumber = weekLengthAsNumber + 7;
-            }
-            
-            return cleaningDateList
-        }
-        
-        const DaysUntilSaturday = () => {
-            var currentDayOfTheWeekAsNum = new Date().getDay();
-            var saturdayAsNum = 6;
-            var daysUntilSaturday = 0;
-            
-            if (currentDayOfTheWeekAsNum !== saturdayAsNum) {
-                daysUntilSaturday = saturdayAsNum - currentDayOfTheWeekAsNum;
-            }
-            
-            return daysUntilSaturday
-        }
         
         const TableHeaders = ({room}) => {
             return (
@@ -256,7 +279,7 @@ class Calendar extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {CalendarDates().map((date) => {
+                        {this.CalendarDates().map((date) => {
                             return (
                                 <tr key={date}>
                                     <td key={date}>{date}</td>
@@ -283,13 +306,17 @@ class Calendar extends Component {
                 </table>
                 )
             }
-          
+
         return (
             <div className="calendar row">
                 <div className="row">
                     <h3>{CALENDAR_CONST}</h3>
-                    <h6>{LENGTH_CONST}</h6>
+                    
+                    <h6><b>{LENGTH_CONST}</b></h6>
                     <input className="input-field" type="number" name="calendarLength" id="calendar-length" step="1" defaultValue={this.state.calendarLength} min="1" max="52" onChange={handleChange} />
+                    
+                    <h6><b>{START_DATE_CONST}</b></h6>
+                    <input className="input-field" type="date" name="calendarStartDate" id="calendar-start-date" defaultValue={this.state.calendarStartDate} onChange={handleChange} />
                     <Table/>
                 </div>
 

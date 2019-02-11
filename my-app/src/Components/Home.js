@@ -18,7 +18,6 @@ class Home extends Component {
 
     componentDidUpdate(prevProps,prevState){
         console.log("component updated");
-        console.log(prevProps,prevState);
     }
 
     warningMessage(errorText){

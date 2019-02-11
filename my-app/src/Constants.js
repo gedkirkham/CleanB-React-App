@@ -27,3 +27,4 @@ export const DOWNLOAD_CONST = "Download";
 export const EXCLUDE_CLEANER_FROM_ROOM_CONST = "Exclude cleaner from a room:";
 export const EXCLUDE_CONST = "Exclude";
 export const LENGTH_CONST = "Length:";
+export const START_DATE_CONST = "Start date:";

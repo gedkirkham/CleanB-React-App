@@ -18,3 +18,7 @@ body {
   height: auto;
   margin: var(--delete-icon-margins);
 }
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
