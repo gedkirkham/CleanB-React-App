@@ -44,13 +44,13 @@ class Calendar extends Component {
             }
 
             //Assign formatted date to first index.
-            cleaningDateList[0] = splitDate[1] + "/" + splitDate[2] + "/" + splitDate[0];
+            cleaningDateList[0] = splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
         } else { //If user clears the date input box, return this saturday in date format.
             cleaningDateList[0] = this.ThisSaturdayAsDate();
         }
             
         //Loop through remaining items and increment dates dependent on date at index 0.
-        for (var i = 1; i < this.state.calendarLength; i++){
+        for (var i = 1; i < this.state.calendarLength; i++) { //TODO: Date is flipped in Edge completely differently to Chrome and Brave. Needs special case.
             cleaningDateList[i] = new Date(new Date(cleaningDateList[0]).getFullYear(), new Date(cleaningDateList[0]).getMonth(), new Date(cleaningDateList[0]).getDate() + weekLengthAsNumber).toLocaleDateString();
             weekLengthAsNumber += 7;
         } 
