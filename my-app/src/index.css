@@ -19,6 +19,7 @@ body {
   margin: var(--delete-icon-margins);
 }
 
+input[type=number]::-webkit-inner-spin-button,
 input[type=date]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
