@@ -44,7 +44,7 @@ class Calendar extends Component {
             }
 
             //Assign formatted date to first index.
-            cleaningDateList[0] = splitDate[2] + "/" + splitDate[1] + "/" + splitDate[0];
+            cleaningDateList[0] = splitDate[1] + "/" + splitDate[2] + "/" + splitDate[0];
         } else { //If user clears the date input box, return this saturday in date format.
             cleaningDateList[0] = this.ThisSaturdayAsDate();
         }
