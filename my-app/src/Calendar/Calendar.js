@@ -79,9 +79,8 @@ class Calendar extends Component {
             if ([e.target.name].toString() === "calendarStartDateHtmlInput" && [e.target.value].toString() !== "") {
                 date = new Date(e.target.value)
             }
-            else {
-                date = this.ThisSaturdayAsDate();
-            }
+            else if ([e.target.name].toString() === "calendarLength") date = this.state.calendarStartDate;
+            else date = this.ThisSaturdayAsDate();
 
             this.setState({
                 [e.target.name]: e.target.value,
