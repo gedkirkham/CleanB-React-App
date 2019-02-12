@@ -8,18 +8,25 @@ class Calendar extends Component {
         super();
 
         //Return this Saturday as date and re-format to suit date input box.
-        let splitDate = this.ThisSaturdayAsDate().split("/");
-        splitDate[2] = (splitDate[2] < 10) ? "0" + splitDate[2] : splitDate[2];
-        splitDate[0] = (splitDate[0] < 10) ? "0" + splitDate[0] : splitDate[0];
-        
+        var date = this.ThisSaturdayAsDate();
+        var month = (date.getMonth() + 1);
+        var day = date.getDate();
+        var year = date.getFullYear();
+
+        //Add leading zeros.
+        month = (month < 10) ? "0" + month : month;
+        day = (day < 10) ? "0" + day : day;
+
+        //Two states required as html input box requires a different input format when compared to visual output.
         this.state = {
             calendarLength : 4,
-            calendarStartDate : splitDate[2] + "-" + splitDate[0] + "-" + splitDate[1]
+            calendarStartDate : date,
+            calendarStartDateHtmlInput : year + "-" + month + "-" + day
         }
     }
 
     ThisSaturdayAsDate = () => {
-        let dateAsThisSaturday = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + this.CalendarStartDate(6)).toLocaleDateString();
+        let dateAsThisSaturday = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + this.CalendarStartDate(6));
         return dateAsThisSaturday 
     }
 
@@ -35,23 +42,24 @@ class Calendar extends Component {
         var cleaningDateList = [];
         var weekLengthAsNumber = 7;
         
-        //Change formatting of this.state's date so that the style is uniform.
-        if (this.state.calendarStartDate !== "") {
-            
-            let splitDate = this.state.calendarStartDate.split("-");
-            for (let splitDateIndex = 1; splitDateIndex <= 2; splitDateIndex++) { //If first char is "0", remove to suit required date formatting.
-                splitDate[splitDateIndex] = (splitDate[splitDateIndex].charAt(0) === "0") ? splitDate[splitDateIndex].substr(0, 0) + "" + splitDate[splitDateIndex].substr(0 + 1) : splitDate[splitDateIndex];
-            }
+        //Assign formatted date to first index.
+        var date = this.state.calendarStartDate;
+        var month = (date.getMonth() + 1);
+        var day = date.getDate();
 
-            //Assign formatted date to first index.
-            cleaningDateList[0] = splitDate[1] + "/" + splitDate[2] + "/" + splitDate[0];
-        } else { //If user clears the date input box, return this saturday in date format.
-            cleaningDateList[0] = this.ThisSaturdayAsDate();
-        }
+        //Add leading zeros.
+        month = (month < 10) ? "0" + month : month;
+        day = (day < 10) ? "0" + day : day;
+
+        //Assign to index 0.
+        cleaningDateList[0] = day + "/" + month + "/" + date.getFullYear(); 
             
         //Loop through remaining items and increment dates dependent on date at index 0.
-        for (var i = 1; i < this.state.calendarLength; i++) { //TODO: Date is flipped in Edge completely differently to Chrome and Brave. Needs special case.
-            cleaningDateList[i] = new Date(new Date(cleaningDateList[0]).getFullYear(), new Date(cleaningDateList[0]).getMonth(), new Date(cleaningDateList[0]).getDate() + weekLengthAsNumber).toLocaleDateString();
+        for (var i = 1; i < this.state.calendarLength; i++) { 
+            date = new Date(this.state.calendarStartDate.getFullYear(), this.state.calendarStartDate.getMonth(), this.state.calendarStartDate.getDate() + weekLengthAsNumber);
+            day = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+            month = (date.getMonth() + 1 < 10) ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+            cleaningDateList[i] = day + "/" + month + "/" + date.getFullYear();
             weekLengthAsNumber += 7;
         } 
         
@@ -65,8 +73,19 @@ class Calendar extends Component {
         }
 
         const handleChange = (e) => {
+            var date;
+
+            //Check to see if event is related to calendar html input box, and that the value is not empty.
+            if ([e.target.name].toString() === "calendarStartDateHtmlInput" && [e.target.value].toString() !== "") {
+                date = new Date(e.target.value)
+            }
+            else {
+                date = this.ThisSaturdayAsDate();
+            }
+
             this.setState({
-                [e.target.name]: e.target.value  
+                [e.target.name]: e.target.value,
+                calendarStartDate: date
             })
         }
 
@@ -316,7 +335,7 @@ class Calendar extends Component {
                     <input className="input-field" type="number" name="calendarLength" id="calendar-length" step="1" defaultValue={this.state.calendarLength} min="1" max="52" onChange={handleChange} />
                     
                     <h6><b>{START_DATE_CONST}</b></h6>
-                    <input className="input-field" type="date" name="calendarStartDate" id="calendar-start-date" defaultValue={this.state.calendarStartDate} onChange={handleChange} />
+                    <input className="input-field" type="date" name="calendarStartDateHtmlInput" id="calendar-start-date" defaultValue={this.state.calendarStartDateHtmlInput} onChange={handleChange} />
                     <Table/>
                 </div>
 
