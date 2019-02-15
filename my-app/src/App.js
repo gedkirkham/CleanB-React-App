@@ -10,13 +10,15 @@ const App = () => {
     return (
         <BrowserRouter>
             <div className="cleanb-app container">
-                <LoginOrCreateAccount/>
-                <h1 className="blue-text container"><NavLink to="/">CleanB</NavLink></h1>
+                <header>
+                    <LoginOrCreateAccount/>
+                    <h1 className="blue-text container"><NavLink to="/">CleanB</NavLink></h1>
+                </header>
                 <Switch>
                     <Route exact path='/' component={Home} />
                     <Route path='/About' component={About} />
                     <Route path='/Contact' component={Contact} />
-                </Switch>   
+                </Switch>
                 <FooterNavBar/>
             </div>
         </BrowserRouter>

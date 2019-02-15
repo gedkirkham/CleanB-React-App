@@ -16,10 +16,10 @@ const Cleaners = ({cleaners, deleteCleaner}) => {
         <p>{NO_CLEANERS_CONST}</p>
     )
     return (
-        <div className="cleaner-list row">
+        <section className="cleaner-list row">
             <h5>{CLEANERS_CONST}</h5>
             {cleanerList}
-        </div>
+        </section>
     )
 }
 

@@ -80,7 +80,7 @@ class Home extends Component {
 
   render() {
     return (
-            <div className="cleanb-app container">
+            <main className="cleanb-app container">
                 <AddCleaner addCleaner={this.addCleaner} />
                 <Cleaners cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} />
                 <AddRoom addRoom={this.addRoom} />    
@@ -91,7 +91,7 @@ class Home extends Component {
                     Save calendar:
                     <input type="submit"/>
                 </form>
-            </div>
+            </main>
     ); 
   }
 }

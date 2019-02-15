@@ -97,7 +97,7 @@ class ExcludeCleaner extends Component {
         }
         
         return (
-            <div className="exclude-cleaner row">
+            <section className="exclude-cleaner row">
                 <h3>{EXCLUDE_CLEANER_FROM_ROOM_CONST}</h3>
 
                 <form className="row input-field" onSubmit={this.handleExclusionSubmit}>
@@ -105,7 +105,7 @@ class ExcludeCleaner extends Component {
                     <ListAsOption cleaners={this.props.cleaners} />
                     <button className="btn grey">{EXCLUDE_CONST}</button>
                 </form>
-            </div>
+            </section>
         )
     }
 }

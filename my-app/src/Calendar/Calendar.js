@@ -327,7 +327,7 @@ class Calendar extends Component {
 
         return (
             <div className="calendar row">
-                <div className="row">
+                <section className="row">
                     <h3>{CALENDAR_CONST}</h3>
                     
                     <h6><b>{LENGTH_CONST}</b></h6>
@@ -336,14 +336,14 @@ class Calendar extends Component {
                     <h6><b>{START_DATE_CONST}</b></h6>
                     <input className="input-field" type="date" name="calendarStartDateHtmlInput" id="calendar-start-date" defaultValue={this.state.calendarStartDateHtmlInput} onChange={handleChange} />
                     <Table/>
-                </div>
+                </section>
 
                 <ExcludeCleaner/>
 
-                <div className="row">
+                <section className="row">
                     <h3>{DOWNLOAD_CALENDAR_CONST}</h3>
                     <DownloadCalendar/> 
-                </div>
+                </section>
             </div>
         )
     }

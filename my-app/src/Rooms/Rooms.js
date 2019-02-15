@@ -16,10 +16,10 @@ const Rooms = ({rooms, deleteRoom}) => {
         <p>You have no rooms :/</p>
     )
     return (
-        <div className="rooms-list row">
+        <section className="rooms-list row">
             <h5>{ROOMS_CONST}</h5>
             {roomList}
-        </div>
+        </section>
     )
 }
 

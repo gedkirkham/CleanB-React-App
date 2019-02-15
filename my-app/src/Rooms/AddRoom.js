@@ -38,7 +38,7 @@ class AddRoom extends Component {
     
     render() {
         return (
-            <div className="add-room row">
+            <section className="add-room row">
                 <h3>{ADD_A_ROOM_CONST}</h3>
                 <form className="input-field" id="add-room-form" onSubmit={this.handleSubmit}>
                     {/* //TODO: Add a smart autofill feature */}
@@ -53,7 +53,7 @@ class AddRoom extends Component {
                     </select>
                     <button className="btn grey">{ADD_ROOM_CONST}</button>
                 </form> 
-            </div>
+            </section>
         )
     }
 }
