@@ -1,23 +1,27 @@
-import React from 'react'
-import DeleteIcon from '../Images/delete-icon.png'
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import DeleteIcon from '../Images/delete-icon.png';
 import {CLEANERS_CONST, NO_CLEANERS_CONST, DELETE_ICON_ALT_CONST} from '../Constants'
 
-const Cleaners = ({cleaners, deleteCleaner}) => {
+const Cleaners = ({cleaners}) => {
+// const Cleaners = ({cleaners, deleteCleaner}) => {
     const cleanerList = cleaners.length ? (
         cleaners.map(cleaner => {
             return (
                 <div className="cleaner collection-item row" key={cleaner.id}>
-                    <img className="left" src={DeleteIcon} onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img>
-                    <div className="left">{cleaner.name}</div>
+                    <img className="left" src={DeleteIcon} alt={DELETE_ICON_ALT_CONST}></img>
+                    {/* <img className="left" src={DeleteIcon} onClick={() => {deleteCleaner(cleaner.id)}} alt={DELETE_ICON_ALT_CONST}></img> */}
+                    <p dataTest="cleaners-name" className="left">{cleaner.name}</p>
                 </div>
             )   
         })
     ) : (
-        <p>{NO_CLEANERS_CONST}</p>
+        <p dataTest="no-cleaners-present-text">{NO_CLEANERS_CONST}</p>
     )
     return (
-        <section className="cleaner-list row">
-            <h5>{CLEANERS_CONST}</h5>
+        <section dataTest="component-cleaners" className="cleaner-list row">
+            <h5 dataTest="cleaners-header">{CLEANERS_CONST}</h5>
             {cleanerList}
         </section>
     )
