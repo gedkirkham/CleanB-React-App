@@ -2,10 +2,18 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import checkPropTypes from 'check-prop-types';
 
-import { findByTestAttr } from '../../test/testUtils';
+import { findByTestAttr, checkProps } from '../../test/testUtils';
 import Cleaners from './Cleaners';
 
+const deleteCleaner = () => {}
+
+/**
+ * Function to set default props
+ * @function defaultProps
+ * @return {object}
+ */
 const defaultProps = {
+    deleteCleaner,
     cleaners: [
         {name: 'Ged', id: 1},
         {name: 'Razvan', id: 2},
@@ -34,11 +42,16 @@ test('header contains text', () => {
     const cleanersHeader = findByTestAttr(wrapper, "cleaners-header");
     expect(cleanersHeader.text().length).not.toBe(0);
 });
-// test('does not throw warning with expected props', () => {
-//     const expectedProps = { name: String, id: String }
-//     const propError = checkPropTypes(Cleaners.propTypes, expectedProps, "prop", C);
-//     expect(propError).toBeUndefined();
-// });
+test('does not throw warning with expected props', () => {
+    const expectedProps = {
+        deleteCleaner,
+        cleaners : [{
+            name : "Ged",
+            id : 1
+        }]
+    }
+    checkProps(Cleaners, expectedProps);
+});
 
 describe('cleaners have been added so', () => {
     test('correct number of cleaners are displayed', () => {

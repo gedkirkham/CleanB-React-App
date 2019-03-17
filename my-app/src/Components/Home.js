@@ -9,7 +9,7 @@ import { addCleaner } from '../Actions/cleanerActions'
 import { deleteCleaner } from '../Actions/cleanerActions'
 import { addRoom } from '../Actions/roomActions'
 import { deleteRoom } from '../Actions/roomActions'
-import {CLEANER_ALREADY_EXISTS_CONST, ROOM_ALREADY_EXISTS} from '../Constants'
+import { CLEANER_ALREADY_EXISTS_CONST, ROOM_ALREADY_EXISTS } from '../Constants'
 
 class Home extends Component {
     componentDidMount(){
