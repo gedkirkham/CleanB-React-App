@@ -39,9 +39,10 @@ const Cleaners = ({cleaners, deleteCleaner}) => {
 }
 
 Cleaners.propTypes = {
-    cleaners : PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        id : PropTypes.number.isRequired
+    cleaners : PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            id : PropTypes.number.isRequired
     })).isRequired,
     deleteCleaner : PropTypes.func.isRequired
 }

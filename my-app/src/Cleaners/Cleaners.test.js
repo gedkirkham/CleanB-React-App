@@ -53,22 +53,23 @@ test('does not throw warning with expected props', () => {
 });
 
 describe('cleaners have been added so', () => {
+    let wrapper;
+    beforeEach(() => {
+        wrapper = setup();
+    })
     test('correct number of cleaners are displayed', () => {
-        const wrapper = setup(defaultProps);
         const cleaners = findByTestAttr(wrapper, "cleaners-name");
-        expect(cleaners.length).toBe(3);
+        expect(cleaners.length).toBe(defaultProps.cleaners.length);
     })
     test('cleaners names are displayed in the correct order', () => {
-        const wrapper = setup(defaultProps);
         const cleaners = findByTestAttr(wrapper, "cleaners-name");
         expect(cleaners.at(0).text()).toBe(defaultProps.cleaners[0].name);
         expect(cleaners.at(1).text()).toBe(defaultProps.cleaners[1].name);
         expect(cleaners.at(2).text()).toBe(defaultProps.cleaners[2].name);
     })
     test('correct number of delete icons are displayed', () => {
-        const wrapper = setup(defaultProps);
         const deleteIcons = findByTestAttr(wrapper, "delete-icon")
-        expect(deleteIcons.length).toBe(3);
+        expect(deleteIcons.length).toBe(defaultProps.cleaners.length);
     })
     test('cleaners can be removed', () => {
         //TODO: complete
