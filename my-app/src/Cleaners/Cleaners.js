@@ -16,10 +16,12 @@ const Cleaners = ({cleaners, deleteCleaner}) => {
         cleaners.map(cleaner => {
             return (
                 <div className="cleaner collection-item row" key={cleaner.id}>
-                    <img    className="left" 
-                            src={DeleteIcon} 
-                            onClick={() => {deleteCleaner(cleaner.id)}} 
-                            alt={DELETE_ICON_ALT_CONST}>
+                    <img    
+                        dataTest="delete-icon"
+                        className="left" 
+                        src={DeleteIcon} 
+                        onClick={() => {deleteCleaner(cleaner.id)}} 
+                        alt={DELETE_ICON_ALT_CONST}>
                     </img>
                     <p dataTest="cleaners-name" className="left">{cleaner.name}</p>
                 </div>

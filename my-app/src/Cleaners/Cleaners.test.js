@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import checkPropTypes from 'check-prop-types';
 
 import { findByTestAttr, checkProps } from '../../test/testUtils';
 import Cleaners from './Cleaners';
@@ -65,6 +64,14 @@ describe('cleaners have been added so', () => {
         expect(cleaners.at(0).text()).toBe(defaultProps.cleaners[0].name);
         expect(cleaners.at(1).text()).toBe(defaultProps.cleaners[1].name);
         expect(cleaners.at(2).text()).toBe(defaultProps.cleaners[2].name);
+    })
+    test('correct number of delete icons are displayed', () => {
+        const wrapper = setup(defaultProps);
+        const deleteIcons = findByTestAttr(wrapper, "delete-icon")
+        expect(deleteIcons.length).toBe(3);
+    })
+    test('cleaners can be removed', () => {
+        //TODO: complete
     })
 })
 
