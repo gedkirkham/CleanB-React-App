@@ -8,7 +8,7 @@
     "@babel/preset-react": "^7.0.0",
     "ajv": "^6.10.0",
     "hamoni-sync": "^1.1.1",
-    "jest": "^24.3.1",
+    "jest": "^23.6.0",
     "materialize-css": "^1.0.0-rc.2",
     "prop-types": "^15.7.2",
     "react": "^16.6.0",
@@ -27,12 +27,18 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.3.4",
-    "babel-jest": "^24.3.1",
+    "babel-jest": "^23.6.0",
     "check-prop-types": "^1.1.2",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
-    "eslint": "^5.14.1",
+    "eslint": "^5.12.0",
     "jest-enzyme": "^7.0.2",
     "react-test-renderer": "^16.8.3"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
