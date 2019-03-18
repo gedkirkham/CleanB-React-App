@@ -42,13 +42,7 @@ test('header contains text', () => {
     expect(cleanersHeader.text().length).not.toBe(0);
 });
 test('does not throw warning with expected props', () => {
-    const expectedProps = {
-        deleteCleaner,
-        cleaners : [{
-            name : "Ged",
-            id : 1
-        }]
-    }
+    const expectedProps = defaultProps;
     checkProps(Cleaners, expectedProps);
 });
 
