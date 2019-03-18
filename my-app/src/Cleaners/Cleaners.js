@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import DeleteIcon from '../Images/delete-icon.png';
-import {CLEANERS_CONST, NO_CLEANERS_CONST, DELETE_ICON_ALT_CONST} from '../Constants'
+import { CLEANERS_CONST, NO_CLEANERS_CONST, DELETE_ICON_ALT_CONST } from '../Constants'
 
 /**
  * Functional react component to display cleaner list

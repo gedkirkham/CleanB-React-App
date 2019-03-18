@@ -12,12 +12,12 @@ const deleteCleaner = () => {}
  * @return {object}
  */
 const defaultProps = {
-    deleteCleaner,
     cleaners: [
         {name: 'Ged', id: 1},
         {name: 'Razvan', id: 2},
         {name: 'Peter', id: 3}
-    ]
+    ],
+    deleteCleaner
 }
 
 /**
