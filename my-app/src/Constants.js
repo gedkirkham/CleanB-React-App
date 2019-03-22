@@ -1,6 +1,7 @@
 export const CLEANERS_CONST = "Cleaners:";
 export const ROOMS_CONST = "Rooms:";
 export const NO_CLEANERS_CONST = "You have no cleaners :/";
+export const NO_ROOMS_CONST = "You have no rooms :/";
 export const DELETE_ICON_ALT_CONST = "Delete Icon";
 export const HOME_CONST = "Home";
 export const ABOUT_CONST = "About";

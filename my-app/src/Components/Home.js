@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import AddCleaner from '../Cleaners/AddCleaner'
-import Cleaners from '../Cleaners/Cleaners'
 import AddRoom from '../Rooms/AddRoom'
-import Rooms from '../Rooms/Rooms'
+import ListItems from '../Cleaners/ListItems'
 import Calendar from '../Calendar/Calendar'
 import { connect } from 'react-redux'
 import { addCleaner } from '../Actions/cleanerActions'
 import { deleteCleaner } from '../Actions/cleanerActions'
 import { addRoom } from '../Actions/roomActions'
 import { deleteRoom } from '../Actions/roomActions'
-import { CLEANER_ALREADY_EXISTS_CONST, ROOM_ALREADY_EXISTS } from '../Constants'
+import { CLEANER_ALREADY_EXISTS_CONST, CLEANERS_CONST, ROOM_ALREADY_EXISTS, ROOMS_CONST } from '../Constants'
 
 class Home extends Component {
     componentDidMount(){
@@ -82,9 +81,9 @@ class Home extends Component {
     return (
             <main className="cleanb-app container">
                 <AddCleaner addCleaner={this.addCleaner} />
-                <Cleaners cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} />
+                <ListItems itemsToList={CLEANERS_CONST} items={this.props.cleaners} deleteItem={this.deleteCleaner} />
                 <AddRoom addRoom={this.addRoom} />    
-                <Rooms rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
+                <ListItems itemsToList={ROOMS_CONST} items={this.props.rooms} deleteItem={this.deleteRoom} />
                 <Calendar cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
 
                 <form className="hide">

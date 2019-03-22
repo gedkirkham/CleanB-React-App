@@ -7,14 +7,8 @@ body {
   --delete-icon-margins: 4px 4px 0 0;
 }
 
-.cleaner-list .cleaner img {
+.items-list .item img {
   width: var(--delete-icon-width-percentage);
-  height: auto;
-  margin: var(--delete-icon-margins);
-}
-
-.rooms-list .room img {
-  width: 3%;
   height: auto;
   margin: var(--delete-icon-margins);
 }
