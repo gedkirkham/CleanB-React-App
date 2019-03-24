@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { findByTestAttr, checkProps } from '../../test/testUtils';
-import ListItems from '../Cleaners/ListItems';
+import ListItems from './ListItems';
 import { CLEANERS_CONST, ROOMS_CONST } from '../Constants'
 
 const deleteItem = () => {}
