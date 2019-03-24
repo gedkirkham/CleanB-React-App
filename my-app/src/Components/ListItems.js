@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isRequiredIf from 'react-proptype-conditional-require';
 
 import DeleteIcon from '../Images/delete-icon.png';
 import { CLEANERS_CONST, NO_CLEANERS_CONST, NO_ROOMS_CONST, ROOMS_CONST, DELETE_ICON_ALT_CONST } from '../Constants'
@@ -40,8 +41,8 @@ const ListItems = (props) => {
         <p dataTest="no-items-present-text">{warningText}</p>
     )
     return (
-        <section dataTest="component-items" className="items-list row">
-            <h5 dataTest="items-header">{headerText}</h5>
+        <section dataTest="component-list-items" className="items-list row">
+            <h5 dataTest="list-items-header">{headerText}</h5>
             {itemList}
         </section>
     )
@@ -50,31 +51,11 @@ const ListItems = (props) => {
 ListItems.propTypes = {
     items : PropTypes.arrayOf(
         PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            id : function(props) {
-                if (props.itemsToList === CLEANERS_CONST) {
-                    return (
-                        PropTypes.number.isRequired
-                    )
-                } else {
-                    return (
-                        PropTypes.number
-                    )
-                };
-            },
-            frequency : function(props) {
-                if (props.itemsToList === ROOMS_CONST) {
-                    return (
-                        PropTypes.string.isRequired
-                    )
-                } else {
-                    return (
-                        PropTypes.string
-                    )
-                };
-            },
+            name:  PropTypes.string.isRequired,
+            id : isRequiredIf(PropTypes.number),
+            frequency : isRequiredIf(PropTypes.string),
     })).isRequired,
-    deleteItem : PropTypes.func.isRequired
+    deleteItem : PropTypes.func.isRequired,
 }
 
 export default ListItems
