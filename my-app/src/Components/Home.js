@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import AddCleaner from '../Cleaners/AddCleaner'
 import AddRoom from '../Rooms/AddRoom'
-import ListItems from '../Cleaners/ListItems'
+import ListItems from './ListItems'
 import Calendar from '../Calendar/Calendar'
 import { connect } from 'react-redux'
 import { addCleaner } from '../Actions/cleanerActions'
