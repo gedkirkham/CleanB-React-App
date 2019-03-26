@@ -6,6 +6,12 @@ const initState = {
     exclusionList: []
 }
 
+/**
+ * Root reducer that sets the redux state
+ * @function rootReducer
+ * @param {*} state  - new state
+ * @param {*} action - action to apply to new state
+ */
 const rootReducer = (state = initState, action) => {
     switch(action.type){
         case 'ADD_CLEANER':
