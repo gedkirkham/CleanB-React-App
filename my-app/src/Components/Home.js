@@ -106,7 +106,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         //cleaners
-        addCleaner: (name) => { dispatch(addCleaner(name))},
+        addCleaner: (cleaner) => { dispatch(addCleaner(cleaner))},
         deleteCleaner: (id) => { dispatch(deleteCleaner(id))},
 
         //rooms
