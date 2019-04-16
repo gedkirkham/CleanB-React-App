@@ -4,7 +4,7 @@ describe("addRoom", () => {
     test('returns an action of type "ADD_ROOM" with inputted "name"', () => {
         const roomToAdd = "Lounge";
         const action = addRoom(roomToAdd);
-        expect(action).toEqual({ type : actionTypes.ADD_ROOM, name : roomToAdd })
+        expect(action).toEqual({ type : actionTypes.ADD_ROOM, room : roomToAdd })
     })
 })
 

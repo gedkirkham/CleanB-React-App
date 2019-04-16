@@ -12,10 +12,10 @@ export const actionTypes = {
  * @function addRoom
  * @returns {object} - action object of type "ADD_ROOM" 
  */
-export function addRoom(name) {
+export function addRoom(room) {
     return {
         type : actionTypes.ADD_ROOM, 
-        name
+        room
     }
 }
 
