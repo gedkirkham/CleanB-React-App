@@ -28,6 +28,6 @@ export default (state = initState, action) => {
                 rooms: newRoomList
             }
         default:
+        return state;
     }
-    return state;
 }
