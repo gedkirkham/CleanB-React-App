@@ -13,10 +13,10 @@ export const actionTypes = {
  * @function addCleaner
  * @returns {object} - action object of type "ADD_CLEANER" 
  */
-export function addCleaner(name) {
+export function addCleaner(cleaner) {
     return {
         type : actionTypes.ADD_CLEANER, 
-        name
+        cleaner
     }
 }
 

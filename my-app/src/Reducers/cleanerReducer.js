@@ -2,8 +2,7 @@ import { actionTypes } from "../Actions/cleanerActions";
 
 export const initState = {
     cleaners : [
-        {name : 'Ged', id : 1},
-        {name : 'Peter', id : 2}
+        { name : 'Ged', id : 1 }
     ],
     exclusionList : []
 }
@@ -14,7 +13,7 @@ export const initState = {
  * @param {*} state  - new state
  * @param {*} action - action to apply to new state
  */
-const cleanerReducer = (state = initState, action) => {
+export default (state = initState, action) => {
     switch(action.type){
         case actionTypes.ADD_CLEANER:
             return {
@@ -60,9 +59,6 @@ const cleanerReducer = (state = initState, action) => {
             }
             break;
         default:
-            // if (!action.type.includes("@@redux")) console.log("No switch statment found within rootReducer.")//TODO: error catch.
     }
     return state;
 }
-
-export default cleanerReducer;

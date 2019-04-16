@@ -4,7 +4,7 @@ describe("addCleaner", () => {
     test('returns an action of type "ADD_CLEANER"', () => {
         const cleanerToAdd = "Ged";
         const action = addCleaner(cleanerToAdd);
-        expect(action).toEqual({ type : actionTypes.ADD_CLEANER, name : cleanerToAdd })
+        expect(action).toEqual({ type : actionTypes.ADD_CLEANER, cleaner : cleanerToAdd })
     })
 })
 
