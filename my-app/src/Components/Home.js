@@ -5,10 +5,8 @@ import AddCleaner from '../Cleaners/AddCleaner'
 import AddRoom from '../Rooms/AddRoom'
 import ListItems from './ListItems'
 import Calendar from '../Calendar/Calendar'
-import { addCleaner } from '../Actions/cleanerActions'
-import { deleteCleaner } from '../Actions/cleanerActions'
-import { addRoom } from '../Actions/roomActions'
-import { deleteRoom } from '../Actions/roomActions'
+import { addCleaner, deleteCleaner } from '../Actions/cleanerActions'
+import { addRoom, deleteRoom } from '../Actions/roomActions'
 import { CLEANER_ALREADY_EXISTS_CONST, CLEANERS_CONST, ROOM_ALREADY_EXISTS, ROOMS_CONST } from '../Constants'
 
 class Home extends Component {
@@ -98,19 +96,19 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        cleaners : state.cleaners,
-        rooms : state.rooms 
+        cleaners : state.cleanerReducer.cleaners,
+        rooms : state.roomReducer.rooms
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //cleaners
+        //Cleaners
         addCleaner: (cleaner) => { dispatch(addCleaner(cleaner))},
         deleteCleaner: (id) => { dispatch(deleteCleaner(id))},
 
-        //rooms
-        addRoom: (name) => { dispatch(addRoom(name))},
+        //Rooms
+        addRoom: (room) => { dispatch(addRoom(room))},
         deleteRoom: (id) => { dispatch(deleteRoom(id))},
     }
 }

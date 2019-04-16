@@ -351,8 +351,8 @@ class Calendar extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        cleaners : state.cleaners,
-        exclusionList : state.exclusionList
+        cleaners : state.cleanerReducer.cleaners,
+        exclusionList : state.cleanerReducer.exclusionList
     }
 }
 

@@ -112,9 +112,9 @@ class ExcludeCleaner extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        cleaners : state.cleaners,
-        rooms : state.rooms ,
-        exclusionList : state.exclusionList
+        cleaners : state.cleanerReducer.cleaners,
+        rooms : state.roomReducer.rooms ,
+        exclusionList : state.cleanerReducer.exclusionList
     }
 }
 
