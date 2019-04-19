@@ -78,12 +78,12 @@ class Home extends Component {
 
   render() {
     return (
-            <main className="cleanb-app container">
-                <AddCleaner addCleaner={this.addCleaner} />
-                <ListItems itemsToList={CLEANERS_CONST} items={this.props.cleaners} deleteItem={this.deleteCleaner} />
-                <AddRoom addRoom={this.addRoom} />    
-                <ListItems itemsToList={ROOMS_CONST} items={this.props.rooms} deleteItem={this.deleteRoom} />
-                <Calendar cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
+            <main dataTest="component-home" className="cleanb-app container">
+                <AddCleaner dataTest="component-addCleaner" addCleaner={this.addCleaner} />
+                <ListItems dataTest="component-cleaner-list" itemsToList={CLEANERS_CONST} items={this.props.cleaners} deleteItem={this.deleteCleaner} />
+                <AddRoom dataTest="component-addRoom" addRoom={this.addRoom} />    
+                <ListItems dataTest="component-room-list" itemsToList={ROOMS_CONST} items={this.props.rooms} deleteItem={this.deleteRoom} />
+                <Calendar dataTest="component-calendar" cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
 
                 <form className="hide">
                     Save calendar:
