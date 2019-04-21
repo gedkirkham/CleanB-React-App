@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import { ENTER_CLEANERS_NAME_CONST, ADD_CLEANER_CONST, PROVIDE_CLEANERS_NAME_CONST, CLEANERS_CONST } from '../Constants'
 
 class AddCleaner extends Component {
@@ -20,7 +21,7 @@ class AddCleaner extends Component {
                 [event.target.name] : event.target.value
             })
             
-            this.props.addItem({ itemType : CLEANERS_CONST, item : this.state,  });
+            this.props.addItem({ itemType : CLEANERS_CONST, item : this.state });
             
             this.setState({
                 name : ''
