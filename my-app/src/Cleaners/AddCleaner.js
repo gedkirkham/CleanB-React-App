@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {ENTER_CLEANERS_NAME_CONST, ADD_CLEANER_CONST, PROVIDE_CLEANERS_NAME_CONST} from '../Constants'
+import { ENTER_CLEANERS_NAME_CONST, ADD_CLEANER_CONST, PROVIDE_CLEANERS_NAME_CONST, CLEANERS_CONST } from '../Constants'
 
 class AddCleaner extends Component {
     state = {
@@ -20,19 +20,15 @@ class AddCleaner extends Component {
                 [event.target.name] : event.target.value
             })
             
-            this.props.addCleaner(this.state);
+            this.props.addItem({ itemType : CLEANERS_CONST, item : this.state,  });
             
             this.setState({
                 name : ''
             })
         }
         else if (this.state.name === '') {
-            setTimeout(this.warningMessage({PROVIDE_CLEANERS_NAME_CONST}),0);       
+            alert(PROVIDE_CLEANERS_NAME_CONST)
         }
-    }
-
-    warningMessage(errorText){
-        alert(errorText);
     }
 
     render() {

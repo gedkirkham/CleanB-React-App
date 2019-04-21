@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {ADD_ROOM_CONST, ADD_A_ROOM_CONST, PROVIDE_ROOM_NAME_CONST, CLEANING_FREQUENCY_CONST, WEEKLY_CONST, FORTNIGHTLY_CONST, THRICE_MONTHLY_CONST, MONTHLY_CONST} from '../Constants'
+import {ADD_ROOM_CONST, ADD_A_ROOM_CONST, PROVIDE_ROOM_NAME_CONST, CLEANING_FREQUENCY_CONST, WEEKLY_CONST, FORTNIGHTLY_CONST, THRICE_MONTHLY_CONST, MONTHLY_CONST, ROOMS_CONST} from '../Constants'
 
 class AddRoom extends Component {
     state = {
@@ -21,21 +21,17 @@ class AddRoom extends Component {
                 [event.target.name] : event.target.value
             })
 
-            this.props.addRoom(this.state);
+            this.props.addItem({ itemType : ROOMS_CONST, item : this.state });
             
             this.setState({
                 name: ''
             })
         }
         else if(this.state.name === ''){
-            setTimeout(this.warningMessage({PROVIDE_ROOM_NAME_CONST}),0)
+            alert(PROVIDE_ROOM_NAME_CONST)
         }
     }
 
-    warningMessage(errorText){
-        alert(errorText);
-    }
-    
     render() {
         return (
             <section className="add-room row">

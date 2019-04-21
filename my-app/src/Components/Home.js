@@ -10,85 +10,56 @@ import { addRoom, deleteRoom } from '../Actions/roomActions'
 import { CLEANER_ALREADY_EXISTS_CONST, CLEANERS_CONST, ROOM_ALREADY_EXISTS, ROOMS_CONST } from '../Constants'
 
 class Home extends Component {
-    componentDidMount(){
-        console.log("component mounted");
-    }
 
-    componentDidUpdate(prevProps,prevState){
-        console.log("component updated");
-    }
-
-    warningMessage(errorText){
-        alert(errorText);
-    }
-
-    addCleaner = (cleaner) => {
-        //check to see if cleaner currently exists
+    addItem = (itemGroup) => {
         var found = false;
-        for(var i = 0; i < this.props.cleaners.length; i++) {
-            if (this.props.cleaners[i].name.toLowerCase() === cleaner["name"].toLowerCase()) {
+        let arrayOfItemsToLoopThrough
+        let alertMessage
+
+        //Check to see if item currently exists
+        if (itemGroup.itemType === CLEANERS_CONST) {
+            arrayOfItemsToLoopThrough = this.props.cleaners
+            alertMessage = CLEANER_ALREADY_EXISTS_CONST
+        } else if (itemGroup.itemType === ROOMS_CONST) {
+            arrayOfItemsToLoopThrough = this.props.rooms
+            alertMessage = ROOM_ALREADY_EXISTS
+        }
+
+        for(var i = 0; i < arrayOfItemsToLoopThrough.length; i++) {
+            if (arrayOfItemsToLoopThrough[i].name.toLowerCase() === itemGroup.item.name.toLowerCase()) {
                 found = true;
                 break;
             }
         }
+        
+        if (!found) {
+            //TODO: Provide a better, unique, id assignment.
+            itemGroup.item.id = Math.random();
 
-        //determine if cleaner already exists
-        if (!this.props.cleaners.includes(cleaner) && !found)
-        {
-            //TODO: provide a better id assignment.
-            cleaner.id = Math.random();
-            this.props.addCleaner(cleaner);
-        }
-        else {
-            //TODO: build a better warning message
-            setTimeout(this.warningMessage({CLEANER_ALREADY_EXISTS_CONST}),0)
-        }
-    }
-    
-    deleteCleaner = (id) => {
-        this.props.deleteCleaner(id);
-    }
-
-    addRoom = (room) => {
-        //check to see if room currently exists
-        var found = false;
-        for(var i = 0; i < this.props.rooms.length; i++) {
-            if (this.props.rooms[i].name.toLowerCase() === room["name"].toLowerCase()) {
-                found = true;
-                break;
+            if (itemGroup.itemType === CLEANERS_CONST) {
+                this.props.addCleaner(itemGroup.item);
+            } else if (itemGroup.itemType === ROOMS_CONST) {
+                this.props.addRoom(itemGroup.item);
             }
+        } else {
+            //TODO: Build a better warning message
+            alert(alertMessage)
         }
-
-        //determine if room already exists
-        if (!this.props.rooms.includes(room) && !found)
-        {
-            //TODO: provide a better id assignment.
-            room.id = Math.random();
-            this.props.addRoom(room);
-        }
-        else {
-            //TODO: build a better warning message
-            setTimeout(this.warningMessage({ROOM_ALREADY_EXISTS}),0)
-        }   
     }
-    
-    deleteRoom = (id) => {
-        this.props.deleteRoom(id);
+
+    deleteItem = (itemGrouped) => {
+        if (itemGrouped.itemType === CLEANERS_CONST) this.props.deleteCleaner(itemGrouped.itemId)
+        else if (itemGrouped.itemType === ROOMS_CONST) this.props.deleteRoom(itemGrouped.itemId);
     }
 
   render() {
     return (
             <main dataTest="component-home" className="cleanb-app container">
-                <AddCleaner dataTest="component-addCleaner" addCleaner={this.addCleaner} />
-                <ListItems dataTest="component-cleaner-list" itemsToList={CLEANERS_CONST} items={this.props.cleaners} deleteItem={this.deleteCleaner} />
-                <AddRoom dataTest="component-addRoom" addRoom={this.addRoom} />    
-                <ListItems dataTest="component-room-list" itemsToList={ROOMS_CONST} items={this.props.rooms} deleteItem={this.deleteRoom} />
+                <AddCleaner dataTest="component-addCleaner" addItem={this.addItem} />
+                <ListItems dataTest="component-cleaner-list" itemsToList={CLEANERS_CONST} items={this.props.cleaners} deleteItem={this.deleteItem} />
+                <AddRoom dataTest="component-addRoom" addItem={this.addItem} />    
+                <ListItems dataTest="component-room-list" itemsToList={ROOMS_CONST} items={this.props.rooms} deleteItem={this.deleteItem} />
                 <Calendar dataTest="component-calendar" cleaners={this.props.cleaners} deleteCleaner={this.deleteCleaner} rooms={this.props.rooms} deleteRoom={this.deleteRoom} />
-
-                <form className="hide">
-                    Save calendar:
-                    <input type="submit"/>
-                </form>
             </main>
     ); 
   }
@@ -103,11 +74,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //Cleaners
+        //Cleaner
         addCleaner: (cleaner) => { dispatch(addCleaner(cleaner))},
         deleteCleaner: (id) => { dispatch(deleteCleaner(id))},
 
-        //Rooms
+        //Room
         addRoom: (room) => { dispatch(addRoom(room))},
         deleteRoom: (id) => { dispatch(deleteRoom(id))},
     }

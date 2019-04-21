@@ -4,7 +4,7 @@ import { createStore } from 'redux';
 import rootReducer from '../src/Reducers';
 
 /**
- * Creates a testig store with imported reducers, middleware, and initial state.
+ * Creates a test store with imported reducers, and initial state.
  * @function storeFactory
  * @param {object} initialState - Initial state
  * @returns {Store} - Redux store

@@ -30,7 +30,7 @@ const ListItems = (props) => {
                         dataTest="delete-icon"
                         className="left" 
                         src={DeleteIcon} 
-                        onClick={() => {props.deleteItem(item.id)}} 
+                        onClick={() => {props.deleteItem({ itemType : headerText, itemId : item.id })}} 
                         alt={DELETE_ICON_ALT_CONST}>
                     </img>
                     <p dataTest="items-name" className="left">{item.name}</p>
