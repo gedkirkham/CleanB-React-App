@@ -6,7 +6,7 @@ import Calendar from '../Calendar/Calendar'
 import AddItem from './AddItem'
 import { addCleaner, deleteCleaner } from '../Actions/cleanerActions'
 import { addRoom, deleteRoom } from '../Actions/roomActions'
-import { CLEANER_ALREADY_EXISTS_CONST, CLEANERS_CONST, ROOM_ALREADY_EXISTS, ROOMS_CONST } from '../Constants'
+import { CLEANERS_CONST, ROOMS_CONST } from '../Constants'
 
 class Home extends Component {
 
@@ -18,11 +18,11 @@ class Home extends Component {
     render() {
         return (
                 <main dataTest="component-home" className="cleanb-app container">
-                    //Cleaners
+                    {/* Cleaners */}
                     <AddItem dataTest="component-addCleaner" itemToAdd={CLEANERS_CONST} />
                     <ListItems dataTest="component-cleaner-list" itemsToList={CLEANERS_CONST} items={this.props.cleaners} deleteItem={this.deleteItem} />
                     
-                    //Rooms
+                    {/* Rooms */}
                     <AddItem dataTest="component-addRoom" itemToAdd={ROOMS_CONST} />
                     <ListItems dataTest="component-room-list" itemsToList={ROOMS_CONST} items={this.props.rooms} deleteItem={this.deleteItem} />
                     
