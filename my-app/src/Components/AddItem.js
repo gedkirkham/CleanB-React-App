@@ -8,6 +8,10 @@ import { CLEANER_ALREADY_EXISTS_CONST, ENTER_CLEANERS_NAME_CONST, ADD_CLEANER_CO
             FORTNIGHTLY_CONST, THRICE_MONTHLY_CONST, MONTHLY_CONST, PROVIDE_ROOM_NAME_CONST 
         } from '../Constants'
 
+/**
+ * Class to add items - cleaner or room
+ * @class
+ */
 class AddItem extends Component {
     state = {
         name: '',
@@ -87,30 +91,30 @@ class AddItem extends Component {
     render() {
         return (
             this.props.itemToAdd === CLEANERS_CONST ? (
-                <section className="row">
-                    <h3>{ENTER_CLEANERS_NAME_CONST}</h3>
-                    <form className="input-field" id="add-cleaner-form" onSubmit={this.handleSubmit}>
-                        <input type="text" name="name" onChange={this.handleChange} value={this.state.name} />
-                        <button className="btn grey">{ADD_CLEANER_CONST}</button>
+                <section dataTest="cleaners-component" className="row">
+                    <h3 dataTest="cleaners-header">{ENTER_CLEANERS_NAME_CONST}</h3>
+                    <form dataTest="cleaners-form" className="input-field" id="add-cleaner-form" onSubmit={this.handleSubmit}>
+                        <input dataTest="cleaners-form-input-box" type="text" name="name" onChange={this.handleChange} value={this.state.name} />
+                        <button dataTest="cleaners-form-button" className="btn grey">{ADD_CLEANER_CONST}</button>
                     </form>
                 </section>
             )
             :
             (
-                <section className="add-room row">
-                    <h3>{ADD_A_ROOM_CONST}</h3>
-                    <form className="input-field" id="add-room-form" onSubmit={this.handleSubmit}>
+                <section dataTest="rooms-component" className="add-room row">
+                    <h3 dataTest="rooms-header">{ADD_A_ROOM_CONST}</h3>
+                    <form dataTest="rooms-form" className="input-field" id="add-room-form" onSubmit={this.handleSubmit}>
                         {/* //TODO: Add a smart autofill feature */}
                         {/* //TODO: Add a 'edit' feature */}
-                        <input type="text" name="name" onChange={this.handleChange} value={this.state.name}/>
-                        <h5>{CLEANING_FREQUENCY_CONST}</h5>
-                        <select className="browser-default" name="frequency" onChange={this.handleChange} value={this.state.frequency}>
-                            <option value="weekly">{WEEKLY_CONST}</option>
-                            <option value="fortnightly">{FORTNIGHTLY_CONST}</option>
-                            <option value="thrice-monthly">{THRICE_MONTHLY_CONST}</option>
-                            <option value="monthly">{MONTHLY_CONST}</option>
+                        <input dataTest="rooms-form-input-box" type="text" name="name" onChange={this.handleChange} value={this.state.name}/>
+                        <h5 dataTest="rooms-frequency-header">{CLEANING_FREQUENCY_CONST}</h5>
+                        <select dataTest="rooms-form-select-box" className="browser-default" name="frequency" onChange={this.handleChange} value={this.state.frequency}>
+                            <option dataTest="rooms-form-select-option" value="weekly">{WEEKLY_CONST}</option>
+                            <option dataTest="rooms-form-select-option" value="fortnightly">{FORTNIGHTLY_CONST}</option>
+                            <option dataTest="rooms-form-select-option" value="thrice-monthly">{THRICE_MONTHLY_CONST}</option>
+                            <option dataTest="rooms-form-select-option" value="monthly">{MONTHLY_CONST}</option>
                         </select>
-                        <button className="btn grey">{ADD_ROOM_CONST}</button>
+                        <button dataTest="rooms-form-button" className="btn grey">{ADD_ROOM_CONST}</button>
                     </form> 
                 </section>
             )
