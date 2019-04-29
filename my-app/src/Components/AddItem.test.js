@@ -1,10 +1,19 @@
 import React from 'react'
+import { shallow } from 'enzyme'
+
+import { findByTestAttr, storeFactory } from '../../test/testUtils'
 import AddItem from './AddItem'
 
-//TODO:
-//Add set-up for connected component
-//Import redux store
-//Import store create
+/**
+ * Set-up function to create shallow wrapper for AddItem component
+ * @function setup
+ * @param {object} initialState
+ * @returns {ShallowWrapper}     
+ */
+const setup = (initialState={}) => {
+    const store = storeFactory(initialState)
+    const wrapper = shallow(<AddItem store={store} />).dive().dive()
+}
 
 describe('cleaners', () => {
     test('section renders without error', () => {
@@ -23,6 +32,9 @@ describe('cleaners', () => {
         test('button renders without error', () => {
     
         })
+    })
+    describe('update state', () => {
+
     })
 })
 
