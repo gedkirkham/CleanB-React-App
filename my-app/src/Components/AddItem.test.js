@@ -52,7 +52,7 @@ describe('cleaners', () => {
         })
     })
     describe('update state', () => {
-
+        //TODO:
     })
 })
 
@@ -103,6 +103,6 @@ describe('rooms', () => {
         })
     })
     describe('update state', () => {
-
+        //TODO:
     })
 })
