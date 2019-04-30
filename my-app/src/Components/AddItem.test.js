@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 
 import { findByTestAttr, storeFactory } from '../../test/testUtils'
 import AddItem from './AddItem'
-import { CLEANERS_CONST } from '../Constants';
+import { CLEANERS_CONST, ROOMS_CONST } from '../Constants';
 
 /**
  * Set-up function to create shallow wrapper for AddItem component
@@ -51,5 +51,46 @@ describe('cleaners', () => {
 })
 
 describe('rooms', () => {
+    let wrapper
+    beforeEach(() => {
+        const initialState = {}
+        wrapper = setup(initialState, ROOMS_CONST)
+    })
+    test('section renders without error', () => {
+        const component = findByTestAttr(wrapper, 'rooms-component')
+        expect(component.length).toBe(1)
+    })
+    test('header renders without error', () => {
+        const component = findByTestAttr(wrapper, 'rooms-header')
+        expect(component.length).toBe(1)
+    })
+    describe('form', () => {
+        test('renders without error', () => {
+            const component = findByTestAttr(wrapper, 'rooms-form')
+            expect(component.length).toBe(1)
+        })
+        test('input box renders without error', () => {
+            const component = findByTestAttr(wrapper, 'rooms-form-input-box')
+            expect(component.length).toBe(1)
+        })
+        test('frequency header renders without error', () => {
+            const component = findByTestAttr(wrapper, 'rooms-frequency-header')
+            expect(component.length).toBe(1)
+        })
+        test('select box renders without error', () => {
+            const component = findByTestAttr(wrapper, 'rooms-form-select-box')
+            expect(component.length).toBe(1)
+        })
+        test('select option renders without error', () => {
+            const component = findByTestAttr(wrapper, 'rooms-form-select-option')
+            expect(component.length).toBe(4)
+        })
+        test('button renders without error', () => {
+            const component = findByTestAttr(wrapper, 'rooms-form-button')
+            expect(component.length).toBe(1)
+        })
+    })
+    describe('update state', () => {
 
+    })
 })
