@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+
 import { addCleanerToExclusionList } from '../Actions/cleanerActions'
 import {EXCLUDE_CLEANER_FROM_ROOM_CONST, EXCLUDE_CONST} from '../Constants'
 
@@ -11,8 +12,6 @@ class ExcludeCleaner extends Component {
     }
 
     shouldComponentUpdate(nextProps){
-        console.log('ExcludeCleaner.js - should component update');
-
         if(this.props.cleaners === nextProps.cleaners && this.props.rooms === nextProps.rooms){
             return false;
         }
@@ -120,7 +119,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addCleanerToExclusionList: (name) => { dispatch(addCleanerToExclusionList(name))}
+        addCleanerToExclusionList: (name) => { dispatch(addCleanerToExclusionList(name)) }
     }
 }
 
