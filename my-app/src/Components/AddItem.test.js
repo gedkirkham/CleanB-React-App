@@ -45,6 +45,12 @@ describe('cleaners', () => {
             expect(component.length).toBe(1)
         })
     })
+    describe('negative test', () => {
+        test('rooms section does not render', () => {
+            const component = findByTestAttr(wrapper, 'rooms-component')
+            expect(component.length).toBe(0)
+        })
+    })
     describe('update state', () => {
 
     })
@@ -88,6 +94,12 @@ describe('rooms', () => {
         test('button renders without error', () => {
             const component = findByTestAttr(wrapper, 'rooms-form-button')
             expect(component.length).toBe(1)
+        })
+    })
+    describe('negative test', () => {
+        test('cleaners section does not render', () => {
+            const component = findByTestAttr(wrapper, 'cleaners-component')
+            expect(component.length).toBe(0)
         })
     })
     describe('update state', () => {
